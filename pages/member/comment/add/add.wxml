@@ -1,0 +1,56 @@
+<!-- add.wxml -->
+<view class="container">
+  <form bindsubmit="submitReview">
+    <!-- Goods -->
+    <view class="review-goods">
+      <view class="goods-item">
+        <view class="item-photo">
+          <image src="{{goodsInfo.product.photos[0].large}}"></image>
+        </view>
+        <view class="item-info">
+          <view class="info-name">{{goodsInfo.product.name}}</view>
+          <view class="info-attr">{{goodsInfo.property}}</view>
+          <view class="info-grade" bindtap="bindGrade" data-id="3">
+            <block wx:if="{{cg == 3}}">
+              <image class="grade-icon" src="/images/face-smile-on.png"></image>
+            </block>
+            <block wx:else>
+              <image class="grade-icon" src="/images/face-smile-off.png"></image>
+            </block>
+            <text class="grade-name">好评</text>
+          </view>
+          <view class="info-grade" bindtap="bindGrade" data-id="2">
+            <block wx:if="{{cg == 2}}">
+              <image class="grade-icon" src="/images/face-normal-on.png"></image>
+            </block>
+            <block wx:else>
+              <image class="grade-icon" src="/images/face-normal-off.png"></image>
+            </block>
+            <text class="grade-name">中评</text>
+          </view>
+          <view class="info-grade" bindtap="bindGrade" data-id="1">
+            <block wx:if="{{cg == 1}}">
+              <image class="grade-icon" src="/images/face-sad-on.png"></image>
+            </block>
+            <block wx:else>
+              <image class="grade-icon" src="/images/face-sad-off.png"></image>
+            </block>
+            <text class="grade-name">差评</text>
+          </view>
+        </view>
+          <view class="item-textarea">
+            <textarea type="text" placeholder="请在此输入评价" name="content"></textarea>
+          </view>
+      </view>
+    </view>
+    <view class="review-anon">
+      <view class="item-checkbox">
+        <switch bindchange="bindIsAnonymous"/>
+      </view>
+      <view class="item-title">
+        匿名评论
+      </view>
+    </view>
+    <button class="review-submit" formType="submit">提交</button>
+  </form>
+</view>

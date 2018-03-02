@@ -1,0 +1,45 @@
+<!-- score.wxml -->
+<view class="container">
+  <view class="score-header">
+      <view class="header-title" >
+          <image src="/images/icon_score_active.png"></image> 当前可用积分
+      </view>
+      <view class="header-point" >
+          {{score}}
+      </view>
+  </view>
+
+  <view class="score-filter">
+      <view class="filter-item {{status == '0' ? 'active' : ''}}" bindtap="bindSscoretap" data-id="0">
+          <text class="text">全部</text>
+      </view>
+      <view class="filter-item {{status == '1' ? 'active' : ''}}" bindtap="bindSscoretap" data-id="1">
+          <text class="text">收入</text>
+      </view>
+      <view class="filter-item {{status == '2' ? 'active' : ''}}" bindtap="bindSscoretap" data-id="2">
+          <text class="text">支出</text>
+      </view>
+  </view>
+
+  <!-- Score History -->
+  <view class="score-list" wx:if="{{scoreList.length > 0}}">
+      <view class="list-item" wx:for="{{scoreList}}" wx:key="{{item.id}}">
+          <view class="item-info">
+              <view class="info-name">{{item.reason}}</view>
+              <view class="info-value {{item.change < 0 ? 'low' : ''}}">{{item.change}}</view>
+              <view class="info-expires">{{item.created_at}}</view>
+          </view>
+      </view>
+  </view>
+
+  <view class="list-empty" wx:if="{{scoreList.length <= 0}}">
+    <image class="icon" src="/images/icon_order.png"></image>
+    <view class="msg">暂无任何使用记录</view>
+  </view>
+
+  <view class="list-done" wx:if="{{paged.more == 0 && scoreList.length > 0}}">
+    全部加载完毕
+  </view>
+
+</view>
+

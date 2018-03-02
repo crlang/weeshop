@@ -1,0 +1,133 @@
+/* cart.wxss */
+page, .container{
+  height: 100%;
+}
+.favorite-list {
+    margin-top: 10px;
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border-top: #e2e2e2 1px solid;
+}
+
+.favorite-list .list-item {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 110px;
+    box-sizing: border-box;
+    border-bottom: #e2e2e2 1px solid;
+    background-color: #ffffff;
+    padding: 10px 0;
+}
+
+.favorite-list .list-item .item-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.favorite-list .list-item .item-photo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: block;
+    width: 90px;
+    height: 90px;
+    box-sizing: border-box;
+    border: #e2e2e2 1px solid;
+    overflow: hidden;
+}
+
+.favorite-list .list-item .item-photo image {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+}
+
+.favorite-list .list-item .item-info {
+    position: relative;
+    display: block;
+    height: 100%;
+    margin-left: 110px;
+}
+
+.favorite-list .list-item .item-info .info-delete {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: block;
+    width: 44px;
+    height: 44px;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.favorite-list .list-item .item-info .info-delete image {
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 14px;
+    height: 14px;
+}
+
+.favorite-list .list-item .item-info .info-name {
+    display: block;
+    position: relative;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+    line-height: 16px;
+    box-sizing: border-box;
+    padding-right: 34px;
+}
+
+.favorite-list .list-item .item-info .info-attr {
+    margin-top: 8px;
+    position: relative;
+    display: block;
+    color: #999999;
+    font-size: 10px;
+    font-weight: normal;
+    text-align: left;
+    line-height: 14px;
+    box-sizing: border-box;
+    padding-right: 44px;
+}
+
+.favorite-list .list-item .item-info .info-attr .info-text {
+    color: #999999;
+    font-size: 10px;
+    font-weight: normal;
+}
+
+.favorite-list .list-item .item-info .info-price {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: block;
+    height: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.favorite-list .list-item .item-info .info-price .price-shop {
+    line-height: 17px;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    overflow: hidden;
+}
+
+.favorite-list .list-item .item-info .info-price .price-market {
+    margin-left: 4px;
+    line-height: 16px;
+    color: #999999;
+    font-size: 14px;
+    font-weight: normal;
+    overflow: hidden;
+    text-decoration: line-through;
+}

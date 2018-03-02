@@ -1,0 +1,96 @@
+<!--list.wxml-->
+<view class="container">
+  <view class="order-filter">
+    <view class="filter-item {{status == '999' ? 'active' : ''}}" bindtap="bindSorderTap" id="999">
+      <text class="text">全部</text>
+    </view>
+    <view class="filter-item {{status == '0' ? 'active' : ''}}" bindtap="bindSorderTap" id="0">
+      <text class="text">待付款</text>
+    </view>
+    <view class="filter-item {{status == '1' ? 'active' : ''}}" bindtap="bindSorderTap" id="1">
+      <text class="text">待发货</text>
+    </view>
+    <view class="filter-item {{status == '2' ? 'active' : ''}}" bindtap="bindSorderTap" id="2">
+      <text class="text">待收货</text>
+    </view>
+    <view class="filter-item {{status == '3' ? 'active' : ''}}" bindtap="bindSorderTap" id="3">
+      <text class="text">待评价</text>
+    </view>
+  </view>
+  <view class="order-list" wx:if="ordersList.length > 0">
+    <view class="list-item" wx:for="{{ordersList}}" wx:key="{{item.id}}">
+      <view class="item-header">
+        <view class="header-sn">#{{item.sn}}</view>
+        <view class="header-status" wx:if="{{item.status == 0}}">等待买家付款</view>
+        <view class="header-status" wx:if="{{item.status == 1}}">等待卖家发货</view>
+        <view class="header-status" wx:if="{{item.status == 2}}">等待买家收货</view>
+        <view class="header-status" wx:if="{{item.status == 3}}">交易成功</view>
+        <view class="header-status" wx:if="{{item.status == 4}}">交易成功</view>
+        <view class="header-status" wx:if="{{item.status == 5}}">交易取消</view>
+      </view>
+      <navigator class="order-goods" url="../detail/detail?id={{item.id}}">
+        <view class="goods-item" wx:for="{{item.goods}}" wx:key="{{item.id}}" wx:for-item="good">
+          <view class="item-photo">
+            <image src="{{good.product.photos[0].large || '/images/default-photo.png'}}"></image>
+          </view>
+          <view class="item-info">
+            <view class="info-name">
+              {{good.product.name}}
+            </view>
+            <view class="info-attr">
+              {{good.property}}
+            </view>
+            <view class="info-price">
+              ￥{{good.product_price}}
+            </view>
+            <view class="info-amount">
+              x{{good.total_amount}}
+            </view>
+          </view>
+        </view>
+      </navigator>
+      <view class="item-footer">
+        <view class="footer-sum">
+          <text class="sum">合计：￥{{item.total}}</text>
+          <text class="sum" wx:if="{{item.shipping.price}}">（运费：￥{{item.shipping.price}}）</text>
+        </view>
+        <block wx:if="{{item.status == 0}}">
+          <view class="footer-button dark" bindtap="bindPay" data-indexid="{{item.id}}">
+            付款
+          </view>
+          <view class="footer-button" bindtap="onCancelOrder" data-indexid="{{item.id}}">
+            取消订单
+          </view>
+        </block>
+        <block wx:if="{{item.status == 2}}">
+          <view class="footer-button dark" bindtap="confirmOrder" data-indexid="{{item.id}}">
+            确认收货
+          </view>
+          <view class="footer-button" bindtap="bindExpress" data-indexid="{{item.id}}">
+            查看物流
+          </view>
+        </block>
+        <block wx:if="{{item.status == 3}}">
+          <view class="footer-button" bindtap="bindExpress" data-indexid="{{item.id}}">
+            查看物流
+          </view>
+          <view class="footer-button dark" bindtap="bindComment" data-indexid="{{item.id}}">
+            评价
+          </view>
+        </block>
+        <block wx:if="{{item.status == 4}}">
+          <view class="footer-button" bindtap="bindExpress" data-indexid="{{item.id}}">
+            查看物流
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+  <view class="list-empty" wx:if="{{ordersList.length <= 0}}">
+    <image class="icon" src="/images/icon_order.png"></image>
+    <view class="msg">暂无任何订单</view>
+  </view>
+  <view class="list-done" wx:if="{{paged.more == 0 && ordersList.length > 0}}">
+    全部加载完毕
+  </view>
+</view>

@@ -1,0 +1,184 @@
+/* add.wxss */
+page, .container{
+  height: 100%;
+}
+.review-goods {
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+.review-goods .goods-item {
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: #e2e2e2 1px solid;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.review-goods .goods-item .item-photo {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    display: block;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    border: #e2e2e2 1px solid;
+}
+
+.review-goods .goods-item .item-photo image {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+}
+
+.review-goods .goods-item .item-info {
+    position: relative;
+    display: block;
+    min-height: 80px;
+    padding: 14px 0;
+    margin-left: 108px;
+}
+
+.review-goods .goods-item .item-info .info-name {
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 18px;
+    overflow: hidden;
+}
+
+.review-goods .goods-item .item-info .info-attr {
+    margin-top: 4px;
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    color: #999999;
+    font-size: 13px;
+    font-weight: normal;
+    text-align: left;
+    line-height: 15px;
+    margin-bottom: 10px;
+}
+
+.review-goods .goods-item .item-info .info-grade {
+    float: left;
+    display: block;
+    width: 33.33%;
+    height: 28px;
+    color: #404245;
+    font-size: 16px;
+    font-weight: normal;
+    overflow: hidden;
+    line-height: 30px;
+}
+
+.review-goods .goods-item .item-info .info-grade .grade-icon {
+    float: left;
+    margin-top: 6px;
+    display: block;
+    width: 18px;
+    height: 18px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.review-goods .goods-item .item-info .info-grade .grade-name {
+    margin-left: 4px;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 28px;
+    overflow: hidden;
+}
+
+.review-goods .goods-item .item-textarea {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.review-goods .goods-item .item-textarea textarea {
+    display: block;
+    width: 100%;
+    min-height: 120px;
+    padding: 8px;
+    box-sizing: border-box;
+    background-color: #f5f5f5;
+    border: 0;
+    text-align: left;
+    overflow: hidden;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 16px;
+}
+
+.review-anon {
+    background-color: #F7F7F7;
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.review-anon .item-checkbox {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    margin-top: -10px;
+    width: 20px;
+    height: 20px;
+    /* background-image: url("../image/check-off.png"); */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.review-anon.active .item-checkbox {
+    /* background-image: url("../image/check-on-multi.png"); */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.review-anon .item-title {
+    position: absolute;
+    left: 75px;
+    width: 25%;
+    height: 44px;
+    box-sizing: border-box;
+    color: #888888;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+    line-height: 55px;
+}
+
+.review-submit {
+    display: block;
+    height: 44px;
+    margin: 0 8px;
+    margin-top: 24px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #404245;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 44px;
+    text-align: center;
+}
+
+.review-submit:hover {
+    background-color: #616161;
+}

@@ -1,0 +1,5 @@
+/* auth.wxss */
+page, .container{
+  height: 100%;
+  background: #fff;
+}

@@ -1,0 +1,121 @@
+<!-- cart.wxml -->
+<view class="container">
+  <!-- Address -->
+  <navigator class="confirm-address" bindtap="bindAddress" url="../../member/address/selector/selector?order_product={{order_product}}">
+      <view class="address-contact" wx:if="{{consignee > 0}}">
+          {{defaultConsignees.name}} {{defaultConsignees.mobile}}
+      </view>
+      <view class="address-detail" wx:if="{{consignee > 0}}">
+          <text wx:for="{{defaultConsignees.regions}}" wx:key="{{item.id}}">{{item.name}}</text>
+          {{defaultConsignees.address}}
+      </view>
+      <view class="address-create" wx:if="{{consignee <= 0}}">
+          请填写地址
+      </view>
+      <image class="address-arrow" src="/images/nav-right.png"></image>
+  </navigator>
+
+  <!-- Goods -->
+  <view class="confirm-goods">
+      <view class="goods-item" wx:for="{{goods_info}}" wx:key="{{item.id}}">
+          <view class="item-photo">
+              <image src="{{item.default_photo}}"></image>
+          </view>
+          <view class="item-info">
+              <view class="info-name">
+                  {{item.good_title}}
+              </view>
+              <view class="info-attr">
+                  {{item.good_property}}
+              </view>
+              <view class="info-price">
+                  ￥{{item.good_price}}
+              </view>
+              <view class="info-amount">
+                  x {{item.good_num}}
+              </view>
+          </view>
+      </view>
+  </view>
+
+  <!-- Form -->
+  <view class="confirm-form">
+      <view class="form-item" bindtap="bindExpress">
+          <view class="item-title">
+              配送方式
+          </view>
+          <view class="item-value" wx:if="{{shippingName != ''}}">
+              -{{shippingName}} (￥{{shippingFee}})-
+          </view>
+          <view class="item-value" wx:else>
+              -选择配送方式-
+          </view>
+          <image class="item-arrow" src="/images/nav-right.png"></image>
+      </view>
+      <view class="form-item" bindtap="bindInvoice" style="display: none;">
+          <view class="item-title">
+              发票类型
+          </view>
+          <view class="item-value">
+              {{invoiceType ? invoiceType.name : '不开发票'}}
+          </view>
+          <image class="item-arrow" src="/images/nav-right.png"></image>
+      </view>
+      <view class="form-item" bindtap="bindCashgift" style="display: none;">
+          <view class="item-title">
+              使用红包
+          </view>
+          <view class="item-value">
+              {{cashgift ? '￥' + cashgift.value : '不使用红包'}}
+          </view>
+          <image class="item-arrow" src="/images/nav-right.png"></image>
+      </view>
+      <view class="form-item" wx:if="bindscoreInfo" style="display: none;">
+          <view class="item-title">
+              使用积分
+          </view>
+          <view class="item-input">
+              <input type="text" ng-class="{active: maxUseScore > 0}" placeholder="填写积分" ng-disabled="maxUseScore <= 0" ng-model="input.score" ng-change="refreshScore()"/>
+              <view class="input-tips" wx:if="maxUseScore > 0">
+                  您当前可用 {{scoreInfo.score}} 积分，本订单最多可以使用{{maxUseScore}}积分，每积分抵扣 {{scoreInfo.rule}} 元
+              </view>
+              <view class="input-tips" wx:if="maxUseScore <= 0">
+                  无可用积分
+              </view>
+          </view>
+      </view>
+      <view class="form-item">
+          <view class="item-textarea">
+              <textarea type="text" placeholder="买家留言" bindinput="bindorderComment"></textarea>
+          </view>
+      </view>
+  </view>
+
+  <!-- Total -->
+  <view class="confirm-summury">
+      <view class="summury-total">
+          订单总额 <text class="total-price">+ {{orderPrice.total_price}}</text>
+      </view>
+      <view class="summury-detail">
+          商品总额 <text class="total-price">+ {{orderPrice.product_price}}</text>
+      </view>
+      <view class="summury-detail">
+          运费金额 <text class="total-price">+ ￥({{orderPrice.shipping_price}})</text>
+      </view>
+      <view class="summury-detail" wx:for="{{orderPrice.promos}}" wx:key="{{item.id}}">
+          <block wx:if="{{item.promo == 'score'}}">积分</block><block wx:elif="{{item.promo == 'cashgift'}}">红包</block><block wx:elif="{{item.promo == 'preferential'}}">优惠金额</block><block wx:elif="{{item.promo == 'goods_reduction'}}">商品减免</block><block wx:elif="{{item.promo == 'order_reduction'}}">订单减免</block><block wx:elif="{{item.promo == 'coupon_reduction'}}">优惠券减免</block><block wx:else>其他优惠 </block><text class="total-price">- ￥{{item.price}}</text>
+      </view>
+  </view>
+
+  <!-- Submit -->
+  <view class="confirm-submit">
+      <view class="submit-total">
+          <view class="total-price">￥{{orderPrice.total_price}}</view>
+          <view class="total-discount">￥{{orderPrice.discount_price}}</view>
+      </view>
+      <view class="submit-button dark active" bindtap="checkoutOrder">
+          提交订单并支付
+      </view>
+  </view>
+</view>
+

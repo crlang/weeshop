@@ -1,0 +1,44 @@
+<!-- payment.wxml -->
+<view class="container">
+  <view class="payment-header">
+      <view class="header-title">订单 #{{orderInfo.sn}}，请您尽快付款。</view>
+      <view class="header-total">合计：<em>￥{{orderInfo.total}}</em></view>
+  </view>
+  <radio-group class="payment-list radio-group" bindchange="setPayType">
+      <view class="list-item ">
+          <view class="item-checkbox"><radio value="balance" /></view>
+          <view class="item-content">
+              <view class="content-desc">
+                  可用余额：<text style="color:red;">{{balance}}</text>元
+              </view>
+              <view class="content-title">
+                  余额支付
+              </view>
+          </view>
+      </view>
+      <view class="list-item ">
+          <view class="item-checkbox"><radio value="balance1" /></view>
+          <view class="item-content">
+              <view class="content-desc">
+                  可用余额：11111
+              </view>
+              <view class="content-title">
+                  余额支付
+              </view>
+          </view>
+      </view>
+      <view class="list-item ">
+          <view class="item-checkbox"><radio value="balance2" /></view>
+          <view class="item-content">
+              <view class="content-desc">
+                  可用余额：22222
+              </view>
+              <view class="content-title">
+                  余额支付
+              </view>
+          </view>
+      </view>
+  </radio-group>
+  <view class="payment-submit" bindtap="toPay">确认支付</view>
+</view>
+

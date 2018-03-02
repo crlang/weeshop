@@ -1,0 +1,8 @@
+<!-- forget.wxml -->
+<view class="container">
+  <view class="forget">
+    <form bindsubmit="forget">
+      <input class="input-item" bindinput="bindEmailInput" placeholder="请输入邮箱" /><button class="btn-item" formType="submit">提交</button>
+    </form>
+  </view>
+</view>

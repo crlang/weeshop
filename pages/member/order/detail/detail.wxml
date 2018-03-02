@@ -1,0 +1,111 @@
+<!-- detail.wxml -->
+<view class="container">
+  <view class="app-content" wx:if="isLoaded">
+    <!-- Status -->
+    <view class="order-status" wx:if="{{order.status == 0}}"><image src="/images/icon_order_light.png"></image>等待买家付款</view>
+    <view class="order-status" wx:if="{{order.status == 1}}"><image src="/images/icon_order_light.png"></image>等待卖家发货</view>
+    <view class="order-status" wx:if="{{order.status == 2}}"><image src="/images/icon_order_light.png"></image>等待买家收货</view>
+    <view class="order-status" wx:if="{{order.status == 3}}"><image src="/images/icon_order_light.png"></image>交易成功</view>
+    <view class="order-status" wx:if="{{order.status == 4}}"><image src="/images/icon_order_light.png"></image>交易成功</view>
+    <view class="order-status" wx:if="{{order.status == 5}}"><image src="/images/icon_order_light.png"></image>交易取消</view>
+
+    <!-- Address -->
+    <view class="order-address">
+      <view class="address-contact">
+        {{order.consignee.name}} {{order.consignee.mobile || order.consignee.tel}}
+      </view>
+      <view class="address-detail">
+        <text>{{order.consignee.regions}} </text>
+        <text> {{order.consignee.address}}</text>
+      </view>
+    </view>
+
+    <!-- Goods -->
+    <view class="order-goods">
+      <view class="goods-item" wx:for="{{order.goods}}" wx:key="good.id" wx:for-item="good">
+        <navigator url="/pages/goods/detail/detail?id={{good.id}}" wx:key="{{good.id}}">
+          <view class="item-photo"><image src="{{good.product.photos[0].large || '/images/default-photo.png'}}"></image></view>
+        </navigator>
+        <view class="item-info">
+          <view class="info-name">{{good.product.name}}</view>
+          <view class="info-attr">{{good.property}}</view>
+          <view class="info-price">￥{{good.product_price}}</view>
+          <view class="info-amount">x{{good.total_amount}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- Total -->
+    <view class="order-summury">
+      <view class="summury-detail">
+        运费金额 <text class="total-price">+ ￥{{order.shipping.price}}</text>
+      </view>
+      <view class="summury-detail" wx:for="{{order.promo}}" wx:key="{{promo.id}}" wx:for-item="promo">
+        {{promo.name}} <text class="total-price">- ￥{{promo.price}}</text>
+      </view>
+      <view class="summury-total">
+         订单总价 <text class="total-price">= ￥{{order.total}}</text>
+      </view>
+    </view>
+
+    <!-- Info -->
+    <view class="order-info">
+      <view class="info-text">
+        订单编号：#{{order.sn}}
+      </view>
+      <view class="info-text">
+        创建时间：{{order.created_at}}
+      </view>
+      <view class="info-text" wx:if="{{order.updated_at}}">
+        更新时间：{{order.updated_at}}
+      </view>
+      <view class="info-text" wx:if="{{order.paied_at}}">
+        支付时间：{{order.paied_at}}
+      </view>
+      <view class="info-text" wx:if="{{order.shipping_at}}">
+        发货时间：{{order.shipping_at}}
+      </view>
+      <view class="info-text" wx:if="{{order.finish_at}}">
+        完成时间：{{order.finish_at}}
+      </view>
+      <view class="info-text" wx:if="{{order.canceled_at}}">
+        取消时间：{{order.canceled_at}}
+      </view>
+    </view>
+
+    <!-- Submit -->
+    <view class="order-submit fixed-bottom">
+
+
+      <block wx:if="{{order.status == 0}}">
+        <view class="submit-button dark" bindtap="bindPay">
+          付款
+        </view>
+        <view class="submit-button" bindtap="onCancelOrder">
+          取消订单
+        </view>
+      </block>
+      <block wx:if="{{order.status == 2}}">
+        <view class="submit-button dark" bindtap="confirmOrder">
+          确认收货
+        </view>
+        <view class="submit-button" bindtap="bindExpress">
+          查看物流
+        </view>
+      </block>
+      <block wx:if="{{order.status == 3}}">
+        <view class="submit-button" bindtap="bindExpress">
+          查看物流
+        </view>
+        <view class="submit-button dark" bindtap="bindComment">
+          评价
+        </view>
+      </block>
+      <block wx:if="{{order.status == 4}}">
+        <view class="submit-button" bindtap="bindExpress">
+          查看物流
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

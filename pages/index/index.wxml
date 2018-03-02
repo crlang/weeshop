@@ -1,0 +1,79 @@
+<!-- index.wxml -->
+<view class="container">
+  <!-- 轮播图 -->
+  <swiper autoplay="true" indicator-dots="true" class="banner">
+    <block wx:for="{{banners}}" indicator-dots="true" wx:key="{{item.id}}">
+      <swiper-item>
+        <image src="{{item.photo.thumb}}" class="slide-image" />
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <!-- 首页菜单 -->
+  <view class="menu">
+    <navigator class="item" url="/pages/goods/list/list">
+      <image src="/images/home-category.png" class="icon"></image>
+      <text class="name">购物</text>
+    </navigator>
+    <navigator class="item" url="/pages/member/order/list/list">
+      <image src="/images/home-order.png" class="icon"></image>
+      <text class="name">订单</text>
+    </navigator>
+    <navigator class="item" url="/pages/member/favorite/favorite">
+      <image src="/images/home-favorite.png" class="icon"></image>
+      <text class="name">收藏</text>
+    </navigator>
+    <navigator class="item" url="/pages/shopping/cart/cart">
+      <image src="/images/home-cart.png" class="icon"></image>
+      <text class="name">会员</text>
+    </navigator>
+  </view>
+
+  <!-- 公告栏 -->
+  <view class="notice" wx:if="{{notices.length > 0}}">
+    <image class="icon" src="/images/icon_notice.png"></image>
+    <swiper class="notice-list" vertical="true" autoplay="true" circular="true" interval="2000">
+      <block wx:for="{{notices}}" wx:key="item.id">
+        <swiper-item>
+          <view class="swiper_item" bindtap="bindOnNotice" data-id="{{item.id}}">{{item.title}}</view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+
+  <!-- 精品推荐  -->
+  <view class="goods-section">
+    <view class="h">精品推荐</view>
+    <view class="b">
+      <navigator url="/pages/goods/detail/detail?id={{item.id}}" class="item" wx:for="{{goodProducts}}" wx:key="{{item.id}}">
+        <image src="{{item.default_photo.thumb}}" class="thumb"></image>
+        <view class="name">{{item.name}}</view>
+        <view class="price">￥{{item.current_price}}</view>
+      </navigator>
+    </view>
+  </view>
+
+  <!-- 新品上市  -->
+  <view class="goods-section">
+    <view class="h">新品上市</view>
+    <view class="b">
+      <navigator url="/pages/goods/detail/detail?id={{item.id}}" class="item" wx:for="{{recentlyProducts}}" wx:key="{{item.id}}">
+        <image src="{{item.default_photo.thumb}}" class="thumb"></image>
+        <view class="name">{{item.name}}</view>
+        <view class="price">￥{{item.current_price}}</view>
+      </navigator>
+    </view>
+  </view>
+
+  <!-- 销量排行  -->
+  <view class="goods-section">
+    <view class="h">销量排行</view>
+    <view class="b">
+      <navigator url="/pages/goods/detail/detail?id={{item.id}}" class="item" wx:for="{{hotProducts}}" wx:key="{{item.id}}">
+        <image src="{{item.default_photo.thumb}}" class="thumb"></image>
+        <view class="name">{{item.name}}</view>
+        <view class="price">￥{{item.current_price}}</view>
+      </navigator>
+    </view>
+  </view>
+</view>

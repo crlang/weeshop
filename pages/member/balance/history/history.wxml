@@ -1,0 +1,40 @@
+<!-- history.wxml -->
+<view class="container">
+  <view class="score-filter">
+      <view class="filter-item {{status == '' ? 'active' : ''}}" bindtap="bindSbalanceTap" data-id="">
+          <text class="text">全部</text>
+      </view>
+      <view class="filter-item {{status == '1' ? 'active' : ''}}" bindtap="bindSbalanceTap" data-id="1">
+          <text class="text">收入</text>
+      </view>
+      <view class="filter-item {{status == '2' ? 'active' : ''}}" bindtap="bindSbalanceTap" data-id="2">
+          <text class="text">支出</text>
+      </view>
+  </view>
+
+  <!-- Score History -->
+  <view class="balance-list" wx:if="{{balance.length > 0}}">
+      <view class="list-item" wx:for="{{balance}}" wx:key="item.id" wx:for-item="balance">
+          <view class="item-info">
+              <view class="info_header">
+                  <view class="info-name" wx:if="{{balance.status == 1}}">+{{balance.price}}</view>
+                  <view class="info-name" wx:if="{{balance.status == 2}}">-{{balance.price}}</view>
+                  <view class="info-value-income" wx:if="{{balance.status == 1}}">收入</view>
+                  <view class="info-value-out" wx:if="{{balance.status == 2}}">支出</view>
+              </view>
+              <view class="info-memo">{{balance.memo}}</view>
+              <view class="info-expires">{{balance.create_at}}</view>
+          </view>
+      </view>
+  </view>
+
+  <view class="list-empty" wx:if="{{balance.length <= 0}}">
+    <image class="icon" src="/images/icon_payment.png"></image>
+    <view class="msg">暂无任何记录</view>
+  </view>
+
+  <view class="list-done" wx:if="{{paged.more == 0 && balance.length > 0}}">
+      全部加载完毕
+  </view>
+</view>
+

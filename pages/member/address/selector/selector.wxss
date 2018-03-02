@@ -1,0 +1,256 @@
+/* selector.wxss */
+page, .container{
+  height: 100%;
+}
+.address-list {
+    margin-top: 10px;
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border-top: #e2e2e2 1px solid;
+}
+
+.address-list .submit-select {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+    line-height: 24px;
+    top: -5px;
+    padding-left: 30px;
+    /*background-color: #333;*/
+}
+
+.address-list .submit-select .select-checkbox {
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    margin-top: -10px;
+    width: 20px;
+    height: 20px;
+    background-image: url("http://ec36.cc.cc/h5/image/check-off.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.address-list .submit-select.active .select-checkbox {
+    background-image: url("http://ec36.cc.cc/h5/image/check-on-single.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.address-list .list-item {
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: #e2e2e2 1px solid;
+    background-color: #ffffff;
+}
+
+.address-list .list-item .item-checkbox {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    margin-top: -10px;
+}
+
+.address-list .list-item .item-checkbox {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    margin-top: -10px;
+    width: 20px;
+    height: 20px;
+    background-image: url("http://ec36.cc.cc/h5/image/check-off.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.address-list .list-item.active .item-checkbox {
+    background-image: url("http://ec36.cc.cc/h5/image/check-on-single.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.address-list .list-item .item-info {
+    position: relative;
+    display: block;
+    padding-left: 44px;
+    padding-right: 44px;
+    box-sizing: border-box;
+}
+
+.address-list .list-item.readonly .item-info {
+    position: relative;
+    display: block;
+    padding-left: 14px;
+    padding-right: 44px;
+    box-sizing: border-box;
+}
+
+.address-list .list-item .item-info .info-contact {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 15px 0 10px 0;
+    box-sizing: border-box;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+    line-height: 18px;
+}
+
+.address-list .list-item .item-info .info-contact .contact-default {
+    color: #e80714;
+    border-radius: 10px;
+    border: #e80714 solid 1px;
+    box-sizing: border-box;
+    padding: 2px 4px;
+    font-size: 10px;
+    font-weight: normal;
+    text-align: left;
+    margin-left: 4px;
+}
+
+.address-list .list-item .item-info .info-detail {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0 0 15px 0;
+    box-sizing: border-box;
+    color: #888888;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+    line-height: 14px;
+}
+
+.address-list .list-item .item-info .info-detail span {
+    color: #888888;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+    line-height: 14px;
+}
+
+.address-list .list-item .item-delete {
+    margin-top: -22px;
+    position: absolute;
+    right: 54px;
+    top: 50%;
+    display: block;
+    width: 44px;
+    height: 44px;
+    box-sizing: border-box;
+}
+
+.address-list .list-item .item-delete image {
+    margin-top: 11px;
+    margin-left: 11px;
+    display: block;
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+}
+
+.address-list .list-item .item-edit {
+    margin-top: -22px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    display: block;
+    width: 44px;
+    height: 44px;
+    box-sizing: border-box;
+}
+
+.address-list .list-item .item-edit image {
+    margin-top: 11px;
+    margin-left: 11px;
+    display: block;
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+}
+
+.address-bar {
+    position: relative;
+    z-index: 100;
+    width: 100%;
+    height: 64px;
+    box-sizing: border-box;
+}
+
+.address-bar .bar-create {
+    position: relative;
+    margin: 10px 10px 10px 10px;
+    height: 44px;
+    box-sizing: border-box;
+    background-color: #404245;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 44px;
+}
+
+.address-action {
+    position: relative;
+    z-index: 100;
+    margin-top: 20px;
+    width: 100%;
+    height: 64px;
+    box-sizing: border-box;
+}
+
+.address-action .bar-cancel {
+    position: relative;
+    display: inline-block;
+    margin-left: 20px;
+    width: 42%;
+    height: 44px;
+    box-sizing: border-box;
+    background-color: #A2A6AD;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 44px;
+}
+
+.address-action .bar-save {
+    position: absolute;
+    display: inline-block;
+    right: 20px;
+    width: 42%;
+    height: 44px;
+    box-sizing: border-box;
+    background-color: #404245;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 44px;
+}
+
+.address-bar .bar-delete {
+    position: relative;
+    margin: 10px 10px 10px 10px;
+    height: 44px;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    text-align: center;
+    color: #f34953;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-color: #DBDBDB;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 44px;
+}

@@ -1,0 +1,64 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="user-box">
+    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+    <text class="username">{{userInfo.nickName}}</text>
+    <navigator url="../level/level"><text class="username">{{userInfo.level.name}}</text></navigator>
+  </view>
+  <view class="order">
+    <navigator class="h" url="../order/list/list?status=999">
+      <view class="label">我的订单</view>
+      <image class="icon-go" src="/images/icon_right.png"></image>
+    </navigator>
+    <view class="b">
+      <view class="item" bindtap="gOrderPay">
+        <image class="icon" src="/images/icon_order_created.png"></image>
+        <view class="label">待付款</view>
+        <view class="count" wx:if="{{orderTotal.created > 0}}">{{orderTotal.created}}</view>
+      </view>
+      <view class="item" bindtap="gOrderShip">
+        <image class="icon" src="/images/icon_order_paid.png"></image>
+        <view class="label">待发货</view>
+        <view class="count" wx:if="{{orderTotal.paid > 0}}">{{orderTotal.paid}}</view>
+      </view>
+      <view class="item" bindtap="gOrderRece">
+        <image class="icon" src="/images/icon_order_delivering.png"></image>
+        <view class="label">待收货</view>
+        <view class="count" wx:if="{{orderTotal.delivering > 0}}">{{orderTotal.delivering}}</view>
+      </view>
+      <view class="item" bindtap="gOrderComm">
+        <image class="icon" src="/images/icon_order_deliveried.png"></image>
+        <view class="label">待评论</view>
+        <view class="count" wx:if="{{orderTotal.deliveried > 0}}">{{orderTotal.deliveried}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="section-menu">
+    <navigator class="item" url="../balance/detail/detail">
+      <image class="icon" src="/images/icon_integral.png"></image>
+      <view class="label">我的余额</view>
+      <image class="icon" src="/images/icon_right.png"></image>
+    </navigator>
+    <navigator class="item" url="../favorite/favorite">
+      <image class="icon" src="/images/icon_collect.png"></image>
+      <view class="label">我的收藏</view>
+      <image class="icon" src="/images/icon_right.png"></image>
+    </navigator>
+    <navigator class="item" url="../bonus/bonus">
+      <image class="icon" src="/images/icon_bonus.png"></image>
+      <view class="label">红包/优惠券</view>
+      <image class="icon" src="/images/icon_right.png"></image>
+    </navigator>
+    <navigator class="item" url="../address/selector/selector">
+      <image class="icon" src="/images/icon_address.png"></image>
+      <view class="label">收货地址</view>
+      <image class="icon" src="/images/icon_right.png"></image>
+    </navigator>
+    <navigator class="item" url="../score/score">
+      <image class="icon" src="/images/icon_score.png"></image>
+      <view class="label">积分记录</view>
+      <image class="icon" src="/images/icon_right.png"></image>
+    </navigator>
+  </view>
+  <view class="logout" wx:if="{{user}}" bindtap="logout">退出登录</view>
+</view>

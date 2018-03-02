@@ -1,0 +1,121 @@
+/* success.wxss */
+page, .container{
+  height: 100%;
+}
+.withdraw-success {
+    margin-top: 80px;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.withdraw-success .info-icon {
+    display: block;
+    width: 70px;
+    height: 70px;
+    margin: 10px auto;
+}
+
+.withdraw-success .info-text {
+    display: block;
+    width: 100%;
+    height: 16px;
+    margin-top: 23px;
+    box-sizing: border-box;
+    text-align: center;
+    color: #404245;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 20px;
+}
+
+.withdraw-success .info-tips {
+    display: block;
+    width: 100%;
+    height: 16px;
+    box-sizing: border-box;
+    text-align: center;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 28px;
+}
+
+.withdraw-success .info-tips {
+    display: block;
+    width: 100%;
+    height: 16px;
+    box-sizing: border-box;
+    text-align: center;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 28px;
+}
+
+.withdraw-success .withdraw-info {
+    display: block;
+    width: 100%;
+    height: 103px;
+    padding: 10px;
+    box-sizing: border-box;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+}
+
+.withdraw-success .withdraw-amount {
+    display: block;
+    width: 100%;
+    height: 44px;
+    line-height: 44px;
+    padding-left: 14px;
+    box-sizing: border-box;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+    background-color: #FFFFFF;
+    border-top:1px solid #CACBCD;
+    border-bottom: 1px solid #CACBCD;
+    border-left: 1px solid #CACBCD;
+    border-right: 1px solid #CACBCD;
+    vertical-align: middle;
+}
+
+.withdraw-success .withdraw-memo {
+    display: block;
+    width: 100%;
+    height: 44px;
+    line-height: 44px;
+    padding-left: 14px;
+    box-sizing: border-box;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+
+    border-bottom: 1px solid #CACBCD;
+    border-left: 1px solid #CACBCD;
+    border-right: 1px solid #CACBCD;
+
+    background-color: #FFFFFF;
+    vertical-align: middle;
+}
+
+
+.withdraw-success .info-button {
+    position: relative;
+    margin: 40px auto;
+    width: 196px;
+    height: 44px;
+    box-sizing: border-box;
+    background-color: #404245;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 44px;
+}

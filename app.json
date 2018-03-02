@@ -1,0 +1,73 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/goods/list/list",
+    "pages/goods/detail/detail",
+    "pages/catalog/catalog",
+    "pages/shopping/cart/cart",
+    "pages/shopping/checkout/checkout",
+    "pages/shopping/payment/payment",
+    "pages/auth/login/login",
+    "pages/auth/forget/forget",
+    "pages/auth/register/register",
+    "pages/member/index/index",
+    "pages/member/address/selector/selector",
+    "pages/member/address/editor/editor",
+    "pages/member/order/list/list",
+    "pages/member/order/detail/detail",
+    "pages/member/favorite/favorite",
+    "pages/member/coupon/coupon",
+    "pages/member/bonus/bonus",
+    "pages/member/userinfo/userinfo",
+    "pages/member/balance/detail/detail",
+    "pages/member/balance/history/history",
+    "pages/member/withdraw/success/success",
+    "pages/member/withdraw/history/history",
+    "pages/member/comment/add/add",
+    "pages/member/comment/list/list",
+    "pages/member/level/level",
+    "pages/member/score/score",
+    "pages/member/changepassword/changepassword",
+    "pages/wechat/auth/auth",
+    "pages/wechat/pay/pay"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fafafa",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#2c2c2c",
+    "selectedColor": "#d81e06",
+    "backgroundColor": "#fafafa",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/icon_home.png",
+        "selectedIconPath": "images/icon_home_active.png"
+      },
+      {
+        "pagePath": "pages/catalog/catalog",
+        "text": "分类",
+        "iconPath": "images/icon_catalog.png",
+        "selectedIconPath": "images/icon_catalog_active.png"
+      },
+      {
+        "pagePath": "pages/shopping/cart/cart",
+        "text": "购物车",
+        "iconPath": "images/icon_cart.png",
+        "selectedIconPath": "images/icon_cart_active.png"
+      },
+      {
+        "pagePath": "pages/member/index/index",
+        "text": "我的",
+        "iconPath": "images/icon_member.png",
+        "selectedIconPath": "images/icon_member_active.png"
+      }
+    ]
+  },
+  "debug": false
+}

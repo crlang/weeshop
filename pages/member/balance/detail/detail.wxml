@@ -1,0 +1,43 @@
+<!-- detail.wxml -->
+<view class="container">
+  <view class="balance-content">
+      <view class="withdraw-header">
+          <image class="balance-icon" src="/images/image_rmb.png"></image>
+      </view>
+      <view class="balance-title">可用资金</view>
+      <view class="balance-amount"><text class="balance-yuan">¥</text>{{balance}}</view>
+      <view class="withdraw" bindtap="modalinput">
+          提现
+      </view>
+      <navigator class="withdraw-history" url="../../withdraw/history/history">
+          提现记录
+      </navigator>
+
+      <navigator class="balance-detail" url="../history/history">
+          查看资金明细
+      </navigator>
+  </view>
+
+  <modal hidden="{{hiddenmodalput}}" title="请输入提取金额" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">
+      <view class="dialog-content">
+          <view class="item-input">
+              <view class="withdraw-title">提现金额</view>
+              <view class="withdraw-group">
+                  <view class="control-label">¥</view>
+                  <input type="number" class="input_money" value="{{wdBalance}}" bindchange="getWithdraw"  placeholder="" maxlength="16"/>
+              </view>
+              <view class="horizontal-line"></view>
+              <view class="withdraw-money-header">
+                  <view class="input-tips">
+                      可提金额 ¥{{balance}}
+                  </view>
+                  <view class="withdraw-all" bindtap="getAllWithdraw">
+                      全部提现
+                  </view>
+              </view>
+              <input type="text" class="input_memo" value="{{wdMemo}}" bindchange="getMemo" placeholder="填写银行名称和银行卡号"/>
+          </view>
+      </view>
+  </modal>
+</view>
+

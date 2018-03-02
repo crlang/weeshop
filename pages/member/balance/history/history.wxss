@@ -1,0 +1,151 @@
+/* history.wxss */
+page, .container{
+  height: 100%;
+}
+
+.score-filter {
+    width: 100%;
+    height: 44px;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    line-height: 44px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border-top: #e2e2e2 1px solid;
+    border-bottom: #e2e2e2 1px solid;
+}
+
+.score-filter .filter-item {
+    position: relative;
+    display: block;
+    float: left;
+    width: 33.333%;
+    height: 44px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.score-filter .filter-item .text {
+    display: block;
+    width: 90%;
+    height: 100%;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    line-height: 44px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.score-filter .filter-item.active .text {
+    border-bottom: #404245 2px solid;
+}
+.balance-list {
+    margin-top: 10px;
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border-top: #e2e2e2 1px solid;
+}
+
+.balance-list .list-item {
+    position: relative;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border-bottom: #e2e2e2 1px solid;
+    overflow: hidden;
+}
+
+.balance-list .list-item .item-info {
+    position: relative;
+    display: block;
+    height: 90px;
+}
+
+.balance-list .list-item .item-info .info-name {
+    display: inline-block;
+    position: relative;
+    width: 40%;
+    height: 22px;
+    left: 14px;
+    color: #404245;
+    font-size: 18px;
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: left;
+    line-height: 22px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+
+.balance-list .list-item .item-info .info-value-income {
+    display: inline-block;
+    width: 40%;
+    height: 22px;
+    box-sizing: border-box;
+    color: #42B62F;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 22px;
+}
+
+.balance-list .list-item .item-info .info-value-out {
+    display: inline-block;
+    width: 40%;
+    height: 22px;
+    box-sizing: border-box;
+    color: #a2a6ad;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 22px;
+
+}
+
+.balance-list .list-item .item-info .info-expires {
+    display: block;
+    height: 22px;
+    padding-left: 14px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    color: #a2a6ad;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+    line-height: 22px;
+
+}
+
+.balance-list .list-item .item-info .info-memo {
+    display: block;
+    height: 22px;
+    padding-left: 14px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    color: #A2A6Ad;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+    line-height: 22px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.balance-list .list-item .item-info .info_header {
+    display: block;
+    height: 22px;
+    margin-top: 16px;
+}

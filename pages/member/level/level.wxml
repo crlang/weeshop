@@ -1,0 +1,12 @@
+<!-- level.wxml -->
+<view class="container">
+  <view class="level">
+    <view class="level-p">当前用户：<text class="val">{{userInfo.username}}</text></view>
+    <view class="level-p">手机号码：<text class="val">{{userInfo.mobile}}</text></view>
+    <view class="level-p">加入时间：<text class="val">{{userInfo.joined_at}}</text></view>
+    <view class="level-t">当前等级：<text class="val">{{userInfo.rank.name}}</text></view>
+    <view class="level-u">会员距离下级还需：<text class="val">{{nextLevel - score}} 积分</text></view>
+    <view class="level-d">特权说明：</view>
+    <view class="level-p">尊享商品 <text class="val">{{userInfo.rank.desc}}</text> 折扣</view>
+  </view>
+</view>

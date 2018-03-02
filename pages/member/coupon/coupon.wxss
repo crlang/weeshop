@@ -1,0 +1,4 @@
+/* coupon.wxss */
+page, .container{
+  height: 100%;
+}

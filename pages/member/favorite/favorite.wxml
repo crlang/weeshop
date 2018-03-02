@@ -1,0 +1,36 @@
+<!--cart.wxml-->
+<view class="container">
+  <view class="favorite-list" wx:if="{{favoriteList.length > 0}}">
+      <view class="list-item" wx:for="{{favoriteList}}" wx:key="{{item.id}}">
+          <view class="item-photo" ng-click="touchProduct(product)">
+              <image src="{{item.default_photo.large}}"></image>
+          </view>
+          <view class="item-info">
+              <view class="info-delete" bindtap="onCancelFavorite" data-indexid="{{item.id}}">
+                  <image src="/images/icon_delete.png"></image>
+              </view>
+              <view class="info-name">
+                  {{item.name}}
+              </view>
+              <view class="info-attr" >
+                  <view class="info-text">
+                      销量：{{item.sales_count}}  库存：{{item.good_stock}}
+                  </view>
+              </view>
+              <view class="info-price">
+                  <text class="price-shop">￥{{item.current_price}}</text>
+                  <text class="price-market">￥{{item.price}}</text>
+              </view>
+          </view>
+      </view>
+  </view>
+  <view class="list-empty" wx:if="{{favoriteList.length <= 0}}">
+    <image class="icon" src="/images/icon_collect.png"></image>
+    <view class="msg">暂无任何收藏</view>
+  </view>
+
+  <view class="list-done" wx:if="{{paged.more == 0 && favoriteList.length > 0}}">
+    全部加载完毕
+  </view>
+</view>
+

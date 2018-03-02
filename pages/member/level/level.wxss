@@ -1,0 +1,29 @@
+/* level.wxss */
+page, .container{
+  height: 100%;
+}
+.level {}
+.val { color: #DD4C1D;
+  font-size: 18px; }
+.level .level-t{
+  background: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.level .level-t .val{}
+.level .level-u{
+  background: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.level .level-u .val{}
+.level .level-d{
+  background: #fff;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+.level .level-p{
+  background: #fff;
+  padding: 10px;
+}
+.level .level-p .val{}
