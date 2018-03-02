@@ -31,11 +31,17 @@ ECShop 微信小程序商城，基于3.6版本 appserver 接口，100% 兼容原
 
 # 预览 Previews
 
-![首页](http://upload-images.jianshu.io/upload_images/3985656-ae862448d3f72f48.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![首页](./images/ScreenShot01.png)
 
-![我的](http://upload-images.jianshu.io/upload_images/3985656-1669a945af436074.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![列表](./images/ScreenShot02.png)
 
-![商品列表](http://upload-images.jianshu.io/upload_images/3985656-549cd2c55efae115.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![购物](./images/ScreenShot03.png)
+
+![我的](./images/ScreenShot04.png)
+
+![列表](./images/ScreenShot05.png)
+
+![支付](./images/ScreenShot06.png)
 
 ## 进度 progress
 目前已经完善基本商城购物流程，可余额支付。
