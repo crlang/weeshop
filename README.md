@@ -1,6 +1,7 @@
 # weeshop
 ECShop 微信小程序商城，基于3.6版本 appserver 接口，100% 兼容原有程序。
 > 注意：本项目还在开发中，功能还未完善，请匆商用。
+
 > 原GitHub: https://github.com/tumobi/eweapp
 
 # 欢迎 S T A R T
@@ -48,10 +49,18 @@ ECShop 微信小程序商城，基于3.6版本 appserver 接口，100% 兼容原
 
 ## 反馈 Issues
 本人博客文章关联了该项目，如果有疑问，可通过文章评论功能提交你的疑问。
+
 通过评论方式展示疑问，可给后来者提供一个很好的了解思路。
-博客链接地址：http
+
+博客链接地址：https://www.darlang.com/?p=709
+
+标题: [ECShop 小程序「weeshop 」- 基于 ECShop 3.6 版本开发的非官方微信小程序](https://www.darlang.com/2018/03/ecshop-xiao-cheng-xu-weeshop-ji-yu-ecshop-3-6-ban-ben-kai-fa-de-fei-guan-fang-wei-xin-xiao-cheng-xu/)
+
+**如需反馈，请在博客文章评论区域回复讨论。**
 
 ## 关于 weeshop
 基于原 tumobi 的基础修正多处错误，增加并完善商城功能。
-小程序项目使用接口为 ECShop 3.6 版本的 appserver 。
+
+小程序项目使用接口为 ECShop 3.6 版本的 appserver。
+
 项目为个人测试使用，如要用于商业用途，请先取得 ECShop 的授权。
