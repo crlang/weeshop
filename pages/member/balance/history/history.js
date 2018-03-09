@@ -1,5 +1,5 @@
 // page.js
-const util = require('../../../../utils/util.js');
+import util from '../../../../utils/util.js';
 
 Page({
   /**
@@ -9,7 +9,7 @@ Page({
     balance: [],
     paged: {
       page: 1,
-      size: 6
+      size: 10
     },
     status: '',
     loadMore: true
@@ -21,7 +21,7 @@ Page({
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
     wx.setNavigationBarTitle({
-      title: util.pageTitle.balanceHistory
+      title: util.pageTitle.balanceM.history
     });
     this.getBalanceList();
   },
@@ -35,7 +35,6 @@ Page({
       per_page: self.data.paged.size,
       status: self.data.status
     }).then(res => {
-      console.log(res);
       for (let i in res.balances) {
         res.balances[i].create_at = util.formatTime(res.balances[i].create_at);
       }
@@ -50,14 +49,13 @@ Page({
         paged: res.paged,
         loadMore:true,
       });
-
       if (res.paged.more > 0) {
         self.setData({ loadMore:true });
       }else{
         self.setData({ loadMore:false });
       }
-    }).catch(err =>{
-      console.log('balance err',err);
+    }).catch(err => {
+        util.notLogin(err);
     });
   },
 
@@ -65,6 +63,7 @@ Page({
   bindSbalanceTap(event) {
     let status = event.currentTarget.dataset.id;
     this.setData({
+      balance: [],
       'paged.page': 1,
       status: status
     });
@@ -72,14 +71,14 @@ Page({
     let title = '';
     switch(status) {
       case "1":
-        title = util.pageTitle.balanceHistoryA;
-        break;
+        title = util.pageTitle.balanceM.s2;
+      break;
       case "2":
-        title = util.pageTitle.balanceHistoryA;
-        break;
-      default :
-        title = util.pageTitle.balanceHistory;
-        break;
+        title = util.pageTitle.balanceM.s3;
+      break;
+      case "":
+        title = util.pageTitle.balanceM.s1;
+      break;
     }
     wx.setNavigationBarTitle({
       title: title

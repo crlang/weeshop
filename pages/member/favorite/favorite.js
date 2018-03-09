@@ -1,16 +1,17 @@
 // cart.js
-const util = require('../../../utils/util.js');
+import util from '../../../utils/util.js';
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    requestLoading: true,
     favoriteList: [],
-    paged: [],
-    loadMore: true,
-    page: 1
+    paged: {
+      page: 1,
+      size: 10
+    },
+    loadMore: true
   },
 
   /**
@@ -39,13 +40,11 @@ Page({
           }).then(res => {
             util.showToast('移除收藏成功!','success');
             self.setData({
-              page: 1
+              'paged.page': 1
             });
             setTimeout(function () {
               self.getFavoriteList();
             }, 1000);
-          }).catch(err => {
-            console.log('rmerr',err);
           });
         }
       }
@@ -60,8 +59,8 @@ Page({
     });
     let self = this;
     util.request(util.apiUrl + 'ecapi.product.liked.list', 'POST',{
-      page: self.data.page,
-      per_page: 5
+      page: self.data.paged.page,
+      per_page: self.data.paged.size
     }).then(res => {
       if (self.data.loadMore) {
         self.data.favoriteList = self.data.favoriteList.concat(res.products);
@@ -79,8 +78,8 @@ Page({
       }else{
         self.setData({ loadMore:false });
       }
-    }).catch( err => {
-      console.log('faverr',err);
+    }).catch(err => {
+        util.notLogin(err);
     });
     wx.hideLoading();
   },
@@ -124,7 +123,7 @@ Page({
   onReachBottom: function () {
     if (this.data.loadMore) {
       this.setData({
-        page: parseInt(this.data.page) + 1
+        'paged.page': parseInt(this.data.paged.page) + 1
       });
       this.getFavoriteList();
     }

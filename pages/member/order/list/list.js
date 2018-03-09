@@ -1,18 +1,17 @@
 // list.js
-const util = require('../../../../utils/util.js');
+import util from '../../../../utils/util.js';
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    requestLoading: true,
-    orders: [],
-    orgOrders: [],
+    ordersList: [],
     paged: {
       page: 1,
-      size: 4
+      size: 10
     },
+    loadMore: true,
     status: null
   },
 
@@ -27,7 +26,6 @@ Page({
     this.setData({
       status: status
     });
-    // this.bindSorderTap();
     this.getOrderList();
   },
 
@@ -110,6 +108,7 @@ Page({
   bindSorderTap(event) {
     let status = event.currentTarget.id || this.data.status;
     this.setData({
+      ordersList: [],
       'paged.page': 1,
       status: status
     });
@@ -117,20 +116,17 @@ Page({
     let orderTitle = '';
     switch(status) {
       case "0":
-        orderTitle = "待付款";
-        break;
+        orderTitle = util.pageTitle.orderM.s1;
+      break;
       case "1":
-        orderTitle = "待发货";
-        break;
+        orderTitle = util.pageTitle.orderM.s2;
+      break;
       case "2":
-        orderTitle = "待收货";
-        break;
+        orderTitle = util.pageTitle.orderM.s3;
+      break;
       case "3":
-        orderTitle = "待评价";
-        break;
-      default :
-        orderTitle = "我的订单";
-        break;
+        orderTitle = util.pageTitle.orderM.s4;
+      break;
     }
     wx.setNavigationBarTitle({
       title: orderTitle
@@ -140,42 +136,46 @@ Page({
 
   // 获取订单列表
   // ecapi.order.list
-  getOrderList(loadMore = false) {
+  getOrderList() {
     wx.showLoading({
       title: '加载中...',
     });
+    let self = this;
     util.request(util.apiUrl + 'ecapi.order.list', 'POST',{
-      page: this.data.paged.page,
-      per_page: this.data.paged.size,
-      status: this.data.status
+      page: self.data.paged.page,
+      per_page: self.data.paged.size,
+      status: self.data.status
     }).then(res => {
-      console.log(res);
-      if(loadMore == true) {
-        this.data.orders = this.data.orders.concat(res.orders);
-      } else {
-        this.data.orders = res.orders;
+      if (self.data.loadMore) {
+        self.data.ordersList = self.data.ordersList.concat(res.orders);
+      }else{
+        self.data.ordersList = res.orders;
       }
-      let newOrders = this.data.orders;
-      this.setData({
+      let newOrders = self.data.ordersList;
+      self.setData({
         ordersList: newOrders,
-        paged: res.paged,
-        requestLoading: false
+        paged: res.paged
       });
-      wx.hideLoading();
+      if (res.paged.more > 0) {
+        self.setData({ loadMore:true });
+      }else{
+        self.setData({ loadMore:false });
+      }
     }).catch(err => {
-      wx.hideLoading();
-      util.notLogin(err);
+        util.notLogin(err);
     });
+    wx.hideLoading();
   },
 
+  // 跳转评论
   bindComment(event) {
-    console.log(event.currentTarget.dataset.indexid);
     let indexid = event.currentTarget.dataset.indexid;
     wx.navigateTo({
       url: '../../comment/add/add?order=' + indexid
     });
   },
 
+  // 跳转付款
   bindPay(event) {
     let indexid = event.currentTarget.dataset.indexid;
     wx.navigateTo({
@@ -222,11 +222,11 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.paged.more === 1) {
+    if (this.data.loadMore) {
       this.setData({
         'paged.page': parseInt(this.data.paged.page) + 1
       });
-      this.getOrderList(true);
+      this.getOrderList();
     }
   },
 

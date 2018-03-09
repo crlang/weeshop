@@ -1,12 +1,13 @@
-// pay.js
-import util from '../../../utils/util.js';
+// catalog.js
+import util from '../../utils/util.js';
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-
+    keyword: null,
+    hotKeywords: ''
   },
 
   /**
@@ -14,7 +15,40 @@ Page({
    */
   onLoad: function (options) {
     wx.setNavigationBarTitle({
-      title: util.pageTitle.wechatPay
+      title: util.pageTitle.search
+    });
+    this.getHotSearchList();
+  },
+
+  // 绑定输入
+  bindSearchInput(event){
+    this.setData({
+      keyword: event.detail.value
+    });
+  },
+
+  // 回车
+  bindSearchConfirm(event){
+    this.bindSearchTap(event.detail.value);
+  },
+
+  // 商品搜索
+  bindSearchTap(keyword){
+    if (this.data.keyword !== null) {
+      let k = this.data.keyword || keyword
+      wx.navigateTo({
+        url: '../goods/list/list?keyword=' + k
+      });
+    }
+  },
+
+  // 热搜商品
+  // ecapi.search.keyword.list
+  getHotSearchList() {
+    util.request(util.apiUrl + 'ecapi.search.keyword.list', 'POST').then(res => {
+      this.setData({
+        hotKeywords: res.keywords
+      });
     });
   },
 
@@ -22,7 +56,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
   },
 
   /**

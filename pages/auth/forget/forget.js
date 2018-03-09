@@ -1,5 +1,5 @@
 // forget.js
-const util = require('../../../utils/util.js');
+import util from '../../../utils/util.js';
 
 Page({
   /**
@@ -18,30 +18,17 @@ Page({
     });
   },
 
-  // 绑定输入
-  bindEmailInput: function (e) {
-    this.setData({
-      email: e.detail.value
-    });
-  },
-
-  // 注册
+  // 重置密码
   // ecapi.auth.default.reset
-  forget() {
-    if(this.data.email.length <= 0) {
-      util.showToast('请输入邮箱','error');
-      return false;
-    }
+  forget(event) {
     util.request(util.apiUrl + 'ecapi.auth.default.reset', 'POST', {
-      email: this.data.email
+      email: event.detail.value.email
     }).then(res => {
-      console.log(res);
       util.showToast('发送成功，请查收邮箱！','none');
       // 返回登录
       wx.navigateBack();
     }).catch(err => {
-      console.log('发送失败',err);
-      util.showToast(err.error_desc,'error');
+      util.showToast(err.error_desc,'none');
     });
   },
 

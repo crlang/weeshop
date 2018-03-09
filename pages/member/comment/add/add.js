@@ -1,5 +1,5 @@
 // add.js
-const util = require('../../../../utils/util.js');
+import util from '../../../../utils/util.js';
 
 Page({
   /**
@@ -12,7 +12,7 @@ Page({
     grade: '', // 3好评 2中评 1差评
     cg: '',
     content: '',
-    review: [], // [{"goods":1,"grade":2,"content":"3"}]
+    review: [],
     goodsInfo: []
   },
 
@@ -21,7 +21,7 @@ Page({
    */
   onLoad: function (options) {
     wx.setNavigationBarTitle({
-      title: util.pageTitle.commentsAdd
+      title: util.pageTitle.commentsM.add
     });
     let order = options.order;
     this.setData({
@@ -45,25 +45,30 @@ Page({
     });
   },
 
-  // checked
+  // 评级
   checkedGrade() {
     let cg = this.data.grade;
-    if (cg == 1) {
-      this.setData({
-        cg: 1
-      });
-    }else if(cg ==2 ) {
-      this.setData({
-        cg: 2
-      });
-    }else {
-      this.setData({
-        cg: 3
-      });
+    switch (cg) {
+      case 1:
+        this.setData({
+          cg: 1
+        });
+      break;
+      case 2:
+        this.setData({
+          cg: 2
+        });
+      break;
+      case 3:
+        this.setData({
+          cg: 3
+        });
+      break;
     }
   },
 
   // 获取订单信息
+  // ecapi.order.get
   goodsInfo() {
     util.request(util.apiUrl + 'ecapi.order.get', 'POST',{
       order: this.data.order
@@ -73,7 +78,8 @@ Page({
         goods: res.order.goods[0].id
       });
     }).catch(err => {
-      util.showToast(err.error_desc,'none',800);
+      util.showToast(err.error_desc);
+      util.notLogin(err);
     });
   },
 

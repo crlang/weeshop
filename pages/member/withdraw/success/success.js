@@ -1,5 +1,5 @@
 // page.js
-const util = require('../../../../utils/util.js');
+import util from '../../../../utils/util.js';
 
 Page({
   /**
@@ -17,7 +17,7 @@ Page({
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
     wx.setNavigationBarTitle({
-      title: util.pageTitle.withdrawSuccess
+      title: util.pageTitle.withdrawM.success
     });
     this.setData({
       withdraw: options.withdraw,

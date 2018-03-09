@@ -1,15 +1,20 @@
-// ecshop 3.6 商城地址
-let https = false, // 如果网站是 HTTPS 的则设为 true
-    shopUrl = 'ecshop.com'; // 商城地址，不包含 http://
+import XXTEA from '../libs/security/xxtea.js';
+
+// 商城地址
+let https     = true,
+    // 如果网站是HTTPS的则设为true
+    shopUrl   = 'ecshop.chenrilang.com';
+    // 商城地址，不包含 "http://"
+
 
 // ecshop 接口地址
 // util.apiUrl + url
-let apiUrl = 'http://api.'+shopUrl+'/v2/';
-if(https) {apiUrl = 'https://api.'+shopUrl+'/v2/';}
+let apiUrl = 'http://api.' + shopUrl + '/v2/';
+if(https) {apiUrl = 'https://api.' + shopUrl + '/v2/';}
   https === true ? shopUrl = "https://" + shopUrl : shopUrl = "http://" + shopUrl;
 
 // 格式化时间
-// util.formatTiem(timeStamp,'Y/M/D h:m:s')
+// util.formatTiem(timeStamp,'Y/M/D h:m:s') 或 util.formatTiem(timeStamp)
 function formatTime(date,format = null) {
   var date = new Date(date * 1000), // 毫秒级
       formatsArr = ['Y','M','D','h','i','s'],
@@ -33,8 +38,7 @@ function formatTime(date,format = null) {
     returnArr.push(formatNumber(hour));
     returnArr.push(formatNumber(minute));
     returnArr.push(formatNumber(second));
-    for (let i in returnArr)
-    {
+    for (let i in returnArr){
       format = format.replace(formatsArr[i], returnArr[i]);
     }
     return format;
@@ -77,25 +81,37 @@ function request(url, method = 'GET', data = {}) {
   });
 }
 
+// 商城配置
+// ecapi.config.get
+function getShopConfig(){
+  return request(apiUrl + 'ecapi.config.get', 'POST').then(res => {
+    if(res.error_code == 0) {
+      let key = "getprogname()",
+          data = res.data;
+      return JSON.parse(XXTEA.decryptFromBase64(data, key));
+    }
+    return null;
+  });
+}
+
 // 消息提示
 // util.showToast(title,type,duration)
-function showToast(title, type, duration = null) {
+function showToast(title, type = "none", duration = null) {
   let image = '',
       icon = '';
-  if(type == 'none') {
-    icon = 'none';
-  }else {
-    switch (type) {
-      case 'error':
-        image = '/images/icon_error.png';
-        break;
-      case 'success':
-        image = '/images/icon_success.png';
-        break;
-      case 'warning':
-        image = '/images/icon_warning.png';
-        break;
-    }
+  switch (type) {
+    case 'error':
+      image = '/images/icon_error.png';
+      break;
+    case 'success':
+      image = '/images/icon_success.png';
+      break;
+    case 'warning':
+      image = '/images/icon_warning.png';
+      break;
+    case 'none':
+      icon = 'none';
+      break;
   }
   duration === null ? duration = 500 : duration;
   wx.showToast({
@@ -119,7 +135,6 @@ function updateCartNum() {
     }
     wx.setTabBarBadge({index: 2,text: num});
   }).catch(err => {
-    console.log('cartTotal err',err);
     wx.setTabBarBadge({index: 2,text: num});
   });
 }
@@ -127,6 +142,15 @@ updateCartNum();
 
 // 未登录提示
 function notLogin(err) {
+  // 错误代码
+  // "ERROR_CODE": {
+  //   "OK": 0, // 正常
+  //   "UNKNOWN_ERROR": 10000, // 内部错误
+  //   "TOKEN_INVALID": 10001, // Token 无效
+  //   "TOKEN_EXPIRED": 10002, // Token 过期
+  //   "SIGN_INVALID": 10003, // Sign 无效
+  //   "SIGN_EXPIRED": 10004, // Sign 过期
+  // },
   if (err.error == true || err.error_code == 10001) {
     wx.showModal({
       title: '提示',
@@ -155,37 +179,68 @@ const pageTitle = {
   home: "首页",
   cart: "购物车",
   catalog: "分类目录",
-  goodsList: "商品列表",
-  goodsDetail: "宝贝详情",
-  goodsCatalog: "商品分类",
+  goods: "商品中心",
+  goodsM: {
+    list: '商品列表',
+    detail: '宝贝详情',
+    catalog: '商品分类'
+  },
   member: "个人中心",
   search: "搜索",
   order: "订单中心",
-  orderDetail: "订单中心",
+  orderM: {
+    detail: '订单详情',
+    checkout: '检查订单',
+    payment: '订单付款',
+    s1: '待付款',
+    s2: '待发货',
+    s3: '待收货',
+    s4: '待评价'
+  },
   favorite: "收藏中心",
   notices: "公告中心",
-  noticesDetail: "公告详情",
   balance: "我的余额",
-  balanceHistory: "资金明细-全部",
-  balanceHistoryA: "资金明细-收入",
-  balanceHistoryB: "资金明细-支出",
+  balanceM: {
+    history: "资金明细",
+    s1: '全部',
+    s2: '收入',
+    s3: '支出'
+  },
   login: "登录",
   forget: "找回密码",
   register: "注册",
   changePassword: "修改密码",
-  checkoutOrder: "检查订单",
-  orderPayment: "订单付款",
   comments: "商品评论",
-  commentsAdd: "评论添加",
-  addressAdd: "添加地址",
-  addressEdit: "更新地址",
+  commentsM: {
+    add: '评论添加',
+    s1: '好评',
+    s2: '中评',
+    s3: '差评'
+  },
   address: "我的地址",
+  addressM: {
+    add: '添加地址',
+    edit: '更新地址'
+  },
   withdraw: "提现记录",
-  withdrawSuccess: "提现成功",
+  withdrawM: {
+    success: '提现成功',
+    fail: '提现失败'
+  },
   coupon: "我的优惠券",
   bonus: "我的红包",
+  bonusM: {
+    s1: '未过期',
+    s2: '已过期',
+    s3: '已使用'
+  },
   level: "特权中心",
   score: "积分中心",
+  scoreM: {
+    s1: '未过期',
+    s2: '已过期',
+    s3: '已使用'
+  },
   userinfo: "用户信息",
   wechatLogin: "微信登录",
   wechatPay: "微信支付",
@@ -201,5 +256,6 @@ module.exports = {
   updateCartNum: updateCartNum,
   notLogin: notLogin,
   pageTitle: pageTitle,
+  getShopConfig: getShopConfig
 };
 

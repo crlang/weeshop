@@ -2,7 +2,7 @@
 <view class="container">
   <view class="search">
     <view class="form">
-      <input class="input"  placeholder="输入商品名称" bindinput="bindKeywordInput" confirm-type="search" bindconfirm="bindKeywordConfirm"/><image class="btn" src="/images/icon_search.png" bindtap="bindSearchTap"></image>
+      <input class="input" placeholder="输入商品名称" bindtap="goSearch"/><image class="btn" src="/images/icon_search.png"></image>
     </view>
   </view>
   <view class="catalog">

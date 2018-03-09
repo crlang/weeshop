@@ -1,5 +1,5 @@
 // page.js
-const util = require('../../../../utils/util.js');
+import util from '../../../../utils/util.js';
 
 Page({
   /**
@@ -38,16 +38,18 @@ Page({
         balance: res.amount
       });
     }).catch(err => {
-      console.log("balance err",err)
-    })
+      util.notLogin(err);
+    });
   },
 
+  // 提取全部
   getAllWithdraw() {
     this.setData({
       wdBalance: this.data.balance
     });
   },
 
+  // 提取金额
   getWithdraw(e) {
     let Withdraw = e.detail.value;
     this.setData({
@@ -55,6 +57,7 @@ Page({
     });
   },
 
+  // 卡号信息
   getMemo(e) {
     let memo = e.detail.value;
     this.setData({
@@ -62,7 +65,7 @@ Page({
     });
   },
 
-  //点击按钮
+  // 弹出模块
   modalinput() {
     this.setData({
       hiddenmodalput: !this.data.hiddenmodalput
@@ -86,7 +89,6 @@ Page({
       cash: this.data.wdBalance,
       memo: this.data.wdMemo
     }).then(res => {
-      console.log(res)
       util.showToast("提交成功","success",700);
       let wdtime = util.formatTime(res.withdraw.create_at);
       setTimeout(function(){
@@ -94,9 +96,6 @@ Page({
           url: '../../withdraw/success/success?withdraw=' + res.withdraw.cash + "&member_memo=" + res.withdraw.member_memo + "&wdtime=" + wdtime
         });
       },800);
-
-    }).catch(err => {
-      console.log('err',err);
     });
   },
 

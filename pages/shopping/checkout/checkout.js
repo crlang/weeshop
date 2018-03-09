@@ -1,5 +1,5 @@
 // cart.js
-const util = require('../../../utils/util.js');
+import util from '../../../utils/util.js';
 
 Page({
   /**
@@ -38,7 +38,7 @@ Page({
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
     wx.setNavigationBarTitle({
-      title: util.pageTitle.checkoutOrder
+      title: util.pageTitle.orderM.checkout
     });
     let orderFormat = JSON.parse(options.order_product);
     let goodsFormat = JSON.parse(options.goods_info);
@@ -57,9 +57,7 @@ Page({
   setConsignee() {
     let self = this;
     let newConsignee = self.data.consigneeNew;
-    console.log('newc',newConsignee)
     util.request(util.apiUrl + 'ecapi.consignee.list', 'POST').then(res => {
-      console.log('csres',res);
       let defaultConsignees = [];
       for (let i in res.consignees) {
         if (newConsignee == null) {
@@ -77,11 +75,11 @@ Page({
         defaultConsignees: defaultConsignees
       });
     }).catch(err => {
-      console.log('scsrr',err);
+        util.notLogin(err);
     });
   },
 
-  // 地址获取
+  // 选择地址
   getConsignee() {
     let self = this;
     wx.getStorage({
@@ -131,7 +129,7 @@ Page({
         }
       });
     }).catch(err => {
-      util.showToast(err.error_desc,'none',1200);
+      util.showToast(err.error_desc);
     });
   },
 
@@ -152,11 +150,10 @@ Page({
       self.setData({
         orderPrice: res.order_price
       });
-    }).catch( err => {
-      console.log('buy err',err);
     });
   },
 
+  // 绑定输入
   bindorderComment(e){
     this.setData({
       comment: e.detail.value
@@ -191,6 +188,7 @@ Page({
       },800);
     }).catch(err => {
       util.showToast(err.error_desc,'none',900);
+      util.notLogin(err);
     });
     self.getOrderBuylist();
   },

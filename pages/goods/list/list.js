@@ -6,7 +6,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    requestLoading: true,
     category: 0,
     keyword: '',
     products: [],
@@ -15,14 +14,13 @@ Page({
       size: 10
     },
     sort_key: 0,
-    sort_value: 0,
+    sort_value: 0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options.keyword)
     let keyword = options.keyword || '',
         category = options.category || '';
     if (keyword !== '') {
@@ -31,7 +29,7 @@ Page({
       });
     }else{
       wx.setNavigationBarTitle({
-        title: util.pageTitle.goodsList
+        title: util.pageTitle.goodsM.list
       });
     }
     this.setData({
@@ -43,8 +41,9 @@ Page({
 
   // 商品排序
   bindSorderTap(event) {
-    let sort_key = event.currentTarget.id;
+    let sort_key = event.currentTarget.dataset.id;
     this.setData({
+      products: [],
       'paged.page': 1,
       'sort_key': sort_key
     });
@@ -58,34 +57,36 @@ Page({
 
   // 商品列表
   // ecapi.product.list
-  getPorducts(loadMore = false) {
+  getPorducts() {
     wx.showLoading({
       title: '加载中...'
     });
-    let TD = this.data;
+    let self = this.data;
     util.request(util.apiUrl + 'ecapi.product.list', 'POST', {
-      category: TD.category,
-      page: TD.paged.page,
-      keyword: TD.keyword,
-      per_page: TD.paged.size,
-      sort_key: TD.sort_key,
-      sort_value: TD.sort_value
+      page: self.paged.page,
+      per_page: self.paged.size,
+      category: self.category,
+      keyword: self.keyword,
+      sort_key: self.sort_key,
+      sort_value: self.sort_value
     }).then(res => {
-      console.log(res);
-      let products = [];
-      if(loadMore == true) {
-        products = this.data.products;
-      }else {
-        products = [];
+      if (self.loadMore) {
+        self.products = self.products.concat(res.products);
+      }else{
+        self.products = res.products;
       }
-      let newPorducts = products.concat(res.products);
+      let newProducts = self.products;
       this.setData({
-        products: newPorducts,
-        paged: res.paged,
-        requestLoading: false
+        products: newProducts,
+        paged: res.paged
       });
-      wx.hideLoading();
+      if (res.paged.more > 0) {
+        this.setData({ loadMore:true });
+      }else{
+        this.setData({ loadMore:false });
+      }
     });
+    wx.hideLoading();
   },
 
   /**
@@ -126,15 +127,12 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
-    if (this.data.paged.more === 1) {
+    if (this.data.loadMore) {
       this.setData({
-        'paged.page': parseInt(this.data.paged.page) + 1
+        "paged.page": parseInt(this.data.paged.page) + 1
       });
-      this.getPorducts(true);
+      this.getPorducts();
     }
-
-
   },
 
   /**

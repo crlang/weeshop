@@ -1,5 +1,5 @@
 // selector.js
-const util = require('../../../../utils/util.js');
+import util from '../../../../utils/util.js';
 
 Page({
   /**
@@ -33,7 +33,6 @@ Page({
       title: '加载中...',
     });
     util.request(util.apiUrl + 'ecapi.consignee.list', 'POST').then(res => {
-      console.log(res.consignees);
       this.setData({
         addressList: res.consignees
       });
@@ -43,8 +42,8 @@ Page({
     wx.hideLoading();
   },
 
+  // 选择地址
   bindSelect(event) {
-    console.log(event)
     let self = this;
     if (self.data.order_product !== null) {
       wx.setStorage({
@@ -59,15 +58,13 @@ Page({
   // ecapi.consignee.setDefault
   setDefaultAddress(e) {
     let selfID = e.currentTarget.dataset.id;
-    console.log(selfID);
     util.request(util.apiUrl + 'ecapi.consignee.setDefault', 'POST',{
       consignee: selfID
     }).then(res => {
-      console.log(res.consignees);
       this.setData({
         defaultAddress: selfID
       });
-      util.showToast('设定默认收货地址成功！','none',300)
+      util.showToast('设定成功！','success',300)
     });
     this.getAddressList();
   },

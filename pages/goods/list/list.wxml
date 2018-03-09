@@ -2,21 +2,21 @@
 <view class="container">
   <view class="sort">
     <view class="sort-box">
-      <view class="item {{sort_key == '0' ? 'active' : ''}}" bindtap="bindSorderTap" id="0">
+      <view class="item {{sort_key == 0 ? 'active' : ''}}" bindtap="bindSorderTap" data-id="0">
         <text class="txt">综合</text>
       </view>
-      <view class="item {{sort_key == '4' ? 'active' : ''}}" bindtap="bindSorderTap" id="4">
+      <view class="item {{sort_key == 4 ? 'active' : ''}}" bindtap="bindSorderTap" data-id="4">
         <text class="txt">销量</text>
       </view>
-      <view class="item {{sort_key == '5' ? 'active' : ''}}" bindtap="bindSorderTap" id="5">
+      <view class="item {{sort_key == 5 ? 'active' : ''}}" bindtap="bindSorderTap" data-id="5">
         <text class="txt">新品</text>
       </view>
-      <view class="item by-price {{sort_key == '1' ? 'active' : ''}} {{sort_value == '1'  ? 'asc' : 'desc'}}" bindtap="bindSorderTap" id="1">
+      <view class="item by-price {{sort_key == 1 ? 'active' : ''}} {{sort_value == 1  ? 'asc' : 'desc'}}" bindtap="bindSorderTap" data-id="1">
         <text class="txt">价格</text>
       </view>
     </view>
   </view>
-  <view class="goods-section">
+  <view class="goods-section" wx:if="{{products.length > 0}}">
     <view class="b">
       <navigator url="../detail/detail?id={{item.id}}" class="item" wx:for="{{products}}" wx:key="{{item.id}}">
         <image src="{{item.default_photo.thumb}}" class="thumb"></image>
@@ -25,7 +25,7 @@
       </navigator>
     </view>
   </view>
-  <view class="list-empty" wx:if="{{requestLoading === false && products.length <= 0}}">
+  <view class="list-empty" wx:if="{{products.length <= 0}}">
     <image class="icon" src="/images/icon_goods.png"></image>
     <text class="msg">找到不商品</text>
   </view>

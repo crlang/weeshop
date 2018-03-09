@@ -1,5 +1,5 @@
 // page.js
-const util = require('../../../../utils/util.js');
+import util from '../../../../utils/util.js';
 
 Page({
   /**
@@ -11,7 +11,7 @@ Page({
     comments: [],
     paged: {
       page: 1,
-      size: 4
+      size: 10
     },
   },
 
@@ -39,7 +39,6 @@ Page({
       per_page: self.data.paged.size,
       product: self.data.product
     }).then(function (res) {
-      console.log('c',res)
       for (let i in res.reviews) {
         res.reviews[i].created_at = util.formatTime(res.reviews[i].created_at);
         res.reviews[i].updated_at = util.formatTime(res.reviews[i].updated_at);
@@ -70,23 +69,20 @@ Page({
       grade: grade
     });
     // 导航栏标题
-    let title = '';
+    let commentsTitle = '';
     switch(grade) {
-      case "0":
-        title = "全部";
-        break;
       case "1":
-        title = "好评";
+        commentsTitle = util.pageTitle.commentsM.s1;
         break;
       case "2":
-        title = "中评";
+        commentsTitle = util.pageTitle.commentsM.s2;
         break;
       case "3":
-        title = "差评";
+        commentsTitle = util.pageTitle.commentsM.s3;
         break;
     }
     wx.setNavigationBarTitle({
-      title: title
+      title: commentsTitle
     });
     this.getGoodsComment();
   },

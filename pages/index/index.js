@@ -1,5 +1,5 @@
 // index.js
-const util = require('../../utils/util.js');
+import util from '../../utils/util.js';
 
 //获取应用实例
 var app = getApp();
@@ -20,26 +20,26 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
+    wx.showLoading({
+      title: '加载中...'
+    });
     this.getShopSiteInfo();
     this.getBanner();
     this.getNotices();
     this.getPorducts();
+    wx.hideLoading();
   },
 
   // 站点信息
   // ecapi.site.get
   getShopSiteInfo() {
-    wx.showLoading({
-      title: '加载中...'
-    });
     let self = this;
-    util.request(util.apiUrl + 'ecapi.site.get', 'POST').then(function(res) {
+    util.request(util.apiUrl + 'ecapi.site.get', 'POST').then(res => {
       // ...
-    }).catch(function(err){
+    }).catch(err =>{
       if(err.site_info == undefined) {
         util.showToast('数据加载出错！','error',2500);
       }else{
-        console.log('sterr',err)
         self.setData({
           siteInfo: err.site_info
         });
@@ -48,7 +48,6 @@ Page({
         title: self.data.siteInfo.name || util.pageTitle.home
       });
     });
-    wx.hideLoading();
   },
 
   // 移动端 Banner
@@ -66,7 +65,7 @@ Page({
   getNotices() {
     util.request(util.apiUrl + 'ecapi.notice.list', 'POST', {
       page: 1,
-      per_page: 5
+      per_page: 10
     }).then(res => {
       this.setData({
         notices: res.notices
@@ -77,12 +76,12 @@ Page({
   // 公告内容
   // notice.id
   bindOnNotice(event) {
-    util.request(util.apiUrl +"notice."+ event.currentTarget.dataset.id, 'GET').then(res => {
-      console.log(res);
+    util.request(util.apiUrl +"notice."+ event.currentTarget.dataset.id).then(res => {
+      // ...
     }).catch( err => {
       let content = err.match(/<p class="lead">([\s\S]*?)<\/p>/)[1];
       wx.showModal({
-        title: util.pageTitle.noticesDetail,
+        title: "公告详情",
         content: content,
         showCancel: false
       });

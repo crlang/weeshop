@@ -2,13 +2,25 @@
 <view class="container">
   <view class="login">
     <form bindsubmit="login">
-      <input class="input-item" bindinput="bindUsernameInput" placeholder="请输入用户名/邮箱" />
-      <input class="input-item" type="password" bindinput="bindPasswordInput" placeholder="请输入密码" />
+      <input class="input-item" name="username" placeholder="请输入用户名/邮箱" />
+      <input class="input-item" name="password" type="password" placeholder="请输入密码" />
       <button class="btn-item" formType="submit">登录</button>
       <view class="link-item">
         <navigator url="../forget/forget" class="l">忘记密码了？</navigator>
         <navigator url="../register/register" class="r">新用户注册</navigator>
       </view>
     </form>
+    <view class="signin-social" ng-if = "isWeixin()" >
+      <view class="social-header">
+        <view class="header-line"></view>
+        <view class="header-label">第三方登录</view>
+      </view>
+      <navigator class="social-itemset" url="../../wechat/auth/auth">
+        <view class="itemset-item" >
+          <image class="item-icon" src="/images/wechat.png"></image>
+          <view class="item-text">微信</view>
+        </view>
+      </navigator>
+    </view>
   </view>
 </view>

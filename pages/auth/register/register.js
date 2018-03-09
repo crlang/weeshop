@@ -1,5 +1,5 @@
 // register.js
-const util = require('../../../utils/util.js');
+import util from '../../../utils/util.js';
 
 Page({
   /**
@@ -21,48 +21,32 @@ Page({
     });
   },
 
-  // 绑定输入
-  bindUsernameInput: function (e) {
-    this.setData({
-      username: e.detail.value
-    });
-  },bindEmailInput: function (e) {
-    this.setData({
-      email: e.detail.value
-    });
-  },bindPasswordInput: function (e) {
-    this.setData({
-      password: e.detail.value
-    });
-  },bindRepasswordInput: function (e) {
-    this.setData({
-      repassword: e.detail.value
-    });
-  },
-
   // 注册
   // ecapi.auth.default.signup
-  register() {
-    let self = this;
-    if(this.data.username.length <=0) {
-      util.showToast('请输入用户名','none');
+  register(event) {
+    let self = this,
+        eValue = event.detail.value;
+    if(eValue.username.length <=0) {
+      util.showToast('请输入用户名');
       return false;
     }
-    if(this.data.email.length <= 0) {
-      util.showToast('请输入邮箱','none');
+    if(eValue.email.length <= 0) {
+      util.showToast('请输入邮箱');
       return false;
     }
-    if(this.data.password.length <= 0 || this.data.repassword.length <= 0) {
-      util.showToast('请输入密码','none');
+    if(eValue.password.length < 6) {
+      util.showToast('密码不能少于 6 个字符');
       return false;
-    }else if(this.data.password != this.data.repassword){
-      util.showToast('密码不一致','none');
-      return false;
+    }else{
+        if(eValue.password !== eValue.repassword){
+          util.showToast('两次密码不一致');
+          return false;
+      }
     }
     util.request(util.apiUrl + 'ecapi.auth.default.signup', 'POST',{
-      username: this.data.username,
-      password: this.data.password,
-      email: this.data.email
+      username: eValue.username,
+      password: eValue.password,
+      email: eValue.email
     }).then(res => {
       wx.showModal({
         title: '注册成功',
@@ -72,8 +56,8 @@ Page({
             // 登录
             // ecapi.auth.signin
             util.request(util.apiUrl + 'ecapi.auth.signin', 'POST', {
-              username: self.data.username,
-              password: self.data.password
+              username: eValue.username,
+              password: eValue.password
             }).then(res => {
               self.setData({
                 token: res.token,
@@ -89,7 +73,7 @@ Page({
               }, 900);
             });
           }else if(res.cancel) {
-            util.showToast('请登录后查看！','none');
+            util.showToast('请登录后查看！');
             setTimeout(function(){
               wx.switchTab({
                 url: '/pages/index/index',
@@ -99,7 +83,7 @@ Page({
         }
       });
     }).catch(err => {
-      util.showToast(err.error_desc,'none',600);
+      util.showToast(err.error_desc);
     });
   },
 

@@ -1,15 +1,15 @@
 // page.js
-const util = require('../../../../utils/util.js');
+import util from '../../../../utils/util.js';
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    withdrawsList: '',
+    withdrawsList: [],
     paged: {
       page: 1,
-      size: 4
+      size: 10
     },
     loadMore: true
   },
@@ -56,14 +56,8 @@ Page({
       page: self.data.paged.page,
       per_page: self.data.paged.size
     }).then(res => {
-      console.log(res);
       for (let i in res.withdraws) {
         res.withdraws[i].create_at = util.formatTime(res.withdraws[i].create_at);
-      }
-      if (res.paged.more > 0) {
-        self.setData({ loadMore:true });
-      }else{
-        self.setData({ loadMore:false });
       }
       if (self.data.loadMore) {
         self.data.withdrawsList = self.data.withdrawsList.concat(res.withdraws);
@@ -71,13 +65,17 @@ Page({
         self.data.withdrawsList = res.withdraws;
       }
       let newWithdraw = self.data.withdrawsList;
-      console.log('nw',newWithdraw)
       self.setData({
         withdrawsList: newWithdraw,
         paged: res.paged
       });
-    }).catch(err =>{
-      console.log('withdraw err',err);
+      if (res.paged.more > 0) {
+        self.setData({ loadMore:true });
+      }else{
+        self.setData({ loadMore:false });
+      }
+    }).catch(err => {
+        util.notLogin(err);
     });
   },
 

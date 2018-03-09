@@ -51,3 +51,90 @@ page, .container{
 .login .link-item .r{
   float: right;
 }
+
+.signin-social {
+    display: block;
+    margin: 0 8px;
+    margin-top: 88px;
+    box-sizing: border-box;
+    border: none;
+    overflow: hidden;
+    text-align: center;
+}
+
+.signin-social .social-header {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    border: none;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+    height: 34px;
+}
+
+.signin-social .social-header .header-line {
+    position: absolute;
+    left: 5%;
+    top: 16px;
+    width: 90%;
+    height: 1px;
+    border-bottom: #dedede 1px solid;
+}
+
+.signin-social .social-header .header-label {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 100px;
+    height: 34px;
+    line-height: 34px;
+    margin-left: -50px;
+    background-color: #f6f6f6;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+}
+
+.signin-social .social-itemset {
+    margin-top: 44px;
+    display: block;
+    box-sizing: border-box;
+    border: none;
+    overflow: hidden;
+    text-align: center;
+}
+
+.signin-social .social-itemset .itemset-item {
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 64px;
+    box-sizing: border-box;
+    border: none;
+    overflow: hidden;
+}
+
+.signin-social .social-itemset .itemset-item .item-icon {
+    display: block;
+    width: 64px;
+    height: 64px;
+    box-sizing: border-box;
+    border: none;
+    overflow: hidden;
+}
+
+.signin-social .social-itemset .itemset-item .item-text {
+    display: block;
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    box-sizing: border-box;
+    border: none;
+    overflow: hidden;
+    color: #404245;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+}

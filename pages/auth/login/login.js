@@ -1,5 +1,5 @@
 // login.js
-const util = require('../../../utils/util.js');
+import util from '../../../utils/util.js';
 
 Page({
   /**
@@ -19,43 +19,30 @@ Page({
     });
   },
 
-  // 绑定输入
-  bindUsernameInput(e) {
-    this.setData({
-      username: e.detail.value
-    });
-  },bindPasswordInput(e) {
-    this.setData({
-      password: e.detail.value
-    });
-  },
-
   // 登录
   // ecapi.auth.signin
-  login() {
+  login(event) {
     let self = this;
-    if(this.data.username.length <=0) {
-      util.showToast('请输入用户名','error');
+    if(event.detail.value.username.length <=0) {
+      util.showToast('用户名不能为空','none');
       return false;
     }
-    if(this.data.password.length <= 0) {
-      util.showToast('请输入密码','error');
+    if(event.detail.value.password.length < 6) {
+      util.showToast('密码不能少于 6 个字符','none');
       return false;
     }
     util.request(util.apiUrl + 'ecapi.auth.signin', 'POST', {
-      username: this.data.username,
-      password: this.data.password
+      username: event.detail.value.username,
+      password: event.detail.value.password
     }).then(res => {
-      if(res != undefined) {
-        this.setData({
-          token: res.token,
-          user: res.user
-        });
-        wx.setStorageSync('token', res.token);
-        wx.setStorageSync('user', res.user);
-        // 从哪来回哪去
-        wx.navigateBack();
-      }
+      self.setData({
+        token: res.token,
+        user: res.user
+      });
+      wx.setStorageSync('token', res.token);
+      wx.setStorageSync('user', res.user);
+      // 从哪来回哪去
+      wx.navigateBack();
     }).catch(err => {
       util.showToast(err.error_desc,'none');
     });

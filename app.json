@@ -4,6 +4,7 @@
     "pages/goods/list/list",
     "pages/goods/detail/detail",
     "pages/catalog/catalog",
+    "pages/search/search",
     "pages/shopping/cart/cart",
     "pages/shopping/checkout/checkout",
     "pages/shopping/payment/payment",
@@ -31,12 +32,14 @@
     "pages/wechat/auth/auth",
     "pages/wechat/pay/pay"
   ],
+
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fafafa",
     "navigationBarTitleText": "",
     "navigationBarTextStyle": "black"
   },
+
   "tabBar": {
     "color": "#2c2c2c",
     "selectedColor": "#d81e06",
@@ -69,5 +72,6 @@
       }
     ]
   },
+
   "debug": false
 }

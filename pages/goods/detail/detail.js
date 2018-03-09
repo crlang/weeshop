@@ -30,7 +30,7 @@ Page({
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
     wx.setNavigationBarTitle({
-      title: util.pageTitle.goodsDetail
+      title: util.pageTitle.goodsM.detail
     });
     this.setData({
       id: parseInt(options.id)
@@ -197,11 +197,9 @@ Page({
   },
 
   // 购物车更新
-  getCartCount(amoutAdd) {
+  getCartCount() {
     var self = this;
-    // console.log("getCartCount that"+that);
-    util.request(util.apiUrl + 'ecapi.cart.get', 'POST').then(function (res) {
-      console.log("cart",res);
+    util.request(util.apiUrl + 'ecapi.cart.get', 'POST').then(res => {
       let cartTotal = 0;
       if (res.goods_groups.length !== 0) {
         cartTotal = res.goods_groups[0].total_amount;

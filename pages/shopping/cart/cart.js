@@ -1,5 +1,5 @@
 // cart.js
-const util = require('../../../utils/util.js');
+import util from '../../../utils/util.js';
 
 Page({
   /**
@@ -26,13 +26,12 @@ Page({
     });
   },
 
+  // 删除商品
+  // ecapi.cart.delete
   onDeleteGoods(event) {
-    let itemIndex = event.target.dataset.itemIndex;
-    //ecapi.cart.delete
-    let goods = this.data.cartGoods[itemIndex];
-    console.log(goods)
-
-    let that = this;
+    let itemIndex = event.target.dataset.itemIndex,
+        goods = this.data.cartGoods[itemIndex],
+        self = this;
     wx.showModal({
       title: '提示',
       content: '是否要删除选择中商品？',
@@ -40,19 +39,20 @@ Page({
         if (res.confirm) {
           util.request(util.apiUrl + 'ecapi.cart.delete', 'POST', {
             good: goods.id
-          }).then((res) => {
+          }).then(res => {
             util.showToast('商品已删除', 'success');
-            that.getCartList();
+            self.getCartList();
             util.updateCartNum();
           })
         }
       }
     })
-
   },
+
+  // 获取购物车列表
+  // ecapi.cart.get
   getCartList: function () {
-    util.request(util.apiUrl + 'ecapi.cart.get', 'POST').then((res) => {
-      console.log('carlist',res)
+    util.request(util.apiUrl + 'ecapi.cart.get', 'POST').then(res => {
       if (res.goods_groups.length >= 1) {
         let cartGoodsInfo = res.goods_groups[0];
         let goodsList = cartGoodsInfo.goods.map(item => {
@@ -75,11 +75,13 @@ Page({
         checkedAllStatus: this.isCheckedAll(),
         requestLoading: false
       });
-    }).catch( res => {
-      console.log("cat",res);
+    }).catch(err => {
+      util.notLogin(err);
     });
     util.updateCartNum();
   },
+
+  // 选择检查
   isCheckedAll: function () {
     //判断购物车商品已全选
     return this.data.cartGoods.every(function (element, index, array) {
@@ -90,6 +92,8 @@ Page({
       }
     });
   },
+
+  // 检查数量
   getCheckedGoodsCount: function () {
     let checkedGoodsCount = 0;
     this.data.cartGoods.forEach(function (v) {
@@ -97,9 +101,10 @@ Page({
         checkedGoodsCount += v.amount;
       }
     });
-    console.log(checkedGoodsCount);
     return checkedGoodsCount;
   },
+
+  // 检查价格
   getCheckedGoodsAmount: function () {
     let checkedGoodsCount = 0;
     this.data.cartGoods.forEach(function (v) {
@@ -107,92 +112,73 @@ Page({
         checkedGoodsCount += v.price * v.amount;
       }
     });
-    console.log(checkedGoodsCount);
     return checkedGoodsCount;
   },
-  checkedItem: function (event) {
-    let itemIndex = event.target.dataset.itemIndex;
-    let that = this;
 
-    //编辑状态
-    let tmpCartData = this.data.cartGoods.map(function (element, index, array) {
+  // 检查当前项
+  checkedItem: function (event) {
+    let itemIndex = event.target.dataset.itemIndex,
+        self = this,
+        tmpCartData = self.data.cartGoods.map(function (element, index, array) {
       if (index == itemIndex) {
         element.checked = !element.checked;
       }
       return element;
     });
 
-    that.setData({
+    self.setData({
       cartGoods: tmpCartData,
-      checkedAllStatus: that.isCheckedAll(),
-      'cartTotal.checkedGoodsCount': that.getCheckedGoodsCount(),
-      'cartTotal.checkedGoodsAmount': that.getCheckedGoodsAmount()
+      checkedAllStatus: self.isCheckedAll(),
+      'cartTotal.checkedGoodsCount': self.getCheckedGoodsCount(),
+      'cartTotal.checkedGoodsAmount': self.getCheckedGoodsAmount()
     });
   },
+
+  // 检查全部项
   checkedAll: function () {
-    let that = this;
+    let self = this;
+        isCheckedAll = self.isCheckedAll();
+        tmpCartData = self.data.cartGoods.map(function (element, index, array) {
+          element.checked = !isCheckedAll;
+          return element;
+        });
 
-    let isCheckedAll = that.isCheckedAll();
-
-    let tmpCartData = this.data.cartGoods.map(function (element, index, array) {
-      element.checked = !isCheckedAll;
-      return element;
-    });
-
-    that.setData({
+    self.setData({
       cartGoods: tmpCartData,
       checkedAllStatus: !isCheckedAll,
-      'cartTotal.checkedGoodsCount': that.getCheckedGoodsCount(),
-      'cartTotal.checkedGoodsAmount': that.getCheckedGoodsAmount()
+      'cartTotal.checkedGoodsCount': self.getCheckedGoodsCount(),
+      'cartTotal.checkedGoodsAmount': self.getCheckedGoodsAmount()
     });
-
   },
+
+  // 更新购物车
+  // ecapi.cart.update
   updateNumber(good, amount) {
-    let that = this;
+    let self = this;
     util.request(util.apiUrl + 'ecapi.cart.update', 'POST', {
       amount: amount,
       good: good
     }).then((res) => {
       if (res.error_code === 0) {
-        that.getCartList();
+        self.getCartList();
         util.updateCartNum();
       }
     });
   },
-  updateCart: function (productId, goodsId, amount, id) {
-    let that = this;
 
-    util.request(api.CartUpdate, {
-      productId: productId,
-      goodsId: goodsId,
-      amount: amount,
-      id: id
-    }, 'POST').then(function (res) {
-      if (res.errno === 0) {
-        console.log(res.data);
-        that.setData({
-          //cartGoods: res.data.cartList,
-          //cartTotal: res.data.cartTotal
-        });
-      }
-
-      that.setData({
-        checkedAllStatus: that.isCheckedAll()
-      });
-    });
-
-  },
+  // 数量增减
   cutNumber: function (event) {
-
-    let itemIndex = event.target.dataset.itemIndex;
-    let cartItem = this.data.cartGoods[itemIndex];
-    let amount = (cartItem.amount - 1 > 1) ? cartItem.amount - 1 : 1;
-    cartItem.amount = amount;
+    let itemIndex = event.target.dataset.itemIndex,
+        cartItem = this.data.cartGoods[itemIndex],
+        amount = (cartItem.amount - 1 > 1) ? cartItem.amount - 1 : 1;
+        cartItem.amount = amount;
     this.setData({
       cartGoods: this.data.cartGoods
     });
     this.updateNumber(cartItem.id, amount);
   },
+
+  // 数量增减
   addNumber: function (event) {
     let itemIndex = event.target.dataset.itemIndex;
     let cartItem = this.data.cartGoods[itemIndex];
@@ -203,10 +189,10 @@ Page({
     });
     this.updateNumber(cartItem.id, amount);
   },
+
+  // 提交检查订单
   checkoutOrder: function () {
     //获取已选择的商品
-    let that = this;
-
     var checkedGoods = this.data.cartGoods.filter(function (element, index, array) {
       if (element.checked == true) {
         return true;
@@ -214,17 +200,14 @@ Page({
         return false;
       }
     });
-
     if (checkedGoods.length <= 0) {
       return false;
     }
-
     let order_product = [],
         cart_good_id = [],
         goods_info = [];
-    console.log(checkedGoods);
     for(let i in checkedGoods) {
-      // 订单
+      // 订单信息
       order_product.push(
         '{"goods_id":' + checkedGoods[i].goods_id + ',"property":[' + checkedGoods[i].attrs + '],"num":' + checkedGoods[i].amount + '}');
       // 商品 id

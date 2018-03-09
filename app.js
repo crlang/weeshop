@@ -1,4 +1,7 @@
-//app.js
+// app.js
+const util = require('./utils/util.js');
+var openid = '',session_key = '',loginCode = '';
+
 App({
   onLaunch: function() {
     //调用API从本地缓存中获取数据
@@ -24,14 +27,14 @@ App({
   },
 
   getSystemInfo: function(cb){
-      var that = this;
-    if(that.globalData.systemInfo){
-      typeof cb == "function" && cb(that.globalData.systemInfo);
+      var self = this;
+    if(self.globalData.systemInfo){
+      typeof cb == "function" && cb(self.globalData.systemInfo);
     }else{
       wx.getSystemInfo({
         success: function(res) {
-          that.globalData.systemInfo = res;
-          typeof cb == "function" && cb(that.globalData.systemInfo);
+          self.globalData.systemInfo = res;
+          typeof cb == "function" && cb(self.globalData.systemInfo);
         }
       })
     }

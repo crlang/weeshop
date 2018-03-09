@@ -41,17 +41,17 @@ page, .container{
 }
 
 .sort-box .item.by-price{
-    background: url(//yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/no-3127092a69.png) 155rpx center no-repeat;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABjklEQVQ4y91UPSyDURQ99722oZUY/MQiiETip3RorQaDQSIG5AuRkm6WJkZdGLoSqUQiaRoMKgxWJmI1tPozsBCJGCyS/qRf8941IFE+TRmd8eTc++65J/cBVTCzFPTNLAV91TRkRRqLAQnNfmWqAABIh4xC0G48FlVftfLbq7P+Vq30Cis2ANgA2Fixj5XuGHB7UplUMv9jgylj3kugNQDDFoN1E5Gvt999n01fP1ZYCIVC4uHp2cjlCgEpRGM1z0rrl4YGZ7S9rTkeDoc1+RcWmoomgpp5jCwsWYEBJYhO6x3YtBXK5CHwvSCKAtC1NCBAAFCFMnlq0f930PTc4igxd+ItgZqWiPclMtGdzWnnRNHEyF9idNr5RCYTieLkxPhFsWTmSyWzTxDVVStWWr+4XPXbXe1tW5FIpFBxTFPGvFcIuczMPZZ+gRvNev04vn/1wVWMnE1fP/a7hy5BaAHQ/aX6jAirRwd7t5/pb54zqWR+0Os9F4LKrHgQgJIOuSPscuNwP5b7VUS1fCivwQCYIzNw4XsAAAAASUVORK5CYII=) 155rpx center no-repeat;
     background-size: 15rpx 21rpx;
 }
 
 .sort-box .item.by-price.active.asc{
-    background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/up-636b92c0a5.png) 155rpx center no-repeat;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABYklEQVQ4y92SPyxDURTGf/e+tmi3m0gsEiIMBB1qFIPBIBEDDRGDCE26VGw2mw1JJfKISFSCMFgZpNLVUH8HFpOxiYQ2Le9dgydRbZ9afdPNud/vnPPlXnCRqVTQVCro5pEu8CyQBJLOuaxEGdAHrAIzgMcpvwObwFwkkylUbGAq1QpsAb0VBqaA6Ugm81ASwVRqBDhzgXHuzhzv5wamUjXAEhAB/FSnLGACCx5gHPABu4CusoFwmPEq/f9aYnRiql9o3QQYgF0lJwFLC/Ho8Xt1Olegz9Z6QHw2+VUaLCnEid+rj43LdDo3PDR4nssXXvP5QrsUotYNtmz7ORCoW29ubFiLx+PZoq88MjYZktKY11q3lc0L97a2l4/2ExdftaKV726unjo6u1MI6oGWH/SpECwe7u08fC+XZL69vnztCoWSUoo3bekuwDJ8xob0GisHie2XPz1ROBrrCUdjPW6eD9VvaiaJUmGJAAAAAElFTkSuQmCC) 155rpx center no-repeat;
     background-size: 15rpx 21rpx;
 }
 
 .sort-box .item.by-price.active.desc{
-    background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/down-95e035f3e5.png) 155rpx center no-repeat;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABY0lEQVQ4y92TO0sDQRSFv7sbBUNAWEUsFAuxEB9sYezsAv4BCUGQJAQMpAk2FqaySGMjVhJhESst/APWtjY+G6ugiIUsCDFCkpmxSSSah1t7ujn3nDPnDgz0QTyXj8Zz+Wg/jXQjE+mMjTZJVVMZAHvQ9rDk5OzYU7+1dset68kxrfSOUSYBhICQUSZqlJ6aX3Bv72+vP3oGrCU2lgTZBZa7FJsWkejs3EL54e7m5ccKhULBenp9S1Qq1YxtWcP9dlZav0ciYW9yfPSsWCxqSaZSI5818tqYVemyUjcYUJbIxdAgB6FqXVzBlC0RD9BBAgQsQFXr4gbR/3dIyXFSwBIwAJigPqAOXIWAU2ARSAPhgAFVoAScfv+FkuOsAfvAxB/mZ2Ar6/vnrSq0hcwAHrDSw3wJZLK+/9girPZpcxADDoFG26jR5GLt5o4Gv9psAnvN43bW948Cvs+PELfkOG4/zRfgPW9IqEXwNQAAAABJRU5ErkJggg==) 155rpx center no-repeat;
     background-size: 15rpx 21rpx;
 }
 

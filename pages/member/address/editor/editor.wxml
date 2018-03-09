@@ -17,18 +17,31 @@
         <view class="form-item-hd">地区：</view>
         <view class="form-item-bd" bindtap="showDistpicker">
           <view class="input {{!provinceName[provinceSelIndex] ? 'input-placeholder' : ''}}">
-            <block wx:if="{{provinceSelIndex > 0}}">{{provinceName[provinceSelIndex]}} {{cityName[citySelIndex]}} {{districtName[districtSelIndex]}}</block>
-            <block wx:elif="{{consignees.regions.length > 0}}">{{consignees.regions[1].name}} {{consignees.regions[2].name}} {{consignees.regions[3].name}}</block>
-            <block wx:else>请选择所在地区</block>
+            <block wx:if="{{consignees.regions.length > 0}}">
+              <block wx:if="{{provinceSelIndex != '-1'}}">
+                {{provinceName[provinceSelIndex]}} {{cityName[citySelIndex]}} {{districtName[districtSelIndex]}}
+              </block>
+              <block wx:else>
+                {{consignees.regions[1].name}} {{consignees.regions[2].name}} {{consignees.regions[3].name}}
+              </block>
+            </block>
+            <block wx:else>
+              <block wx:if="{{provinceSelIndex >= 0}}">
+                {{provinceName[provinceSelIndex]}} {{cityName[citySelIndex]}} {{districtName[districtSelIndex]}}
+              </block>
+              <block wx:else>
+                请输入所在地区
+              </block>
+            </block>
           </view>
           <input type="text" name="province" value="{{provinceName[provinceSelIndex]}}" class="hidden"/>
           <input type="text" name="city" value="{{cityName[citySelIndex]}}" class="hidden"/>
           <input type="text" name="district" value="{{districtName[districtSelIndex]}}" class="hidden"/>
-          <block wx:if="{{provinceSelIndex > 0}}">
-            <input type="text" name="region" bindinput="bindRegionInput" value="{{districtID[districtSelIndex]}}"  class="hidden"/>
+          <block wx:if="{{consignees.regions[3].id > 0}}">
+            <input type="text" name="region" bindinput="bindRegionInput" value="{{consignees.regions[3].id}}" class="hidden"/>
           </block>
           <block wx:else>
-            <input type="text" name="region" bindinput="bindRegionInput" value="{{consignees.regions[3].id}}" class="hidden"/>
+            <input type="text" name="region" bindinput="bindRegionInput" value="{{districtID[districtSelIndex]}}"  class="hidden"/>
           </block>
         </view>
       </view>

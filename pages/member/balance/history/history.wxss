@@ -65,7 +65,7 @@ page, .container{
 .balance-list .list-item .item-info {
     position: relative;
     display: block;
-    height: 90px;
+    padding-bottom: 16px;
 }
 
 .balance-list .list-item .item-info .info-name {
@@ -81,9 +81,6 @@ page, .container{
     text-align: left;
     line-height: 22px;
     box-sizing: border-box;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
 }
 
 
@@ -130,7 +127,6 @@ page, .container{
 
 .balance-list .list-item .item-info .info-memo {
     display: block;
-    height: 22px;
     padding-left: 14px;
     margin-top: 10px;
     box-sizing: border-box;
@@ -140,8 +136,6 @@ page, .container{
     font-weight: normal;
     text-align: left;
     line-height: 22px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 .balance-list .list-item .item-info .info_header {

@@ -1,5 +1,5 @@
 // page.js
-const util = require('../../../utils/util.js');
+import util from '../../../utils/util.js';
 
 Page({
   /**
@@ -11,7 +11,8 @@ Page({
     paged: {
       page: 1,
       size: 10
-    }
+    },
+    loadMore: true
   },
 
   /**
@@ -56,8 +57,8 @@ Page({
       }else{
         self.setData({ loadMore:false });
       }
-    }).catch( err => {
-      console.log('bonus err',err);
+    }).catch(err => {
+        util.notLogin(err);
     });
     wx.hideLoading();
   },
@@ -74,13 +75,13 @@ Page({
     let bonusTitle = '';
     switch(status) {
       case "0":
-        bonusTitle = "未过期";
+        bonusTitle = util.pageTitle.bonusM.s1;
         break;
       case "1":
-        bonusTitle = "已过期";
+        bonusTitle = util.pageTitle.bonusM.s2;
         break;
       case "2":
-        bonusTitle = "已使用";
+        bonusTitle = util.pageTitle.bonusM.s3;
         break;
     }
     wx.setNavigationBarTitle({

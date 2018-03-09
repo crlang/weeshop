@@ -1,5 +1,5 @@
-// page.js
-const util = require('../../../utils/util.js');
+// level.js
+import util from '../../../utils/util.js';
 
 Page({
   /**
@@ -25,8 +25,6 @@ Page({
   // 用户信息
   getLevelInfo() {
     var userInfo = wx.getStorageSync('user');
-    console.log('cuserxxinfo',userInfo);
-    var userInfo = wx.getStorageSync('user');
     this.getScore();
     let nextLevel = userInfo.rank.score_max;
     userInfo.joined_at = util.formatTime(userInfo.joined_at);
@@ -43,6 +41,8 @@ Page({
       this.setData({
         score: res.score
       })
+    }).catch(err => {
+      util.notLogin(err);
     });
   },
 

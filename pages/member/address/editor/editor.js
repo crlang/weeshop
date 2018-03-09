@@ -1,13 +1,14 @@
 // cart.js
-const util = require('../../../../utils/util.js');
+import util from '../../../../utils/util.js';
 let p = 0, c = 0, d = 0;
+
 Page({
   /**
    * 页面的初始数据
    */
   data: {
     consignees: [],
-    consignee: '',
+    consignee: null,
     address: '',
     name: '',
     region: '',
@@ -17,7 +18,7 @@ Page({
     zip_code: '',
     provinceName:[],
     provinceID: [],
-    provinceSelIndex: p,
+    provinceSelIndex: '-1',
     cityName: [],
     cityID: [],
     citySelIndex: '',
@@ -33,18 +34,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let addType = options.type || 'edit';
-    let n = '';
-    addType == 'add' ? n = util.pageTitle.addressAdd : n = util.pageTitle.addressEdit
+    let addType = options.type || 'edit',
+        consignee = options.id || null,
+        n = '';
+    addType == 'add' ? n = util.pageTitle.addressM.add : n = util.pageTitle.addressM.edit
     wx.setNavigationBarTitle({
       title: n
     });
-
     this.setData({
       type: addType
     });
     this.setAreaData();
-    let consignee = options.id || null;
     this.showAddress(consignee);
   },
 
@@ -58,7 +58,6 @@ Page({
         let soniglst = res.consignees;
         for(let i in soniglst) {
           if(consignee == soniglst[i].id) {
-            console.log(self.data.provinceName);
             self.setData({
               consignees: soniglst[i],
               consignee: consignee,
@@ -66,6 +65,8 @@ Page({
             });
           }
         }
+      }).catch(err => {
+        util.notLogin(err);
       });
     }
   },
@@ -74,37 +75,66 @@ Page({
   // ecapi.consignee.add
   // 地址更新
   // ecapi.consignee.update
-  editAddress(e) {
-    console.log(e.detail);
-    if (this.data.type === "add") {
+  editAddress(event) {
+    let self = this.data,
+        eventDA = event.detail.value;
+    if (eventDA.name.length <= 0) {
+      util.showToast('姓名不能为空');
+      return false;
+    }
+    if (eventDA.mobile.length <= 0) {
+      util.showToast('手机不能为空');
+      return false;
+    }
+    if (eventDA.region.length <= 0) {
+      util.showToast('地区不能为空');
+      return false;
+    }
+    if (eventDA.address.length <= 0) {
+      util.showToast('详细地址不能为空');
+      return false;
+    }
+    if (self.type === "add") {
       util.request(util.apiUrl + 'ecapi.consignee.add', 'POST',{
-        name: e.detail.value.name,
-        region: e.detail.value.region,
-        address: e.detail.value.address,
-        zip_code: e.detail.value.zip_code,
-        tel: e.detail.value.mobile,
-        mobile: e.detail.value.mobile,
-        is_default: e.detail.value.default
+        name: eventDA.name,
+        region: eventDA.region,
+        address: eventDA.address,
+        zip_code: eventDA.zip_code,
+        tel: eventDA.mobile,
+        mobile: eventDA.mobile,
+        is_default: eventDA.default
       }).then(res => {
-        console.log(res);
+        util.showToast('成功新增地址！','success');
+        setTimeout(function(){
+          // 跳转
+          wx.navigateTo({
+            url: '../selector/selector',
+          });
+        },800);
       }).catch(err => {
-        util.showToast(err.error_desc,'none');
+        util.showToast(err.error_desc);
       });
     }else{
-      if (this.data.consignee != null) {
+      if (self.consignee !== null) {
         util.request(util.apiUrl + 'ecapi.consignee.update', 'POST',{
-          consignee: this.data.consignee,
-          name: e.detail.value.name,
-          region: e.detail.value.region,
-          address: e.detail.value.address,
-          zip_code: e.detail.value.zip_code,
-          tel: e.detail.value.mobile,
-          mobile: e.detail.value.mobile,
-          is_default: e.detail.value.default
+          consignee: self.consignee,
+          name: eventDA.name,
+          region: eventDA.region,
+          address: eventDA.address,
+          zip_code: eventDA.zip_code,
+          tel: eventDA.mobile,
+          mobile: eventDA.mobile,
+          is_default: eventDA.default
         }).then(res => {
-          console.log(res);
+          util.showToast('地址已更新！','success');
+          setTimeout(function(){
+            // 跳转
+            wx.navigateTo({
+              url: '../selector/selector',
+            });
+          },800);
         }).catch(err => {
-          util.showToast(err.error_desc,'none');
+          util.showToast(err.error_desc);
         });
       }
     }
@@ -113,7 +143,6 @@ Page({
   // 地址删除
   // ecapi.consignee.delete
   bindDelete() {
-    console.log('this',this.data)
     let self = this;
     wx.showModal({
       title: '确认删除',
@@ -123,17 +152,14 @@ Page({
           util.request(util.apiUrl + 'ecapi.consignee.delete', 'POST',{
             consignee: self.data.consignee
           }).then(res => {
-            util.showToast('删除成功','none');
-            console.log(res);
-          }).catch(err => {
-            console.log(err);
+            util.showToast('删除成功');
+            setTimeout(function(){
+              // 跳转
+              wx.navigateTo({
+                url: '../selector/selector',
+              });
+            },800);
           });
-          setTimeout(function(){
-            // 跳转
-            wx.navigateTo({
-              url: '../selector/selector',
-            });
-          },800);
         }
       }
     });
@@ -198,7 +224,6 @@ Page({
     c = e.detail.value[1];
     d = e.detail.value[2];
     this.setAreaData(p, c, d);
-    console.log(d)
   },
 
   // 区域调出
@@ -222,7 +247,6 @@ Page({
       citySelIndex: c,
       districtSelIndex: d
     });
-    console.log(p,c,d);
     this.distpickerCancel();
   },
 

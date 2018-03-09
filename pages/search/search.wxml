@@ -1,0 +1,14 @@
+<!-- catalog.wxml -->
+<view class="container">
+  <view class="search">
+    <view class="form">
+      <input class="input" placeholder="输入商品名称" bindinput="bindSearchInput" confirm-type="search" bindconfirm="bindSearchConfirm"/><image class="btn" src="/images/icon_search.png" bindtap="bindSearchTap"></image>
+    </view>
+  </view>
+  <view class="search-header">热门搜索</view>
+  <view class="keywords">
+    <view class="item" wx:for="{{hotKeywords}}" wx:key="{{item.id}}">
+      <navigator class="a" url="../goods/list/list?keyword={{item.content}}">{{item.content}}</navigator>
+    </view>
+  </view>
+</view>

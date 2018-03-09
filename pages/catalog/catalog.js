@@ -1,12 +1,11 @@
 // catalog.js
-const util = require('../../utils/util.js');
+import util from '../../utils/util.js';
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    keyword: '',
     categories: []
   },
 
@@ -20,26 +19,9 @@ Page({
     this.getCategories();
   },
 
-  // 回车
-  bindKeywordConfirm(e){
-    this.setData({
-      keyword: e.detail.value
-    });
-
-    this.bindSearchTap();
-  },
-
-  // 绑定输入
-  bindKeywordInput(e){
-    this.setData({
-      keyword: e.detail.value
-    });
-  },
-
-  // 商品搜索
-  bindSearchTap(){
+  goSearch() {
     wx.navigateTo({
-      url: '../goods/list/list?keyword='+ this.data.keyword
+      url: "../search/search"
     });
   },
 

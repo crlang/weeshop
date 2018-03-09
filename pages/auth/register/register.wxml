@@ -2,12 +2,12 @@
 <view class="container">
   <view class="register">
     <form bindsubmit="register">
-      <input class="input-item" bindinput="bindUsernameInput" placeholder="Name" />
+      <input class="input-item" name="username" placeholder="Name" />
       <text class="t">请输入用户名</text>
-      <input class="input-item" bindinput="bindEmailInput" placeholder="E-mail" />
+      <input class="input-item" name="email" placeholder="E-mail" />
       <text class="t">请输入邮箱</text>
-      <input class="input-item" type="password" bindinput="bindPasswordInput" placeholder="Password" />
-      <input class="input-item" type="password" bindinput="bindRepasswordInput" placeholder="Repassword" />
+      <input class="input-item" type="password" name="password" placeholder="Password" />
+      <input class="input-item" type="password" name="repassword" placeholder="Repassword" />
       <text class="t">请输入密码</text>
       <button class="btn-item" formType="submit">注册</button>
     </form>

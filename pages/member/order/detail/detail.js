@@ -1,5 +1,5 @@
 // detail.js
-const util = require('../../../../utils/util.js');
+import util from '../../../../utils/util.js';
 
 Page({
   /**
@@ -16,7 +16,7 @@ Page({
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
     wx.setNavigationBarTitle({
-      title: util.pageTitle.orderDetail
+      title: util.pageTitle.orderM.detail
     });
     this.setData({
       orderID: parseInt(options.id)
@@ -94,21 +94,27 @@ Page({
           }
         }
       });
+    }).catch(err => {
+        util.notLogin(err);
     });
   },
 
+  // 跳转评论
   bindComment() {
     wx.navigateTo({
       url: '../../comment/add/add?order=' + this.data.orderID
     });
   },
 
+  // 跳转付款
   bindPay() {
     wx.navigateTo({
       url: '../../../shopping/payment/payment?order=' + this.data.orderID
     });
   },
 
+  // 获取订单信息
+  // ecapi.order.get
   getOrderInfo() {
     wx.showLoading({
       title: '加载中...',
@@ -116,14 +122,12 @@ Page({
     util.request(util.apiUrl + 'ecapi.order.get', 'POST',{
       order: this.data.orderID
     }).then((res) => {
-      console.log(res);
-      // canceled_at 取消时间、created_at 创建时间、finish_at 完成时间、paied_at 支付时间、shipping_at 发货时间、updated_at 更新时间
-      let canceled_at = null,
-          created_at = null,
-          finish_at = null,
-          paied_at = null,
-          shipping_at = null,
-          updated_at = null;
+      let canceled_at = null,// 取消时间
+          created_at = null,// 创建时间
+          finish_at = null,// 完成时间
+          paied_at = null,// 支付时间
+          shipping_at = null,// 发货时间
+          updated_at = null;// 更新时间
       if (res.order.canceled_at !== null) {
         canceled_at = util.formatTime(res.order.canceled_at);
       }else if (res.order.created_at !== null) {
@@ -146,8 +150,8 @@ Page({
         "order.shipping_at": shipping_at,
         "order.updated_at": updated_at
       });
-    wx.hideLoading();
     });
+    wx.hideLoading();
   },
 
   /**

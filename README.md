@@ -27,25 +27,22 @@ ECShop 微信小程序商城，基于3.6版本 appserver 接口，100% 兼容原
 + [ ] 文章：文章列表、文章详情、自动加载列表
 + [ ] 密码：修改密码
 + [ ] 分成：推荐记录、分成规则、推荐规则
-+ [ ] 微信：微信登陆、微信支付
++ [ ] 微信：v微信登陆、微信支付
 + [ ] 其它功能正在开发中...
 
 # 预览 Previews
 
 ![首页](./images/ScreenShot01.png)
-
 ![列表](./images/ScreenShot02.png)
 
 ![购物](./images/ScreenShot03.png)
-
 ![我的](./images/ScreenShot04.png)
 
 ![列表](./images/ScreenShot05.png)
-
 ![支付](./images/ScreenShot06.png)
 
 ## 进度 progress
-目前已经完善基本商城购物流程，可余额支付。
+目前已经完善基本商城购物流程，支持余额支付，支持微信登录。
 
 ## 反馈 Issues
 本人博客文章关联了该项目，如果有疑问，可通过文章评论功能提交你的疑问。

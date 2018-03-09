@@ -3,7 +3,7 @@ page, .container{
   height: 100%;
 }
 .address-list {
-    margin-top: 10px;
+    margin: 10px 0 66px 0;
     position: relative;
     display: block;
     width: 100%;

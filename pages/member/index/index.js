@@ -1,5 +1,5 @@
 // index.js
-const util = require('../../../utils/util.js');
+import util from '../../../utils/util.js';
 var app = getApp();
 
 Page({
@@ -9,17 +9,10 @@ Page({
   data: {
     user: {
       id: 0,
-      username: 'Hi 你好',
+      username: 'Hello',
       avatar: ''
     },
-    orderTotal: {
-      "created": 0,
-      "paid": 0,
-      "delivering": 0,
-      "deliveried": 0,
-      "finished": 0,
-      "cancelled": 0
-    }
+    orderTotal: {}
   },
 
   /**
@@ -47,7 +40,6 @@ Page({
   // ecapi.order.subtotal
   getOrderTotal() {
     util.request(util.apiUrl + 'ecapi.order.subtotal', 'POST').then(res => {
-      console.log('ortest',res);
       this.setData({
         orderTotal: res.subtotal,
       });
@@ -58,14 +50,11 @@ Page({
 
   // 个人信息
   bindUserTap() {
-    var that = this;
-    console.log("this info",this);
+    var self = this;
     var userInfo = wx.getStorageSync('user');
-    console.log('cuserinfo',userInfo);
     // 判断是否登陆
     if (userInfo.is_completed) {
       // 获取用户信息
-      console.log('token',userInfo);
       if (userInfo.avatar == null) {
         userInfo.avatar = "/images/default-avatar.png";
       }
@@ -76,37 +65,38 @@ Page({
           user.avatarUrl = photo;
           user.nickName = name;
           user.level = level;
-      that.setData({
+      self.setData({
         userInfo: user
       });
     } else {
       // 获取全局用户数据
       app.getUserInfo(userInfo => {
-        that.setData({
+        self.setData({
           userInfo: userInfo
         });
       });
     }
   },
 
+  // jump
   gOrderPay() {
     wx.navigateTo({
       url: '../order/list/list?status=0'
     });
   },
-
+  // jump
   gOrderShip() {
     wx.navigateTo({
       url: '../order/list/list?status=1'
     });
   },
-
+  // jump
   gOrderRece() {
     wx.navigateTo({
       url: '../order/list/list?status=2'
     });
   },
-
+  // jump
   gOrderComm() {
     wx.navigateTo({
       url: '../order/list/list?status=3'

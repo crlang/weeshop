@@ -1,5 +1,5 @@
-// page.js
-const util = require('../../../utils/util.js');
+// score.js
+import util from '../../../utils/util.js';
 
 Page({
   /**
@@ -34,6 +34,8 @@ Page({
       this.setData({
         score: res.score
       })
+    }).catch(err => {
+        util.notLogin(err);
     });
   },
 
@@ -67,8 +69,8 @@ Page({
       }else{
         self.setData({ loadMore:false });
       }
-    }).catch( err => {
-      console.log('score err',err);
+    }).catch(err => {
+        util.notLogin(err);
     });
     wx.hideLoading();
   },
@@ -85,13 +87,13 @@ Page({
     let scoreTitle = '';
     switch(status) {
       case "0":
-        scoreTitle = "未过期";
+        scoreTitle = util.pageTitle.scoreM.s1;
         break;
       case "1":
-        scoreTitle = "已过期";
+        scoreTitle = util.pageTitle.scoreM.s2;
         break;
       case "2":
-        scoreTitle = "已使用";
+        scoreTitle = util.pageTitle.scoreM.s3;
         break;
     }
     wx.setNavigationBarTitle({
