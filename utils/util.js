@@ -1,9 +1,9 @@
 import XXTEA from '../libs/security/xxtea.js';
 
 // 商城地址
-let https     = true,
+let https     = false,
     // 如果网站是HTTPS的则设为true
-    shopUrl   = 'ecshop.chenrilang.com';
+    shopUrl   = 'ecshop.example.com';
     // 商城地址，不包含 "http://"
 
 
