@@ -24,7 +24,7 @@ Page({
     this.setData({
       order: order
     });
-    this.purchaseInfo();
+    this.getOrderInfo(order);
     this.getBalanceInfo();
   },
 
@@ -41,6 +41,21 @@ Page({
   // 支付方式
   // ecapi.payment.types.list
   // shop: 1
+
+  getOrderInfo(order) {
+    let self = this,
+        orderInfo = [];
+    util.request(util.apiUrl + 'ecapi.order.get', 'POST',{
+      order: order
+    }).then(res => {
+      console.log('inf',res);
+      self.setData({
+        orderInfo: res.order
+      });
+    }).catch(err => {
+      console.log(err)
+    });
+  },
 
   // 选择支付方式
   setPayType(event) {
@@ -60,16 +75,21 @@ Page({
         if(res.confirm) {
           util.request(util.apiUrl + 'ecapi.payment.pay', 'POST',{
             order: self.data.order,
-            code:  self.data.code
+            code:  self.data.code,
+            openid: ''
           }).then(res => {
-            util.showToast('支付成功','success');
-            setTimeout(function(){
-              wx.navigateTo({
-                url: '../../member/order/list/list',
-              });
-            },800);
+            console.log(res)
+            if (self.data.code === "balance" && res.error_code === 0) {
+              util.showToast('支付成功','success');
+              setTimeout(function(){
+                wx.navigateTo({
+                  url: '../../member/order/list/list',
+                });
+              },800);
+            }
           }).catch(err => {
-            util.showToast('支付方式有误','error',800);
+            console.log('e',err)
+            util.showToast(err.error_desc,'error',800);
           });
         }
       }
@@ -95,10 +115,10 @@ Page({
           return '微信支付';
         break;
         case "wxpay.web":
-          return '微信web支付';
+          return '微信支付';
         break;
         case "wxpay.wxa":
-          return '银联支付';
+          return '小程序支付';
         break;
         case "unionpay.app":
           return '银联支付';
@@ -116,7 +136,7 @@ Page({
     util.request(util.apiUrl + 'ecapi.balance.get', 'POST').then(res =>{
       this.setData({
         balance: res.amount
-      })
+      });
     });
   },
 

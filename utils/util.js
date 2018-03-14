@@ -1,17 +1,51 @@
 import XXTEA from '../libs/security/xxtea.js';
 
-// 商城地址
-let https     = false,
-    // 如果网站是HTTPS的则设为true
-    shopUrl   = 'ecshop.example.com';
-    // 商城地址，不包含 "http://"
+//////////////////////////////////////////////////////////////
+// 如果不是 https 的网站，则 https 等于 false ，否则请改为 true /
+/////// 商城 URL 请添加你的 ECShop 商城地址，不是 API 地址 //////
+//////////////////////////////////////////////////////////////
 
+// 商城地址
+let https     = true,
+    // 如果网站是 HTTPS 的则设为 true
+    shopUrl   = 'ecshop.com';
+    // 商城地址，不是 API 地址。不包含 "http://"
+
+///////////////////////////////////////////////////////////////
+//////////////// 以下区域，如果不会修改，则不要动 ////////////////
+///////////////////////////////////////////////////////////////
 
 // ecshop 接口地址
 // util.apiUrl + url
 let apiUrl = 'http://api.' + shopUrl + '/v2/';
 if(https) {apiUrl = 'https://api.' + shopUrl + '/v2/';}
-  https === true ? shopUrl = "https://" + shopUrl : shopUrl = "http://" + shopUrl;
+  https === true ? shopUrl = 'https://' + shopUrl : shopUrl = 'http://' + shopUrl;
+
+// API 地址检测
+!(function apiTest(){
+  let apiSiteURL = apiUrl.substring(0, apiUrl.length - 3);
+  wx.request({
+    url: apiSiteURL,
+    method: 'GET',
+    data: '',
+    header: {
+      'content-type': 'application/json',
+      'X-ECAPI-Sign': '',
+      'X-ECAPI-UDID': '',
+      'X-ECAPI-UserAgent': 'Platform/Wechat',
+      'X-ECAPI-Ver': '1.1.0'
+    },
+    complete: function(com) {
+      if (com.data !== 'Hi') {
+        wx.showModal({
+          title: 'API地址错误',
+          content: '请访问\r\n' + apiSiteURL + '\r\n能否正常得到 Hi 字符。\r\n谨记：\r\n如果商城地址为 ecshop.com ，\r\n则 api 地址必须为 api.ecshop.com 。',
+          showCancel: false
+        });
+      }
+    }
+  });
+})();
 
 // 格式化时间
 // util.formatTiem(timeStamp,'Y/M/D h:m:s') 或 util.formatTiem(timeStamp)
@@ -38,7 +72,7 @@ function formatTime(date,format = null) {
     returnArr.push(formatNumber(hour));
     returnArr.push(formatNumber(minute));
     returnArr.push(formatNumber(second));
-    for (let i in returnArr){
+    for(let i in returnArr){
       format = format.replace(formatsArr[i], returnArr[i]);
     }
     return format;
@@ -93,10 +127,32 @@ function getShopConfig(){
     return null;
   });
 }
+getShopConfig().then(res => {
+  if (typeof res.config['wechat.wxa'] === "undefined") {
+    // 未开启小程序提示
+    wx.showModal({
+      title: '提示',
+      content: '商城后台配置未开启小程序登录功能！',
+      showCancel: false
+    });
+    return false;
+  }else {
+    // 未授权提示
+    if (res.config.authorize !== true) {
+      let authorizeTip = XXTEA.utf8Decode("æªææï¼å°ç¨åºåè½åéå¶ã\r\nè¯·æ³¨æï¼å¦éææï¼è¯·åå¾ ecshop å®æ¹ç½ç«è´­ä¹°ï¼ï¼ï¼");
+      wx.showModal({
+        title: '',
+        content: authorizeTip,
+        showCancel: false
+      });
+      return false;
+    }
+  }
+});
 
 // 消息提示
 // util.showToast(title,type,duration)
-function showToast(title, type = "none", duration = null) {
+function showToast(title, type = 'none', duration = null) {
   let image = '',
       icon = '';
   switch (type) {
@@ -143,31 +199,49 @@ updateCartNum();
 // 未登录提示
 function notLogin(err) {
   // 错误代码
-  // "ERROR_CODE": {
-  //   "OK": 0, // 正常
-  //   "UNKNOWN_ERROR": 10000, // 内部错误
-  //   "TOKEN_INVALID": 10001, // Token 无效
-  //   "TOKEN_EXPIRED": 10002, // Token 过期
-  //   "SIGN_INVALID": 10003, // Sign 无效
-  //   "SIGN_EXPIRED": 10004, // Sign 过期
-  // },
+  // "OK": 0, // 正常
+  // "UNKNOWN_ERROR": 10000, // 内部错误
+  // "TOKEN_INVALID": 10001, // Token 无效
+  // "TOKEN_EXPIRED": 10002, // Token 过期
+  // "SIGN_INVALID": 10003, // Sign 无效
+  // "SIGN_EXPIRED": 10004, // Sign 过期
   if (err.error == true || err.error_code == 10001) {
     wx.showModal({
-      title: '提示',
-      content: '未登录，是否要登录？',
-      success: function (res) {
-        if(res.confirm) {
-          // 跳转到登录页面
-          wx.navigateTo({
-            url: '/pages/auth/login/login',
+      title: '授权错误',
+      content: '由于你取消了用户授权，后续将影响购物，请点击确定重新授权。',
+      // showCancel: false,
+      success: function (cif) {
+        if (cif.confirm) {
+          wx.getSetting({
+            success() {
+              wx.openSetting({
+                success: () => {
+                  getApp().getUserInfo();
+                  showToast('授权开启成功','success',800);
+                }
+              });
+            }
           });
-        }else if(res.cancel) {
-          showToast('请登录后查看！','none');
-          setTimeout(function(){
-            wx.switchTab({
-              url: '/pages/index/index',
-            });
-          }, 800);
+        }else if(cif.cancel){
+          wx.showModal({
+            title: '授权取消',
+            content: '由于你取消了用户授权，是否使用账号登录？',
+            cancelText: '否',
+            confirmText: '是',
+            success: function (eci) {
+              if (eci.confirm) {
+                wx.navigateTo({
+                  url: '/pages/auth/login/login'
+                });
+              }else if(eci.cancel){
+                getApp().getUserInfo();
+              }else{
+                getApp().getUserInfo();
+              }
+            }
+          });
+        }else{
+          getApp().getUserInfo();
         }
       }
     });

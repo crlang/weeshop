@@ -20,6 +20,7 @@ Page({
     goods: [],
     orderPrice: [],
     comment: '',
+    buyNow: false,
     score: null,
     cashgift: null,
     preferential: null,
@@ -40,6 +41,13 @@ Page({
     wx.setNavigationBarTitle({
       title: util.pageTitle.orderM.checkout
     });
+    if (options.encode) {
+      options.order_product = decodeURI(options.order_product);
+      options.goods_info = decodeURI(options.goods_info);
+      this.setData({
+        buyNow: true
+      })
+    }
     let orderFormat = JSON.parse(options.order_product);
     let goodsFormat = JSON.parse(options.goods_info);
     this.setData({
@@ -150,6 +158,8 @@ Page({
       self.setData({
         orderPrice: res.order_price
       });
+    }).catch(err => {
+      console.log(err)
     });
   },
 
@@ -163,34 +173,67 @@ Page({
   // 检查订单
   // ecapi.cart.checkout
   checkoutOrder() {
-    let self = this;
+    let self = this,paymentUrl=null,propertyC = null,propertyN = null;
     if (self.data.shipping == '') {
       util.showToast('配送方式不能为空！','none');
       return false;
     }
-    util.request(util.apiUrl + 'ecapi.cart.checkout', 'POST',{
-      cart_good_id: '[' + self.data.cart_good_id + ']',
-      consignee: self.data.consignee,
-      shipping: self.data.shipping,
-      comment: self.data.comment,
-      cashgift: self.data.cashgift,
-      score: self.data.score,
-      invoice_content: self.data.invoice_content,
-      invoice_title: self.data.invoice_title,
-      invoice_type: self.data.invoice_type,
-      coupon: self.data.coupon
-    }).then(res => {
-      util.showToast('下单成功,跳转付款中...','none',600);
-      setTimeout(function() {
-        wx.navigateTo({
-          url: '../payment/payment?order=' + res.order.id
-        });
-      },800);
-    }).catch(err => {
-      util.showToast(err.error_desc,'none',900);
-      util.notLogin(err);
-    });
-    self.getOrderBuylist();
+    let checkedValue = '';
+    if (this.data.orderFormat[0].property !== null) {
+      checkedValue = this.data.orderFormat[0].property.toString();
+    }
+    if (self.data.buyNow) {
+    // product: 74, property: "[245]", amount: 1, consignee: 11, shipping:
+      util.request(util.apiUrl + 'ecapi.product.purchase', 'POST',{
+        property: '[' + checkedValue + ']',
+        consignee: self.data.consignee,
+        shipping: self.data.shipping,
+        comment: self.data.comment,
+        cashgift: self.data.cashgift,
+        score: self.data.score,
+        product: self.data.orderFormat[0].goods_id,
+        amount: self.data.orderFormat[0].num,
+        invoice_content: self.data.invoice_content,
+        invoice_title: self.data.invoice_title,
+        invoice_type: self.data.invoice_type,
+      }).then(res => {
+        util.showToast('下单成功,跳转付款中...','none',600);
+        setTimeout(function() {
+          wx.navigateTo({
+            url: '../payment/payment?order=' + res.order.id
+          });
+        },800);
+      }).catch(err => {
+        util.showToast(err.error_desc,'none',900);
+        util.notLogin(err);
+      });
+    }else{
+      util.request(util.apiUrl + 'ecapi.cart.checkout', 'POST',{
+        cart_good_id: '[' + self.data.cart_good_id + ']',
+        consignee: self.data.consignee,
+        shipping: self.data.shipping,
+        comment: self.data.comment,
+        cashgift: self.data.cashgift,
+        score: self.data.score,
+        invoice_content: self.data.invoice_content,
+        invoice_title: self.data.invoice_title,
+        invoice_type: self.data.invoice_type,
+        coupon: self.data.coupon
+      }).then(res => {
+        util.showToast('下单成功,跳转付款中...','none',600);
+        setTimeout(function() {
+          wx.navigateTo({
+            url: '../payment/payment?order=' + res.order.id
+          });
+        },800);
+      }).catch(err => {
+        util.showToast(err.error_desc,'none',900);
+        util.notLogin(err);
+      });
+    }
+
+
+    // self.getOrderBuylist();
   },
 
   /**

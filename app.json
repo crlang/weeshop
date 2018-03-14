@@ -29,7 +29,6 @@
     "pages/member/level/level",
     "pages/member/score/score",
     "pages/member/changepassword/changepassword",
-    "pages/wechat/auth/auth",
     "pages/wechat/pay/pay"
   ],
 

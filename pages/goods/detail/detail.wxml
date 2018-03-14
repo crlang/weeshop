@@ -7,8 +7,10 @@
   </swiper>
   <view class="goods-info">
     <view class="c">
-      <text class="name">{{goods.name}}</text>
-      <text class="price">￥{{goods.current_price}}</text>
+      <view class="name">{{goods.name}}</view>
+      <view class="price" wx:if="{{goods.discount !== null}}">活动价：￥{{goods.discount.price}} <text class="price-or">原价：￥{{goods.price}}</text>
+        <view class="price-time">活动截止时间：￥{{goods.discount.end_at}}</view> </view>
+      <text class="price" wx:else>￥{{goods.current_price}}<text class="price-or">市场价：￥{{goods.price}}</text></text>
     </view>
   </view>
   <view class="section-nav section-attr">
@@ -23,7 +25,7 @@
             </view>
           </view>
           <view class="number-item">
-            <view class="name">购买数量</view>
+            <view class="name">购买数量<text>（库存{{goods.good_stock}}）</text></view>
             <view class="selnum">
               <view class="cut" bindtap="cutNumber">-</view>
               <input value="{{number}}" class="number" disabled="true" type="number" />
@@ -62,14 +64,14 @@
   <view class="related-goods" wx:if="{{relatedGoods.length > 0}}">
     <view class="h">
       <view class="line"></view>
-      <text class="title">大家都在看</text>
+      <text class="title">相关产品</text>
     </view>
     <view class="b">
       <view class="item" wx:for="{{relatedGoods}}" wx:key="{{item.id}}">
-        <navigator url="/pages/goods/goods?id={{item.id}}">
-          <image class="img" src="{{item.list_pic_url}}" background-size="cover"></image>
+        <navigator url="/pages/goods/detail/detail?id={{item.id}}">
+          <image class="img" src="{{item.default_photo.large}}" background-size="cover"></image>
           <text class="name">{{item.name}}</text>
-          <text class="price">￥{{item.retail_price}}</text>
+          <text class="price">￥{{item.current_price}}</text>
         </navigator>
       </view>
     </view>
@@ -85,6 +87,11 @@
       <image bindtap="openCartPage" class="icon" src="/images/icon_cart.png"></image>
     </view>
   </navigator>
-  <view class="c" bindtap="buyNow">立即购买</view>
-  <view class="r" bindtap="addToCart">加入购物车</view>
+  <block wx:if="{{goods.discount !== null}}">
+    <view class="a" bindtap="buyNow">立即抢购</view>
+  </block>
+  <block wx:else>
+    <view class="c" bindtap="addToCart">加入购物车</view>
+    <view class="r" bindtap="buyNow">立即购买</view>
+  </block>
 </view>

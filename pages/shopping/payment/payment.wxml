@@ -17,24 +17,24 @@
           </view>
       </view>
       <view class="list-item ">
-          <view class="item-checkbox"><radio value="balance1" /></view>
+          <view class="item-checkbox"><radio value="wxpay.wxa" /></view>
           <view class="item-content">
               <view class="content-desc">
-                  可用余额：11111
+                  [未]微信小程序支付
               </view>
               <view class="content-title">
-                  余额支付
+                  微信支付
               </view>
           </view>
       </view>
       <view class="list-item ">
-          <view class="item-checkbox"><radio value="balance2" /></view>
+          <view class="item-checkbox"><radio value="wxpay.app" /></view>
           <view class="item-content">
               <view class="content-desc">
-                  可用余额：22222
+                  [未]微信APP支付
               </view>
               <view class="content-title">
-                  余额支付
+                  微信支付
               </view>
           </view>
       </view>

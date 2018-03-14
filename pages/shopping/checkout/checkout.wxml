@@ -25,7 +25,7 @@
               <view class="info-name">
                   {{item.good_title}}
               </view>
-              <view class="info-attr">
+              <view class="info-attr" wx:if="{{item.good_property !== 'null'}}">
                   {{item.good_property}}
               </view>
               <view class="info-price">
@@ -102,16 +102,16 @@
       <view class="summury-detail">
           运费金额 <text class="total-price">+ ￥({{orderPrice.shipping_price}})</text>
       </view>
-      <view class="summury-detail" wx:for="{{orderPrice.promos}}" wx:key="{{item.id}}">
+<!--       <view class="summury-detail" wx:for="{{orderPrice.promos}}" wx:key="{{item.id}}">
           <block wx:if="{{item.promo == 'score'}}">积分</block><block wx:elif="{{item.promo == 'cashgift'}}">红包</block><block wx:elif="{{item.promo == 'preferential'}}">优惠金额</block><block wx:elif="{{item.promo == 'goods_reduction'}}">商品减免</block><block wx:elif="{{item.promo == 'order_reduction'}}">订单减免</block><block wx:elif="{{item.promo == 'coupon_reduction'}}">优惠券减免</block><block wx:else>其他优惠 </block><text class="total-price">- ￥{{item.price}}</text>
-      </view>
+      </view> -->
   </view>
 
   <!-- Submit -->
   <view class="confirm-submit">
       <view class="submit-total">
-          <view class="total-price">￥{{orderPrice.total_price}}</view>
-          <view class="total-discount">￥{{orderPrice.discount_price}}</view>
+          <view class="total-price">总额￥{{orderPrice.total_price}}</view>
+          <view class="total-discount">优惠￥{{orderPrice.discount_price}}</view>
       </view>
       <view class="submit-button dark active" bindtap="checkoutOrder">
           提交订单并支付

@@ -23,9 +23,9 @@
       <image src="/images/home-favorite.png" class="icon"></image>
       <text class="name">收藏</text>
     </navigator>
-    <navigator class="item" url="../wechat/auth/auth">
+    <navigator class="item" url="/pages/member/level/level">
       <image src="/images/home-cart.png" class="icon"></image>
-      <text class="name">微信登录</text>
+      <text class="name">优惠</text>
     </navigator>
   </view>
 

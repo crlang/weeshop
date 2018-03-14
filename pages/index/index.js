@@ -13,7 +13,8 @@ Page({
     notices: [],
     goodProducts: [],
     hotProducts: [],
-    recentlyProducts: []
+    recentlyProducts: [],
+    userInfo: []
   },
 
   /**
@@ -23,11 +24,38 @@ Page({
     wx.showLoading({
       title: '加载中...'
     });
+    this.getUserInfo();
     this.getShopSiteInfo();
     this.getBanner();
     this.getNotices();
     this.getPorducts();
     wx.hideLoading();
+  },
+
+  // 个人信息
+  getUserInfo() {
+    var self = this;
+    var userInfo = wx.getStorageSync('user');
+    // 判断是否登陆
+    if (userInfo.is_completed) {
+      // 获取用户信息
+      if (userInfo.avatar == null) {
+        userInfo.avatar = "/images/default-avatar.png";
+      }
+      var photo = userInfo.avatar,
+          name = userInfo.username,
+          level = userInfo.rank,
+          user = {};
+          user.avatarUrl = photo;
+          user.nickName = name;
+          user.level = level;
+      self.setData({
+        userInfo: user
+      });
+    } else {
+      // 获取全局用户数据
+      app.getUserInfo();
+    }
   },
 
   // 站点信息

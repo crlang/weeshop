@@ -7,11 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    user: {
-      id: 0,
-      username: 'Hello',
-      avatar: ''
-    },
+    userInfo: {},
     orderTotal: {}
   },
 
@@ -28,6 +24,7 @@ Page({
   logout() {
     wx.removeStorageSync('token');
     wx.removeStorageSync('user');
+    app.globalData.userInfo = null;
     util.showToast('退出登录成功', 'success');
     setTimeout(function(){
       wx.switchTab({
@@ -44,7 +41,7 @@ Page({
         orderTotal: res.subtotal,
       });
     }).catch(err => {
-      util.notLogin(err);
+      // util.notLogin(err);
     });
   },
 
@@ -71,6 +68,8 @@ Page({
     } else {
       // 获取全局用户数据
       app.getUserInfo(userInfo => {
+
+        self.setUserInfo();
         self.setData({
           userInfo: userInfo
         });
@@ -107,7 +106,7 @@ Page({
   setUserInfo() {
     let user = wx.getStorageSync('user');
     this.setData({
-      user: user
+      userInfo: user
     });
   },
 
@@ -124,7 +123,6 @@ Page({
   onShow: function () {
     this.bindUserTap();
     this.getOrderTotal();
-    this.setUserInfo();
   },
 
   /**
@@ -145,7 +143,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
   },
 
   /**

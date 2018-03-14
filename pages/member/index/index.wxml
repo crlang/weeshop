@@ -60,5 +60,4 @@
       <image class="icon" src="/images/icon_right.png"></image>
     </navigator>
   </view>
-  <view class="logout" wx:if="{{user}}" bindtap="logout">退出登录</view>
 </view>

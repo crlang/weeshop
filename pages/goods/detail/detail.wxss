@@ -27,11 +27,11 @@
     padding: 38rpx 31.25rpx 38rpx 0;
 }
 
-.goods-info .c text{
+/* .goods-info .c text{
     display: block;
     width: 687.5rpx;
     text-align: center;
-}
+} */
 
 .goods-info .name{
     height: auto;
@@ -47,7 +47,19 @@
     line-height: 35rpx;
     color: #b4282d;
 }
-
+.goods-info .price-time{
+    height: 35rpx;
+    font-size: 24rpx;
+    line-height: 35rpx;
+    color: #b4282d;
+}
+.goods-info .price-or{
+    text-decoration: line-through;
+    height: 35rpx;
+    font-size: 24rpx;
+    line-height: 35rpx;
+    color: #b4282d;
+}
 .section-nav{
     width: 750rpx;
     height: auto;
@@ -266,9 +278,9 @@
     line-height: 96rpx;
     flex: 1;
     text-align: center;
-    color: #333;
-    border-top: 1px solid #f4f4f4;
-    border-bottom: 1px solid #f4f4f4;
+    color: #fff;
+    background: #C59906;
+    border: 1px solid #C59906;
 }
 
 .bottom-btn .r{
@@ -278,6 +290,16 @@
     height: 100rpx;
     line-height: 96rpx;
     flex: 1;
+    text-align: center;
+    color: #fff;
+}
+
+.bottom-btn .a{
+    border:1px solid #FF0036;
+    background: #FF0036;
+    height: 100rpx;
+    line-height: 96rpx;
+    flex: 2;
     text-align: center;
     color: #fff;
 }
