@@ -6,7 +6,7 @@ import XXTEA from '../libs/security/xxtea.js';
 //////////////////////////////////////////////////////////////
 
 // 商城地址
-let https     = true,
+let https     = false,
     // 如果网站是 HTTPS 的则设为 true
     shopUrl   = 'ecshop.com';
     // 商城地址，不是 API 地址。不包含 "http://"
@@ -39,7 +39,7 @@ if(https) {apiUrl = 'https://api.' + shopUrl + '/v2/';}
       if (com.data !== 'Hi') {
         wx.showModal({
           title: 'API地址错误',
-          content: '请访问\r\n' + apiSiteURL + '\r\n能否正常得到 Hi 字符。\r\n谨记：\r\n如果商城地址为 ecshop.com ，\r\n则 api 地址必须为 api.ecshop.com 。',
+          content: '请访问\r\n' + apiSiteURL + '\r\n能否正常得到 Hi 字符.\r\n谨记：\r\n如果商城地址为 ecshop.com ,\r\n则 api 地址必须为 api.ecshop.com .',
           showCancel: false
         });
       }

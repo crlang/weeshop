@@ -26,6 +26,10 @@
     margin-left: 31.25rpx;
     padding: 38rpx 31.25rpx 38rpx 0;
 }
+.wxParse-img {
+    width: 100% !important;
+    /* height: auto !important; */
+}
 
 /* .goods-info .c text{
     display: block;

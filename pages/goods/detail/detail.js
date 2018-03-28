@@ -1,9 +1,8 @@
 // detail.js
-var app = getApp();
-var util = require('../../../utils/util.js');
-var WxParse = require('../../../libs/wxParse/wxParse.js');
-// 太乱了，未修
-// 已知bug：配件搭配混乱
+let app = getApp();
+import util from '../../../utils/util.js';
+import WxParse from '../../../libs/wxParse/wxParse.js';
+
 Page({
   /**
    * 页面的初始数据
@@ -17,6 +16,7 @@ Page({
     relatedGoods: [],
     cartGoodsCount: 0,
     userHasCollect: false,
+    checkAddress: true,
     number: 1,
     comments: {
       total: 0,
@@ -39,10 +39,6 @@ Page({
     this.setData({
       id: parseInt(options.id)
     });
-    this.getProductInfo();
-    this.getCartCount();
-    this.getGoodsComment();
-    this.getGoodsRelated();
   },
 
   // 产品信息
@@ -257,6 +253,10 @@ Page({
       }
     }
 
+    if (!self.checkAddressTip()) {
+      return false;
+    }
+
     // 有规格，先选规格
     if (this.data.specificationList.length > 0 ) {
       // 规格未选择
@@ -305,6 +305,44 @@ Page({
     }
   },
 
+  // 检查地址
+  // ecapi.consignee.list
+  checkAddress() {
+    let cA = true;
+    util.request(util.apiUrl + 'ecapi.consignee.list', 'POST').then(res => {
+      if (res.consignees.length === 0) {
+        cA = false;
+      }
+      this.setData({
+        checkAddress: cA
+      });
+    });
+  },
+
+  checkAddressTip() {
+    this.checkAddress();
+    if (this.data.checkAddress) {
+      return true;
+    }else{
+      wx.showModal({
+        title: '温馨提示',
+        content: '由于您尚未添加地址，请先添加地址.',
+        // showCancel: false,
+        success: function (cif) {
+          if(cif.confirm) {
+            wx.navigateTo({
+              url: '../../member/address/editor/editor?type=add'
+            });
+          }else if(cif.cancel) {
+            util.showToast('尚未添加地址','error',600);
+            return false;
+          }
+        }
+      });
+      return false;
+    }
+  },
+
   // 立即购买
   // ecapi.order.price
   buyNow() {
@@ -322,6 +360,11 @@ Page({
         return false;
       }
     }
+
+    if (!self.checkAddressTip()) {
+      return false;
+    }
+
     let property = null,propertyName = null;
     // 有规格，先选规格
     if (this.data.specificationList.length > 0 ) {
@@ -378,7 +421,6 @@ Page({
    */
   onReady: function () {
     // 页面渲染完成
-
   },
 
   /**
@@ -386,7 +428,11 @@ Page({
    */
   onShow: function () {
     // 页面显示
-
+    this.checkAddress();
+    this.getProductInfo();
+    this.getCartCount();
+    this.getGoodsComment();
+    this.getGoodsRelated();
   },
 
   /**

@@ -49,6 +49,7 @@ Page({
   bindUserTap() {
     var self = this;
     var userInfo = wx.getStorageSync('user');
+    console.log(userInfo)
     // 判断是否登陆
     if (userInfo.is_completed) {
       // 获取用户信息

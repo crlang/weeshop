@@ -1,6 +1,8 @@
 // cart.js
 import util from '../../../utils/util.js';
 
+let app = getApp();
+console.log(app)
 Page({
   /**
    * 页面的初始数据
@@ -76,9 +78,8 @@ Page({
           util.request(util.apiUrl + 'ecapi.payment.pay', 'POST',{
             order: self.data.order,
             code:  self.data.code,
-            openid: ''
+            openid: app.globalData.openid
           }).then(res => {
-            console.log(res)
             if (self.data.code === "balance" && res.error_code === 0) {
               util.showToast('支付成功','success');
               setTimeout(function(){
@@ -86,9 +87,29 @@ Page({
                   url: '../../member/order/list/list',
                 });
               },800);
+            }else if(self.data.code === "wxpay.wxa" && res.error_code === 0){
+              if (res.wxpay.prepay_id === null) {
+                util.showToast('支付失败','error');
+                return false;
+              }
+              wx.requestPayment({
+                 'timeStamp': res.wxpay.timestamp,
+                 'nonceStr': res.wxpay.nonce_str,
+                 'package': res.wxpay.packages,
+                 'signType': 'MD5',
+                 'paySign': res.wxpay.sign,
+                 success: res => {
+                  util.showToast('支付成功','success');
+                  console.log('res',res);
+                 },
+                 fail: fai =>{
+                  util.showToast('支付错误','error');
+                  console.log('fai',fai);
+                 }
+              });
             }
           }).catch(err => {
-            console.log('e',err)
+            console.log('e',err);
             util.showToast(err.error_desc,'error',800);
           });
         }

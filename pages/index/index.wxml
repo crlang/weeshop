@@ -2,10 +2,19 @@
 <view class="container">
   <!-- 轮播图 -->
   <swiper autoplay="true" indicator-dots="true" class="banner">
-    <block wx:for="{{banners}}" indicator-dots="true" wx:key="{{item.id}}">
-      <swiper-item>
-        <image src="{{item.photo.thumb}}" class="slide-image" />
-      </swiper-item>
+    <block wx:if="{{banners.length > 0}}">
+      <block wx:for="{{banners}}" indicator-dots="true" wx:key="{{item.id}}">
+        <swiper-item>
+          <image src="{{item.photo.large}}" class="slide-image" />
+        </swiper-item>
+      </block>
+    </block>
+    <block wx:else>
+      <block wx:for="{{bannersX}}" indicator-dots="true" wx:key="{{item.id}}">
+        <swiper-item>
+          <image src="{{item[1]}}" class="slide-image" />
+        </swiper-item>
+      </block>
     </block>
   </swiper>
 

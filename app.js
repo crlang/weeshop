@@ -31,9 +31,9 @@ App({
             js_code: loginCodeNew,
             open_id: openid
           }).then(soc => {
-            console.log(soc)
             wx.setStorageSync('token', soc.token);
             wx.setStorageSync('user', soc.user);
+            self.globalData.openid = soc.openid;
             self.globalData.userInfo = soc.user;
             typeof cb == "function" && cb(self.globalData.userInfo);
             self.getUserInfo();
@@ -46,9 +46,9 @@ App({
               wx.switchTab({
                 url: '/pages/index/index'
               });
-            },600)
+            },600);
           }).catch(err =>{
-            if (err.error_code == 400) {
+            if (err.error_code === 400) {
               util.showToast(err.error_desc);
             }
           });
@@ -72,9 +72,9 @@ App({
                         }
                         self.getUserInfo();
                       }
-                    })
+                    });
                   }
-                })
+                });
               }else if(cif.cancel) {
                 self.getUserInfo();
               }
@@ -86,20 +86,21 @@ App({
   },
 
   getSystemInfo: function(cb){
-      var self = this;
+    let self = this;
     if(self.globalData.systemInfo){
-      typeof cb == "function" && cb(self.globalData.systemInfo);
+      typeof cb === "function" && cb(self.globalData.systemInfo);
     }else{
       wx.getSystemInfo({
         success: function(res) {
           self.globalData.systemInfo = res;
-          typeof cb == "function" && cb(self.globalData.systemInfo);
+          typeof cb === "function" && cb(self.globalData.systemInfo);
         }
-      })
+      });
     }
   },
 
   globalData: {
-    userInfo: null
+    userInfo: null,
+    openid: null
   }
 });

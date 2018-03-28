@@ -60,4 +60,7 @@
       <image class="icon" src="/images/icon_right.png"></image>
     </navigator>
   </view>
+  <view class="logout" bindtap="logout">
+    <view class="label">退出登录</view>
+  </view>
 </view>

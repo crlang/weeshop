@@ -107,9 +107,7 @@ Page({
         util.showToast('成功新增地址！','success');
         setTimeout(function(){
           // 跳转
-          wx.navigateTo({
-            url: '../selector/selector',
-          });
+          wx.navigateBack();
         },800);
       }).catch(err => {
         util.showToast(err.error_desc);

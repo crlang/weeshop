@@ -10,6 +10,7 @@ Page({
   data: {
     siteInfo: [],
     banners: [],
+    bannersX: [],
     notices: [],
     goodProducts: [],
     hotProducts: [],
@@ -82,9 +83,29 @@ Page({
   // ecapi.banner.list
   getBanner() {
     util.request(util.apiUrl + 'ecapi.banner.list', 'POST').then(res => {
-      this.setData({
-        banners: res.banners
-      });
+      if (res.banners.length === 0) {
+        util.request(util.shopUrl + '/data/flash_data.xml', 'GET').then(xml => {
+          // ...
+        }).catch(xml => {
+          const exp = /item_url="([^"]+)"\slink="([^"]+)"\stext="([^"]*)"/ig;
+          let result,j=[] ;
+          while( (result = exp.exec(xml)) !== null){
+              j.push(result);
+          }
+          for (let i in j) {
+            if (j.hasOwnProperty(i)) {
+              j[i][1] = util.shopUrl + '/' + j[i][1];
+            }
+          }
+          this.setData({
+            bannersX: j
+          });
+        });
+      }else{
+        this.setData({
+          banners: res.banners
+        });
+      }
     });
   },
 

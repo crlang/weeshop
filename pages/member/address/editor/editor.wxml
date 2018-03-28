@@ -4,13 +4,13 @@
       <view class="form-item">
         <view class="form-item-hd">姓名：</view>
         <view class="form-item-bd">
-          <input type="text" name="name" bindinput="bindUserameInput" value="{{consignees.name}}" placeholder="请输入姓名"/>
+          <input type="text" name="name" value="{{consignees.name}}" placeholder="请输入姓名"/>
         </view>
       </view>
       <view class="form-item">
         <view class="form-item-hd">手机号码：</view>
         <view class="form-item-bd">
-          <input type="number" placeholder-class="input-placeholder" name="mobile" bindinput="bindMobileInput" value="{{consignees.tel}}" placeholder="请输入手机号码" maxlength="11"/>
+          <input type="number" placeholder-class="input-placeholder" name="mobile" value="{{consignees.tel}}" placeholder="请输入手机号码" maxlength="11"/>
         </view>
       </view>
       <view class="form-item">
@@ -38,17 +38,17 @@
           <input type="text" name="city" value="{{cityName[citySelIndex]}}" class="hidden"/>
           <input type="text" name="district" value="{{districtName[districtSelIndex]}}" class="hidden"/>
           <block wx:if="{{consignees.regions[3].id > 0}}">
-            <input type="text" name="region" bindinput="bindRegionInput" value="{{consignees.regions[3].id}}" class="hidden"/>
+            <input type="text" name="region" value="{{consignees.regions[3].id}}" class="hidden"/>
           </block>
           <block wx:else>
-            <input type="text" name="region" bindinput="bindRegionInput" value="{{districtID[districtSelIndex]}}"  class="hidden"/>
+            <input type="text" name="region" value="{{districtID[districtSelIndex]}}"  class="hidden"/>
           </block>
         </view>
       </view>
       <view class="form-item">
         <view class="form-item-hd">详细地址：</view>
         <view class="form-item-bd">
-          <input type="text" placeholder-class="input-placeholder" name="address" bindinput="bindAddressInput" value="{{consignees.address}}" placeholder="请输入详细地址" maxlength="20"/>
+          <input type="text" placeholder-class="input-placeholder" name="address" value="{{consignees.address}}" placeholder="请输入详细地址" maxlength="20"/>
         </view>
       </view>
     </view>

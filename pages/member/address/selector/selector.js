@@ -23,7 +23,6 @@ Page({
     this.setData({
       order_product: order_product
     });
-    this.getAddressList();
   },
 
   // 地址列表
@@ -82,6 +81,7 @@ Page({
    */
   onShow: function () {
     // 页面显示
+    this.getAddressList();
   },
 
   /**

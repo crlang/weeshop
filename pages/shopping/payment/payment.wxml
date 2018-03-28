@@ -20,18 +20,7 @@
           <view class="item-checkbox"><radio value="wxpay.wxa" /></view>
           <view class="item-content">
               <view class="content-desc">
-                  [未]微信小程序支付
-              </view>
-              <view class="content-title">
-                  微信支付
-              </view>
-          </view>
-      </view>
-      <view class="list-item ">
-          <view class="item-checkbox"><radio value="wxpay.app" /></view>
-          <view class="item-content">
-              <view class="content-desc">
-                  [未]微信APP支付
+                  微信小程序支付
               </view>
               <view class="content-title">
                   微信支付
