@@ -2,15 +2,38 @@
 <view class="container">
   <view class="search">
     <view class="form">
-      <input class="input" placeholder="输入商品名称" bindtap="goSearch"/><image class="btn" src="/images/icon_search.png"></image>
+      <input class="input" placeholder="输入商品名称" bindtap="goSearch" />
+      <image class="btn" src="/images/icon_search.png"></image>
     </view>
   </view>
   <view class="catalog">
-    <view class="item" wx:for="{{categories}}" wx:key="{{item.id}}">
-      <navigator class="h" url="../goods/list/list?category={{item.id}}">{{item.name}}</navigator>
-      <view class="b">
-        <navigator class="a" url="../goods/list/list?category={{item.id}}" wx:for="{{item.categories}}" wx:key="{{sitem.id}}" wx:for-item="sitem">{{sitem.name}}</navigator>
+    <!--左侧导航-->
+    <scroll-view class="nav_left" scroll-y="true" style="height:{{srollHeight}}px">
+      <view class="nav_left_content" wx:for="{{categories}}" wx:key="{{item.id}}">
+        <!--如果没有二级分类，则直接进入该父级分类的商品列表，即使用navigator并给url赋值-->
+        <view wx:if="{{item.categories.length == 0}}">
+          <navigator class="left_item {{curId == item.id? 'active' : ''}}" url="../goods/list/list?category={{item.id}}" bindtap="switchRightTab" data-id="{{item.id}}" data-index="{{index}}">
+            {{item.name}}
+          </navigator>
+        </view>
+        <!--如果有二级分类，则显示二级分类内容，并且把navigator组件替换成view否则编译会有错误提示，虽然不影响运行-->
+        <view wx:else>
+          <view class="left_item {{curId == item.id? 'active' : ''}}" bindtap="switchRightTab" data-id="{{item.id}}" data-index="{{index}}">
+            {{item.name}}
+          </view>
+        </view>
+
       </view>
-    </view>
+    </scroll-view>
+
+    <!--右侧导航-->
+    <scroll-view class='nav_right' scroll-y="true" style="height:{{srollHeight}}px">
+      <view wx:if="{{childCategories}}">
+        <view class="nav_right_content" wx:for="{{childCategories}}">
+          <navigator class="right_item" url="../goods/list/list?category={{item.id}}">{{item.name}}</navigator>
+        </view>
+      </view>
+      <view class="nav_right_empty" wx:else>暂无数据</view>
+    </scroll-view>
   </view>
 </view>

@@ -1,18 +1,27 @@
 /* catalog.wxss */
-page{
+
+page {
   background: #f4f4f4;
+  height: 100%;
 }
 
-.search{
+.container {
+  height: 100%;
   width: 100%;
-  height: 150rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.search {
+  width: 100%;
+  height: 50px;
   background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.search .form{
+.search .form {
   height: 60rpx;
   width: 690rpx;
   background: #f4f4f4;
@@ -22,44 +31,69 @@ page{
   align-items: center;
 }
 
-.search .input{
+.search .input {
   height: 40rpx;
   width: 600rpx;
 }
 
-.search .btn{
+.search .btn {
   height: 40rpx;
   width: 40rpx;
 }
 
-.catalog{
-  margin-top: 20rpx;
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.catalog {
+  margin-top: 1px;
+  width: 100%;
+  flex: 1;
+  position: relative;
+}
+
+.catalog .nav_left {
+  width: 30%;
+  text-align: center;
   background: #f4f4f4;
 }
 
-.catalog .item{
-  margin-bottom: 20rpx;
-  background: #fff;
-}
-
-.catalog .item .h{
-  height: 100rpx;
-  text-align: center;
-  line-height: 100rpx;
-}
-
-.catalog .item .b{
+.catalog .nav_left .nav_left_content {
   height: auto;
-  overflow: hidden;
-  padding: 0 10rpx;
 }
 
-.catalog .item .a{
-  display: block;
-  float: left;
+.catalog .nav_left .left_item {
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #dedede;
   font-size: 12px;
-  color: #666;
-  margin: 0 10rpx 20rpx 10rpx;
-  border: 1px solid #f4f4f4;
-  padding:10rpx 20rpx;
+}
+
+.catalog .nav_left .left_item.active {
+  background: #fff;
+  border-left: 4px solid #333;
+}
+
+.catalog .nav_right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 70%;
+  background: #fff;
+  box-sizing: border-box;
+  border-left: 1px solid #dedede;
+}
+
+.catalog .nav_right .nav_right_content {
+  height: auto;
+}
+
+.catalog .nav_right .nav_right_content .right_item {
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-bottom: 1px solid #dedede;
+  font-size: 12px;
 }
