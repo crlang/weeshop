@@ -6,7 +6,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    categories: []
+    categories: [],
+    childCategories: [],
+    curId: 0,
+    srollHeight:300//需要动态获取屏幕高度，给scorllview高度赋值，随便用一个值初始化数据
   },
 
   /**
@@ -36,7 +39,9 @@ Page({
       per_page: 999
     }).then(res => {
       this.setData({
-        categories: res.categories
+        categories: res.categories,
+        childCategories: res.categories[0].categories,
+        curId: res.categories[0].id
       });
       wx.hideLoading();
     });
@@ -52,7 +57,15 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    var that = this;
+     wx.getSystemInfo({
+      success: function (res) {
+        var height = res.windowHeight - 51;   //footerpannelheight为底部组件的高度
+        that.setData({
+          srollHeight: height
+        });
+      }
+     });
   },
 
   /**
@@ -88,5 +101,17 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  //事件处理函数  
+  switchRightTab: function (e) {
+  // 获取item项的id，和数组的下标值  
+  let id = e.target.dataset.id,
+  index = parseInt(e.target.dataset.index);
+  // 把点击到的某一项，设为当前index  
+  this.setData({
+      curId: id,
+      childCategories: this.data.categories[index].categories
+    });
   }
 });
