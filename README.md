@@ -90,7 +90,7 @@ ECShop 微信小程序商城，基于3.6版本 appserver 接口，100% 兼容原
 如果你不懂搭建 ECShop 3.6 ，请**必须**跟着该先决条件进行操作。
 
 1、你的文件目录结构**必须**为如下
-`bash
+```bash
 └─example
   ├─ecshop
   │  ├─admin
@@ -108,7 +108,7 @@ ECShop 微信小程序商城，基于3.6版本 appserver 接口，100% 兼容原
      ├─storage
      ├─tests
      └─vendor
-`
+```
 2、你的本地 ecshop 测试地址**必须**为 ecshopdemo.com 该域名的**必须**根目录是 `example/ecshop`
 
 3、你的本地 api 测试地址**必须**为 api.ecshopdemo.com 该域名的**必须**根目录是 `example/appserver/public`
