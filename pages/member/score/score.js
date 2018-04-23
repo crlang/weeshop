@@ -33,9 +33,9 @@ Page({
     util.request(util.apiUrl + 'ecapi.score.get', 'POST').then(res => {
       this.setData({
         score: res.score
-      })
+      });
     }).catch(err => {
-        util.notLogin(err);
+      util.notLogin(err);
     });
   },
 
@@ -70,7 +70,7 @@ Page({
         self.setData({ loadMore:false });
       }
     }).catch(err => {
-        util.notLogin(err);
+      util.notLogin(err);
     });
     wx.hideLoading();
   },
@@ -86,15 +86,15 @@ Page({
     // 导航栏标题
     let scoreTitle = '';
     switch(status) {
-      case "0":
-        scoreTitle = util.pageTitle.scoreM.s1;
-        break;
-      case "1":
-        scoreTitle = util.pageTitle.scoreM.s2;
-        break;
-      case "2":
-        scoreTitle = util.pageTitle.scoreM.s3;
-        break;
+    case "0":
+      scoreTitle = util.pageTitle.scoreM.s1;
+      break;
+    case "1":
+      scoreTitle = util.pageTitle.scoreM.s2;
+      break;
+    case "2":
+      scoreTitle = util.pageTitle.scoreM.s3;
+      break;
     }
     wx.setNavigationBarTitle({
       title: scoreTitle

@@ -2,7 +2,7 @@
 import util from '../../../utils/util.js';
 
 let app = getApp();
-console.log(app)
+
 Page({
   /**
    * 页面的初始数据
@@ -46,7 +46,7 @@ Page({
 
   getOrderInfo(order) {
     let self = this,
-        orderInfo = [];
+      orderInfo = [];
     util.request(util.apiUrl + 'ecapi.order.get', 'POST',{
       order: order
     }).then(res => {
@@ -55,7 +55,7 @@ Page({
         orderInfo: res.order
       });
     }).catch(err => {
-      console.log(err)
+      console.log(err);
     });
   },
 
@@ -93,19 +93,19 @@ Page({
                 return false;
               }
               wx.requestPayment({
-                 'timeStamp': res.wxpay.timestamp,
-                 'nonceStr': res.wxpay.nonce_str,
-                 'package': res.wxpay.packages,
-                 'signType': 'MD5',
-                 'paySign': res.wxpay.sign,
-                 success: res => {
+                'timeStamp': res.wxpay.timestamp,
+                'nonceStr': res.wxpay.nonce_str,
+                'package': res.wxpay.packages,
+                'signType': 'MD5',
+                'paySign': res.wxpay.sign,
+                success: res => {
                   util.showToast('支付成功','success');
                   console.log('res',res);
-                 },
-                 fail: fai =>{
+                },
+                fail: fai =>{
                   util.showToast('支付错误','error');
                   console.log('fai',fai);
-                 }
+                }
               });
             }
           }).catch(err => {
@@ -117,36 +117,26 @@ Page({
     });
     function LANGUAGESET(name) {
       switch (name) {
-        case "balance":
-          return '余额支付';
-        break;
-        case "cod.app":
-          return '货到付款';
-        break;
-        case "alipay.wap":
-          return '支付宝wap支付';
-        break;
-        case "teegon.wap":
-          return '天工收银';
-        break;
-        case "alipay.app":
-          return '支付宝支付';
-        break;
-        case "wxpay.app":
-          return '微信支付';
-        break;
-        case "wxpay.web":
-          return '微信支付';
-        break;
-        case "wxpay.wxa":
-          return '小程序支付';
-        break;
-        case "unionpay.app":
-          return '银联支付';
-        break;
-        default:
-          return '错误支付方式';
-        break;
+      case "balance":
+        return '余额支付';
+      case "cod.app":
+        return '货到付款';
+      case "alipay.wap":
+        return '支付宝wap支付';
+      case "teegon.wap":
+        return '天工收银';
+      case "alipay.app":
+        return '支付宝支付';
+      case "wxpay.app":
+        return '微信支付';
+      case "wxpay.web":
+        return '微信支付';
+      case "wxpay.wxa":
+        return '小程序支付';
+      case "unionpay.app":
+        return '银联支付';
+      default:
+        return '错误支付方式';
       }
     }
   },

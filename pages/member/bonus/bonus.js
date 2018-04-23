@@ -58,7 +58,7 @@ Page({
         self.setData({ loadMore:false });
       }
     }).catch(err => {
-        util.notLogin(err);
+      util.notLogin(err);
     });
     wx.hideLoading();
   },
@@ -74,15 +74,15 @@ Page({
     // 导航栏标题
     let bonusTitle = '';
     switch(status) {
-      case "0":
-        bonusTitle = util.pageTitle.bonusM.s1;
-        break;
-      case "1":
-        bonusTitle = util.pageTitle.bonusM.s2;
-        break;
-      case "2":
-        bonusTitle = util.pageTitle.bonusM.s3;
-        break;
+    case "0":
+      bonusTitle = util.pageTitle.bonusM.s1;
+      break;
+    case "1":
+      bonusTitle = util.pageTitle.bonusM.s2;
+      break;
+    case "2":
+      bonusTitle = util.pageTitle.bonusM.s3;
+      break;
     }
     wx.setNavigationBarTitle({
       title: bonusTitle

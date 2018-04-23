@@ -59,7 +59,7 @@ Page({
       }
       if (res.error_code === 0) {
         let CI = res.product.goods_desc;
-        res.product.goods_desc = CI.replace(new RegExp('\/images\/','gm'),util.shopUrl + '\/images\/');
+        res.product.goods_desc = CI.replace(new RegExp('/images/','gm'),util.shopUrl + '/images/');
         let specificationList = [];
         if (res.product.properties) {
           specificationList = res.product.properties.map(v => {
@@ -68,7 +68,7 @@ Page({
           });
         }
         let isLiked = true;
-        if (res.product.is_liked != 1) {
+        if (res.product.is_liked !== 1) {
           isLiked = false;
         }
         self.setData({
@@ -130,9 +130,9 @@ Page({
     let _sl = self.data.specificationList;
     // 绝望的嵌套循环，待优化
     for (let i in _sl) {
-      if (_sl[i].id == specNameId) {
+      if (_sl[i].id === specNameId) {
         for (let j in _sl[i].attrs) {
-          if (_sl[i].attrs[j].id == specValueId) {
+          if (_sl[i].attrs[j].id === specValueId) {
             if(_sl[i].attrs[j].checked) {
               _sl[i].attrs[j].checked = false;
             }else{
@@ -173,7 +173,7 @@ Page({
   // 判断规格是否选择完整
   isCheckedAllSpec() {
     return !this.getCheckedSpecValue().some(function (v) {
-      if (v.valueId == 0) {
+      if (v.valueId === 0) {
         return true;
       }
     });
@@ -190,7 +190,7 @@ Page({
   // 规格是否存在
   getCheckedProductItem(key) {
     return this.data.productList.filter(function (v) {
-      if (v.goods_attr == key) {
+      if (v.goods_attr === key) {
         return true;
       } else {
         return false;
@@ -260,7 +260,7 @@ Page({
     // 有规格，先选规格
     if (this.data.specificationList.length > 0 ) {
       // 规格未选择
-      if (this.isCheckedAllSpec()  == false) {
+      if (this.isCheckedAllSpec()  === false) {
         util.showToast('请选择规格', 'error');
         return false;
       }
@@ -347,9 +347,9 @@ Page({
   // ecapi.order.price
   buyNow() {
     let order_product = [],
-        cart_good_id = [],
-        goods_info = [],
-        self = this;
+      cart_good_id = [],
+      goods_info = [],
+      self = this;
     // 验证库存
     if (self.data.goods.good_stock === 0) {
       util.showToast('商品已经售完', 'error',900);
@@ -369,7 +369,7 @@ Page({
     // 有规格，先选规格
     if (this.data.specificationList.length > 0 ) {
       // 规格未选择
-      if (this.isCheckedAllSpec()  == false) {
+      if (this.isCheckedAllSpec()  === false) {
         util.showToast('请选择规格', 'error');
         return false;
       }
@@ -395,8 +395,8 @@ Page({
       + '","good_price":"' + this.data.goods.current_price
       + '","good_num":"'+ this.data.number
       + '","good_property":"'+ propertyName +'"}'
-      );
-    let uri = encodeURI('../../shopping/checkout/checkout?encode=true&order_product=' + '[' + order_product + ']' + '&cart_good_id=' + cart_good_id + '&goods_info=' +'[' + goods_info + ']')
+    );
+    let uri = encodeURI('../../shopping/checkout/checkout?encode=true&order_product=' + '[' + order_product + ']' + '&cart_good_id=' + cart_good_id + '&goods_info=' +'[' + goods_info + ']');
     wx.navigateTo({
       url: uri
     });

@@ -25,7 +25,7 @@ Page({
   // ecapi.auth.default.signup
   register(event) {
     let self = this,
-        eValue = event.detail.value;
+      eValue = event.detail.value;
     if(eValue.username.length <=0) {
       util.showToast('请输入用户名');
       return false;
@@ -38,9 +38,9 @@ Page({
       util.showToast('密码不能少于 6 个字符');
       return false;
     }else{
-        if(eValue.password !== eValue.repassword){
-          util.showToast('两次密码不一致');
-          return false;
+      if(eValue.password !== eValue.repassword){
+        util.showToast('两次密码不一致');
+        return false;
       }
     }
     util.request(util.apiUrl + 'ecapi.auth.default.signup', 'POST',{
@@ -65,7 +65,7 @@ Page({
               });
               wx.setStorageSync('token', res.token);
               wx.setStorageSync('user', res.user);
-              util.showToast('登录成功','success',800)
+              util.showToast('登录成功','success',800);
               setTimeout(function(){
                 wx.switchTab({
                   url: '/pages/member/index/index',

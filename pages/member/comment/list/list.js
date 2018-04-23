@@ -25,7 +25,7 @@ Page({
     });
     this.setData({
       product: options.id,
-    })
+    });
     this.getGoodsComment();
   },
 
@@ -58,7 +58,7 @@ Page({
       }else{
         self.setData({ loadMore:false });
       }
-    })
+    });
   },
 
   // 订单筛选 0待付款 1待发货 2发货中 3已收货 4已评价 5已取消
@@ -71,15 +71,15 @@ Page({
     // 导航栏标题
     let commentsTitle = '';
     switch(grade) {
-      case "1":
-        commentsTitle = util.pageTitle.commentsM.s1;
-        break;
-      case "2":
-        commentsTitle = util.pageTitle.commentsM.s2;
-        break;
-      case "3":
-        commentsTitle = util.pageTitle.commentsM.s3;
-        break;
+    case "1":
+      commentsTitle = util.pageTitle.commentsM.s1;
+      break;
+    case "2":
+      commentsTitle = util.pageTitle.commentsM.s2;
+      break;
+    case "3":
+      commentsTitle = util.pageTitle.commentsM.s3;
+      break;
     }
     wx.setNavigationBarTitle({
       title: commentsTitle

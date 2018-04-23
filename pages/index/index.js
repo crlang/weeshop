@@ -40,16 +40,16 @@ Page({
     // 判断是否登陆
     if (userInfo.is_completed) {
       // 获取用户信息
-      if (userInfo.avatar == null) {
+      if (userInfo.avatar === null) {
         userInfo.avatar = "/images/default-avatar.png";
       }
       var photo = userInfo.avatar,
-          name = userInfo.username,
-          level = userInfo.rank,
-          user = {};
-          user.avatarUrl = photo;
-          user.nickName = name;
-          user.level = level;
+        name = userInfo.username,
+        level = userInfo.rank,
+        user = {};
+      user.avatarUrl = photo;
+      user.nickName = name;
+      user.level = level;
       self.setData({
         userInfo: user
       });
@@ -66,7 +66,7 @@ Page({
     util.request(util.apiUrl + 'ecapi.site.get', 'POST').then(res => {
       // ...
     }).catch(err =>{
-      if(err.site_info == undefined) {
+      if(err.site_info === undefined) {
         util.showToast('数据加载出错！','error',2500);
       }else{
         self.setData({
@@ -90,7 +90,7 @@ Page({
           const exp = /item_url="([^"]+)"\slink="([^"]+)"\stext="([^"]*)"/ig;
           let result,j=[] ;
           while( (result = exp.exec(xml)) !== null){
-              j.push(result);
+            j.push(result);
           }
           for (let i in j) {
             if (j.hasOwnProperty(i)) {

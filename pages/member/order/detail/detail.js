@@ -95,7 +95,7 @@ Page({
         }
       });
     }).catch(err => {
-        util.notLogin(err);
+      util.notLogin(err);
     });
   },
 
@@ -123,11 +123,11 @@ Page({
       order: this.data.orderID
     }).then((res) => {
       let canceled_at = null,// 取消时间
-          created_at = null,// 创建时间
-          finish_at = null,// 完成时间
-          paied_at = null,// 支付时间
-          shipping_at = null,// 发货时间
-          updated_at = null;// 更新时间
+        created_at = null,// 创建时间
+        finish_at = null,// 完成时间
+        paied_at = null,// 支付时间
+        shipping_at = null,// 发货时间
+        updated_at = null;// 更新时间
       if (res.order.canceled_at !== null) {
         canceled_at = util.formatTime(res.order.canceled_at);
       }else if (res.order.created_at !== null) {
@@ -202,4 +202,4 @@ Page({
   onShareAppMessage: function () {
 
   }
-})
+});

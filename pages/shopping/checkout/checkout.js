@@ -46,7 +46,7 @@ Page({
       options.goods_info = decodeURI(options.goods_info);
       this.setData({
         buyNow: true
-      })
+      });
     }
     let orderFormat = JSON.parse(options.order_product);
     let goodsFormat = JSON.parse(options.goods_info);
@@ -68,12 +68,12 @@ Page({
     util.request(util.apiUrl + 'ecapi.consignee.list', 'POST').then(res => {
       let defaultConsignees = [];
       for (let i in res.consignees) {
-        if (newConsignee == null) {
+        if (newConsignee === null) {
           if (res.consignees[i].is_default) {
             defaultConsignees = res.consignees[i];
           }
         }else{
-          if (res.consignees[i].id == newConsignee) {
+          if (res.consignees[i].id === newConsignee) {
             defaultConsignees = res.consignees[i];
           }
         }
@@ -83,7 +83,7 @@ Page({
         defaultConsignees: defaultConsignees
       });
     }).catch(err => {
-        util.notLogin(err);
+      util.notLogin(err);
     });
   },
 
@@ -93,7 +93,7 @@ Page({
     wx.getStorage({
       key: 'consignee',
       success: function(res) {
-        if (res.data != 'undefined') {
+        if (res.data !== 'undefined') {
           self.setData({
             consigneeNew: res.data
           });
@@ -116,8 +116,8 @@ Page({
       address: this.data.consignee
     }).then(res => {
       let expressList = res.vendors,
-          expressArrs = [],
-          expressIndex = '';
+        expressArrs = [],
+        expressIndex = '';
       for (let i in expressList) {
         expressArrs.push(expressList[i].name + ' ￥: ' + expressList[i].fee);
       }
@@ -159,7 +159,7 @@ Page({
         orderPrice: res.order_price
       });
     }).catch(err => {
-      console.log(err)
+      console.log(err);
     });
   },
 
@@ -174,7 +174,7 @@ Page({
   // ecapi.cart.checkout
   checkoutOrder() {
     let self = this,paymentUrl=null,propertyC = null,propertyN = null;
-    if (self.data.shipping == '') {
+    if (self.data.shipping === '') {
       util.showToast('配送方式不能为空！','none');
       return false;
     }
@@ -231,7 +231,6 @@ Page({
         util.notLogin(err);
       });
     }
-
 
     // self.getOrderBuylist();
   },

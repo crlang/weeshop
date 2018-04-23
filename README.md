@@ -86,12 +86,47 @@ ECShop 微信小程序商城，基于3.6版本 appserver 接口，100% 兼容原
 ## 进度 progress
 目前已经完善基本商城购物流程，支持余额支付、微信支付、微信登录。
 
+## 前提概要 Prerequisites
+如果你不懂搭建 ECShop 3.6 ，请**必须**跟着该先决条件进行操作。
+
+1、你的文件目录结构**必须**为如下
+`bash
+└─example
+  ├─ecshop
+  │  ├─admin
+  │  ├─...
+  │  ├─...
+  │  ├─...
+  │  └─widget
+  └─appserver
+     ├─app
+     ├─bootstrap
+     ├─config
+     ├─database
+     ├─public
+     ├─resources
+     ├─storage
+     ├─tests
+     └─vendor
+`
+2、你的本地 ecshop 测试地址**必须**为 ecshopdemo.com 该域名的**必须**根目录是 `example/ecshop`
+
+3、你的本地 api 测试地址**必须**为 api.ecshopdemo.com 该域名的**必须**根目录是 `example/appserver/public`
+
+4、**请确保前三项为正确的，再继续**。
+4.1、建议安装的 PHP 环境皆为 5.6 及以上版本
+
+5、打开本地商城域名 ecshopdemo.com 根据提示安装 ecshop 商城，确保安装顺利，并勾上「安装演示数据」
+
+6、安装完成！
+
+
 ## 使用 How to use ?
 1、安装 ecshop 3.6 版本
 `暂定域名为 example.com ，指向到服务器 example 目录下的 ecshop 目录`
 
 2、安装 ecshop 3.6 版本 appserver
-`暂定域名为 api.example.com ，指向到服务器 example 目录下的 appserver 目录`
+`暂定域名为 api.example.com ，指向到服务器 example 目录下的 appserver 目录的 public 文件夹`
 
 3、构建小程序，选择 weeshop 目录
 

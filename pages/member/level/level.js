@@ -40,7 +40,7 @@ Page({
     util.request(util.apiUrl + 'ecapi.score.get', 'POST').then(res => {
       this.setData({
         score: res.score
-      })
+      });
     }).catch(err => {
       util.notLogin(err);
     });

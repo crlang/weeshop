@@ -63,7 +63,7 @@ Page({
       this.setData({
         defaultAddress: selfID
       });
-      util.showToast('设定成功！','success',300)
+      util.showToast('设定成功！','success',300);
     });
     this.getAddressList();
   },

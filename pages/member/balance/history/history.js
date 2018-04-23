@@ -55,7 +55,7 @@ Page({
         self.setData({ loadMore:false });
       }
     }).catch(err => {
-        util.notLogin(err);
+      util.notLogin(err);
     });
   },
 
@@ -70,14 +70,14 @@ Page({
     // 导航栏标题
     let title = '';
     switch(status) {
-      case "1":
-        title = util.pageTitle.balanceM.s2;
+    case "1":
+      title = util.pageTitle.balanceM.s2;
       break;
-      case "2":
-        title = util.pageTitle.balanceM.s3;
+    case "2":
+      title = util.pageTitle.balanceM.s3;
       break;
-      case "":
-        title = util.pageTitle.balanceM.s1;
+    case "":
+      title = util.pageTitle.balanceM.s1;
       break;
     }
     wx.setNavigationBarTitle({

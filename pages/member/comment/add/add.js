@@ -39,7 +39,7 @@ Page({
   },
   bindIsAnonymous(e) {
     let id = 0;
-    e.detail.value == true ? id = 1 : id = 0;
+    e.detail.value === true ? id = 1 : id = 0;
     this.setData({
       is_anonymous: id
     });
@@ -49,20 +49,20 @@ Page({
   checkedGrade() {
     let cg = this.data.grade;
     switch (cg) {
-      case 1:
-        this.setData({
-          cg: 1
-        });
+    case 1:
+      this.setData({
+        cg: 1
+      });
       break;
-      case 2:
-        this.setData({
-          cg: 2
-        });
+    case 2:
+      this.setData({
+        cg: 2
+      });
       break;
-      case 3:
-        this.setData({
-          cg: 3
-        });
+    case 3:
+      this.setData({
+        cg: 3
+      });
       break;
     }
   },

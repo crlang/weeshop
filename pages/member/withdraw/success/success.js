@@ -23,7 +23,7 @@ Page({
       withdraw: options.withdraw,
       member_memo: options.member_memo,
       wdtime: options.wdtime
-    })
+    });
   },
 
   /**

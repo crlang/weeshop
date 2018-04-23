@@ -30,8 +30,8 @@ Page({
   // ecapi.cart.delete
   onDeleteGoods(event) {
     let itemIndex = event.target.dataset.itemIndex,
-        goods = this.data.cartGoods[itemIndex],
-        self = this;
+      goods = this.data.cartGoods[itemIndex],
+      self = this;
     wx.showModal({
       title: '提示',
       content: '是否要删除选择中商品？',
@@ -43,10 +43,10 @@ Page({
             util.showToast('商品已删除', 'success');
             self.getCartList();
             util.updateCartNum();
-          })
+          });
         }
       }
-    })
+    });
   },
 
   // 获取购物车列表
@@ -85,7 +85,7 @@ Page({
   isCheckedAll: function () {
     //判断购物车商品已全选
     return this.data.cartGoods.every(function (element, index, array) {
-      if (element.checked == true) {
+      if (element.checked) {
         return true;
       } else {
         return false;
@@ -118,13 +118,13 @@ Page({
   // 检查当前项
   checkedItem: function (event) {
     let itemIndex = event.target.dataset.itemIndex,
-        self = this,
-        tmpCartData = self.data.cartGoods.map(function (element, index, array) {
-      if (index == itemIndex) {
-        element.checked = !element.checked;
-      }
-      return element;
-    });
+      self = this,
+      tmpCartData = self.data.cartGoods.map(function (element, index, array) {
+        if (index === itemIndex) {
+          element.checked = !element.checked;
+        }
+        return element;
+      });
 
     self.setData({
       cartGoods: tmpCartData,
@@ -137,11 +137,11 @@ Page({
   // 检查全部项
   checkedAll: function () {
     let self = this;
-        isCheckedAll = self.isCheckedAll();
-        tmpCartData = self.data.cartGoods.map(function (element, index, array) {
-          element.checked = !isCheckedAll;
-          return element;
-        });
+    let isCheckedAll = self.isCheckedAll();
+    let tmpCartData = self.data.cartGoods.map(function (element, index, array) {
+      element.checked = !isCheckedAll;
+      return element;
+    });
 
     self.setData({
       cartGoods: tmpCartData,
@@ -169,9 +169,9 @@ Page({
   // 数量增减
   cutNumber: function (event) {
     let itemIndex = event.target.dataset.itemIndex,
-        cartItem = this.data.cartGoods[itemIndex],
-        amount = (cartItem.amount - 1 > 1) ? cartItem.amount - 1 : 1;
-        cartItem.amount = amount;
+      cartItem = this.data.cartGoods[itemIndex],
+      amount = (cartItem.amount - 1 > 1) ? cartItem.amount - 1 : 1;
+    cartItem.amount = amount;
     this.setData({
       cartGoods: this.data.cartGoods
     });
@@ -194,7 +194,7 @@ Page({
   checkoutOrder: function () {
     //获取已选择的商品
     var checkedGoods = this.data.cartGoods.filter(function (element, index, array) {
-      if (element.checked == true) {
+      if (element.checked === true) {
         return true;
       } else {
         return false;
@@ -204,8 +204,8 @@ Page({
       return false;
     }
     let order_product = [],
-        cart_good_id = [],
-        goods_info = [];
+      cart_good_id = [],
+      goods_info = [];
     for(let i in checkedGoods) {
       // 订单信息
       order_product.push(
@@ -220,7 +220,7 @@ Page({
         + '","good_price":"' + checkedGoods[i].product.current_price
         + '","good_num":"'+ checkedGoods[i].amount
         + '","good_property":"'+ property +'"}'
-        );
+      );
     }
     wx.navigateTo({
       url: '../checkout/checkout?order_product=' + '[' + order_product + ']' + '&cart_good_id=' + cart_good_id + '&goods_info=' + '[' + goods_info + ']'

@@ -79,7 +79,7 @@ Page({
         self.setData({ loadMore:false });
       }
     }).catch(err => {
-        util.notLogin(err);
+      util.notLogin(err);
     });
     wx.hideLoading();
   },

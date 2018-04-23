@@ -35,9 +35,9 @@ Page({
    */
   onLoad: function (options) {
     let addType = options.type || 'edit',
-        consignee = options.id || null,
-        n = '';
-    addType == 'add' ? n = util.pageTitle.addressM.add : n = util.pageTitle.addressM.edit
+      consignee = options.id || null,
+      n = '';
+    addType === 'add' ? n = util.pageTitle.addressM.add : n = util.pageTitle.addressM.edit;
     wx.setNavigationBarTitle({
       title: n
     });
@@ -57,7 +57,7 @@ Page({
       util.request(util.apiUrl + 'ecapi.consignee.list', 'POST').then(res => {
         let soniglst = res.consignees;
         for(let i in soniglst) {
-          if(consignee == soniglst[i].id) {
+          if(consignee === soniglst[i].id) {
             self.setData({
               consignees: soniglst[i],
               consignee: consignee,
@@ -77,7 +77,7 @@ Page({
   // ecapi.consignee.update
   editAddress(event) {
     let self = this.data,
-        eventDA = event.detail.value;
+      eventDA = event.detail.value;
     if (eventDA.name.length <= 0) {
       util.showToast('姓名不能为空');
       return false;
@@ -170,16 +170,16 @@ Page({
       title: '数据加载中...'
     });
     var area = {},
-        self = this,
-        p = p || 0,
-        c = c || 0,
-        d = d || 0;
+      self = this;
+    p = p || 0,
+    c = c || 0,
+    d = d || 0;
     util.request(util.apiUrl + 'ecapi.region.list', 'POST').then(res => {
       area = res.regions[0];
       // 省
       let province = area.regions,
-          provinceName = [],
-          provinceID =[];
+        provinceName = [],
+        provinceID =[];
       for(let item in province) {
         provinceName.push(province[item].name);
         provinceID.push(province[item].id);
@@ -190,8 +190,8 @@ Page({
       });
       // 市
       let city = province[p].regions,
-          cityName = [],
-          cityID = [];
+        cityName = [],
+        cityID = [];
       for(let item in city) {
         cityName.push(city[item].name);
         cityID.push(city[item].id);
@@ -202,8 +202,8 @@ Page({
       });
       // 区
       let district = city[c].regions,
-          districtName = [],
-          districtID = [];
+        districtName = [],
+        districtID = [];
       for(let item in district) {
         districtName.push(district[item].name);
         districtID.push(district[item].id);
@@ -212,7 +212,7 @@ Page({
         districtName: districtName,
         districtID: districtID
       });
-    wx.hideLoading();
+      wx.hideLoading();
     });
   },
 

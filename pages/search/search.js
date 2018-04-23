@@ -35,7 +35,7 @@ Page({
   // 商品搜索
   bindSearchTap(keyword){
     if (this.data.keyword !== null) {
-      let k = this.data.keyword || keyword
+      let k = this.data.keyword || keyword;
       wx.navigateTo({
         url: '../goods/list/list?keyword=' + k
       });

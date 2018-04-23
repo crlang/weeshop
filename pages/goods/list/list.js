@@ -22,7 +22,7 @@ Page({
    */
   onLoad: function (options) {
     let keyword = options.keyword || '',
-        category = options.category || '';
+      category = options.category || '';
     if (keyword !== '') {
       wx.setNavigationBarTitle({
         title: util.pageTitle.search + " " + keyword
@@ -47,9 +47,9 @@ Page({
       'paged.page': 1,
       'sort_key': sort_key
     });
-    if(sort_key == 1) {
+    if(sort_key === 1) {
       this.setData({
-        sort_value: this.data.sort_value == 1 ? 2 : 1
+        sort_value: this.data.sort_value === 1 ? 2 : 1
       });
     }
     this.getPorducts();
@@ -141,4 +141,4 @@ Page({
   onShareAppMessage: function () {
 
   }
-})
+});

@@ -115,17 +115,17 @@ Page({
     // 导航栏标题
     let orderTitle = '';
     switch(status) {
-      case "0":
-        orderTitle = util.pageTitle.orderM.s1;
+    case "0":
+      orderTitle = util.pageTitle.orderM.s1;
       break;
-      case "1":
-        orderTitle = util.pageTitle.orderM.s2;
+    case "1":
+      orderTitle = util.pageTitle.orderM.s2;
       break;
-      case "2":
-        orderTitle = util.pageTitle.orderM.s3;
+    case "2":
+      orderTitle = util.pageTitle.orderM.s3;
       break;
-      case "3":
-        orderTitle = util.pageTitle.orderM.s4;
+    case "3":
+      orderTitle = util.pageTitle.orderM.s4;
       break;
     }
     wx.setNavigationBarTitle({
@@ -162,7 +162,7 @@ Page({
         self.setData({ loadMore:false });
       }
     }).catch(err => {
-        util.notLogin(err);
+      util.notLogin(err);
     });
     wx.hideLoading();
   },
@@ -236,4 +236,4 @@ Page({
   onShareAppMessage: function () {
 
   }
-})
+});

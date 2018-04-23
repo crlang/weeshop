@@ -7,9 +7,9 @@ import XXTEA from '../libs/security/xxtea.js';
 
 // 商城地址
 let https     = false,
-    // 如果网站是 HTTPS 的则设为 true
-    shopUrl   = 'ecshop.com';
-    // 商城地址，不是 API 地址。不包含 "http://"
+  // 如果网站是 HTTPS 的则设为 true
+  shopUrl     = 'ecshop.com';
+// 商城地址，不是 API 地址。不包含 "http://"
 
 ///////////////////////////////////////////////////////////////
 //////////////// 以下区域，如果不会修改，则不要动 ////////////////
@@ -19,7 +19,7 @@ let https     = false,
 // util.apiUrl + url
 let apiUrl = 'http://api.' + shopUrl + '/v2/';
 if(https) {apiUrl = 'https://api.' + shopUrl + '/v2/';}
-  https === true ? shopUrl = 'https://' + shopUrl : shopUrl = 'http://' + shopUrl;
+https === true ? shopUrl = 'https://' + shopUrl : shopUrl = 'http://' + shopUrl;
 
 // API 地址检测
 !(function apiTest(){
@@ -51,19 +51,19 @@ if(https) {apiUrl = 'https://api.' + shopUrl + '/v2/';}
 // util.formatTiem(timeStamp,'Y/M/D h:m:s') 或 util.formatTiem(timeStamp)
 function formatTime(date,format = null) {
   var date = new Date(date * 1000), // 毫秒级
-      formatsArr = ['Y','M','D','h','i','s'],
-      returnArr = [],
-      year = date.getFullYear(),
-      month = date.getMonth() + 1,
-      day = date.getDate(),
-      hour = date.getHours(),
-      minute = date.getMinutes(),
-      second = date.getSeconds();
+    formatsArr = ['Y','M','D','h','i','s'],
+    returnArr = [],
+    year = date.getFullYear(),
+    month = date.getMonth() + 1,
+    day = date.getDate(),
+    hour = date.getHours(),
+    minute = date.getMinutes(),
+    second = date.getSeconds();
   function formatNumber(n) {
     n = n.toString();
     return n[1] ? n : '0' + n;
   }
-  if (format == null) {
+  if (format === null) {
     return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':');
   }else{
     returnArr.push(year);
@@ -119,9 +119,9 @@ function request(url, method = 'GET', data = {}) {
 // ecapi.config.get
 function getShopConfig(){
   return request(apiUrl + 'ecapi.config.get', 'POST').then(res => {
-    if(res.error_code == 0) {
+    if(res.error_code === 0) {
       let key = "getprogname()",
-          data = res.data;
+        data = res.data;
       return JSON.parse(XXTEA.decryptFromBase64(data, key));
     }
     return null;
@@ -154,20 +154,20 @@ getShopConfig().then(res => {
 // util.showToast(title,type,duration)
 function showToast(title, type = 'none', duration = null) {
   let image = '',
-      icon = '';
+    icon = '';
   switch (type) {
-    case 'error':
-      image = '/images/icon_error.png';
-      break;
-    case 'success':
-      image = '/images/icon_success.png';
-      break;
-    case 'warning':
-      image = '/images/icon_warning.png';
-      break;
-    case 'none':
-      icon = 'none';
-      break;
+  case 'error':
+    image = '/images/icon_error.png';
+    break;
+  case 'success':
+    image = '/images/icon_success.png';
+    break;
+  case 'warning':
+    image = '/images/icon_warning.png';
+    break;
+  case 'none':
+    icon = 'none';
+    break;
   }
   duration === null ? duration = 500 : duration;
   wx.showToast({
@@ -205,7 +205,7 @@ function notLogin(err) {
   // "TOKEN_EXPIRED": 10002, // Token 过期
   // "SIGN_INVALID": 10003, // Sign 无效
   // "SIGN_EXPIRED": 10004, // Sign 过期
-  if (err.error == true || err.error_code == 10001) {
+  if (err.error || err.error_code === 10001) {
     wx.showModal({
       title: '授权错误',
       content: '由于你取消了用户授权，后续将影响购物，请点击确定重新授权。',
@@ -332,4 +332,3 @@ module.exports = {
   pageTitle: pageTitle,
   getShopConfig: getShopConfig
 };
-
