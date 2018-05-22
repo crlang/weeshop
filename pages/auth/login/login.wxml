@@ -5,6 +5,7 @@
       <input class="input-item" name="username" placeholder="请输入用户名/邮箱" />
       <input class="input-item" name="password" type="password" placeholder="请输入密码" />
       <button class="btn-item" formType="submit">登录</button>
+      <button open-type="getUserInfo" hover-class='none' class="btn-item btn-item-wx" bindgetuserinfo="getUserInfo">微信快捷登录</button>
       <view class="link-item">
         <navigator url="../forget/forget" class="l">忘记密码了？</navigator>
         <navigator url="../register/register" class="r">新用户注册</navigator>

@@ -219,6 +219,8 @@ Page({
         cartGoodsCount: cartTotal
       });
       util.updateCartNum();
+    }).catch(err => {
+      util.notLogin(err);
     });
   },
 
@@ -316,6 +318,8 @@ Page({
       this.setData({
         checkAddress: cA
       });
+    }).catch(err => {
+      //...
     });
   },
 
@@ -433,6 +437,8 @@ Page({
     this.getCartCount();
     this.getGoodsComment();
     this.getGoodsRelated();
+    console.log(this.data);
+
   },
 
   /**
@@ -449,4 +455,23 @@ Page({
   onUnload: function () {
     // 页面关闭
   },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+    return {
+      title: this.data.goods.name,
+      path: '/pages/goods/detail/detail',
+      success(e) {
+        // 需要在页面onLoad()事件中实现接口
+        wx.showShareMenu({
+          // 要求小程序返回分享目标信息
+          withShareTicket: true
+        });
+      },
+      fail(e) {
+      },
+      complete() { }
+    }
+  }
 });

@@ -41,7 +41,7 @@ Page({
         orderTotal: res.subtotal,
       });
     }).catch(err => {
-      // util.notLogin(err);
+      //...
     });
   },
 
@@ -49,7 +49,8 @@ Page({
   bindUserTap() {
     var self = this;
     var userInfo = wx.getStorageSync('user');
-    console.log(userInfo);
+    console.log('ccc',typeof userInfo);
+
     // 判断是否登陆
     if (userInfo.is_completed) {
       // 获取用户信息
@@ -67,14 +68,34 @@ Page({
         userInfo: user
       });
     } else {
-      // 获取全局用户数据
-      app.getUserInfo(userInfo => {
-
-        self.setUserInfo();
-        self.setData({
-          userInfo: userInfo
+      if (userInfo === '') {
+        wx.showModal({
+          title: '登录提示',
+          content: '由于你尚未授权登录，请登录。',
+          // confirmText: '跳转',
+          // showCancel: false,
+          success: function (cif) {
+            if (cif.confirm) {
+              wx.navigateTo({
+                url: '/pages/auth/login/login'
+              });
+            }else{
+              wx.switchTab({
+                url: '/pages/index/index'
+              });
+            }
+          }
         });
-      });
+        return false;
+      }else {
+        // 获取全局用户数据
+        app.getUserInfo(userInfo => {
+          self.setUserInfo();
+          self.setData({
+            userInfo: userInfo
+          });
+        });
+      }
     }
   },
 
@@ -150,13 +171,6 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
 
   }
 });

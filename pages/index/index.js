@@ -53,9 +53,6 @@ Page({
       self.setData({
         userInfo: user
       });
-    } else {
-      // 获取全局用户数据
-      app.getUserInfo();
     }
   },
 
@@ -66,13 +63,16 @@ Page({
     util.request(util.apiUrl + 'ecapi.site.get', 'POST').then(res => {
       // ...
     }).catch(err =>{
-      if(err.site_info === undefined) {
+      console.log('site',err);
+
+      if(err.data.site_info === undefined) {
         util.showToast('数据加载出错！','error',2500);
       }else{
         self.setData({
-          siteInfo: err.site_info
+          siteInfo: err.data.site_info
         });
       }
+
       wx.setNavigationBarTitle({
         title: self.data.siteInfo.name || util.pageTitle.home
       });
@@ -128,7 +128,7 @@ Page({
     util.request(util.apiUrl +"notice."+ event.currentTarget.dataset.id).then(res => {
       // ...
     }).catch( err => {
-      let content = err.match(/<p class="lead">([\s\S]*?)<\/p>/)[1];
+      let content = err.data.match(/<p class="lead">([\s\S]*?)<\/p>/)[1];
       wx.showModal({
         title: "公告详情",
         content: content,
@@ -154,6 +154,7 @@ Page({
    */
   onReady: function () {
     // 页面渲染完成
+    console.log(this.siteInfo);
   },
 
   /**
@@ -161,6 +162,7 @@ Page({
    */
   onShow: function () {
     // 页面显示
+    util.updateCartNum();
   },
 
   /**
@@ -187,4 +189,23 @@ Page({
    */
   onReachBottom: function () {
   },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+    return {
+      title: this.data.siteInfo.name,
+      path: '/pages/index/index',
+      success(e) {
+        // 需要在页面onLoad()事件中实现接口
+        wx.showShareMenu({
+          // 要求小程序返回分享目标信息
+          withShareTicket: true
+        });
+      },
+      fail(e) {
+      },
+      complete() { }
+    }
+  }
 });

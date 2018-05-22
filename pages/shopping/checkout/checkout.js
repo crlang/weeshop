@@ -159,7 +159,7 @@ Page({
         orderPrice: res.order_price
       });
     }).catch(err => {
-      console.log(err);
+      util.showToast(err.error_desc);
     });
   },
 

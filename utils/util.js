@@ -6,9 +6,9 @@ import XXTEA from '../libs/security/xxtea.js';
 //////////////////////////////////////////////////////////////
 
 // 商城地址
-let https     = false,
+let https     = true,
   // 如果网站是 HTTPS 的则设为 true
-  shopUrl     = 'ecshop.com';
+  shopUrl     = 'ecshop.crlang.com';
 // 商城地址，不是 API 地址。不包含 "http://"
 
 ///////////////////////////////////////////////////////////////
@@ -102,10 +102,10 @@ function request(url, method = 'GET', data = {}) {
       data: data,
       header: header,
       success: function (res) {
-        if (res.data.error_code === 0) {
+        if (res.data.error_code === 0 && res.statusCode === 200) {
           resolve(res.data);
         } else {
-          reject(res.data);
+          reject(res);
         }
       },
       fail: function (err) {
@@ -125,27 +125,45 @@ function getShopConfig(){
       return JSON.parse(XXTEA.decryptFromBase64(data, key));
     }
     return null;
+  }).catch(err => {
+    if (err.statusCode === 404) {
+      // 页面不存在
+      wx.showModal({
+        title: '错误',
+        content: 'API 站点配置，页面不存在！',
+        showCancel: false
+      });
+    } else if(err.statusCode === 405) {
+      // 页面无权限
+      wx.showModal({
+        title: '失败',
+        content: 'API 站点配置无权获取，No Access-Control-Allow-Origin。\r\n请参考文章 https://www.darlang.com/?p=709！',
+        showCancel: false
+      });
+    }
   });
 }
 getShopConfig().then(res => {
-  if (typeof res.config['wechat.wxa'] === "undefined") {
-    // 未开启小程序提示
-    wx.showModal({
-      title: '提示',
-      content: '商城后台配置未开启小程序登录功能！',
-      showCancel: false
-    });
-    return false;
-  }else {
-    // 未授权提示
-    if (res.config.authorize !== true) {
-      let authorizeTip = XXTEA.utf8Decode("æªææï¼å°ç¨åºåè½åéå¶ã\r\nè¯·æ³¨æï¼å¦éææï¼è¯·åå¾ ecshop å®æ¹ç½ç«è´­ä¹°ï¼ï¼ï¼");
+  if (res) {
+    if (typeof res.config['wechat.wxa'] === "undefined") {
+      // 未开启小程序提示
       wx.showModal({
-        title: '',
-        content: authorizeTip,
+        title: '提示',
+        content: '商城后台配置未开启小程序功能！',
         showCancel: false
       });
       return false;
+    }else {
+      // 未授权提示
+      if (res.config.authorize !== true) {
+        let authorizeTip = XXTEA.utf8Decode("æªææï¼å°ç¨åºåè½åéå¶ã\r\nè¯·æ³¨æï¼å¦éææï¼è¯·åå¾ ecshop å®æ¹ç½ç«è´­ä¹°ï¼ï¼ï¼");
+        wx.showModal({
+          title: '',
+          content: authorizeTip,
+          showCancel: false
+        });
+        return false;
+      }
     }
   }
 });
@@ -194,7 +212,6 @@ function updateCartNum() {
     wx.setTabBarBadge({index: 2,text: num});
   });
 }
-updateCartNum();
 
 // 未登录提示
 function notLogin(err) {
@@ -205,43 +222,33 @@ function notLogin(err) {
   // "TOKEN_EXPIRED": 10002, // Token 过期
   // "SIGN_INVALID": 10003, // Sign 无效
   // "SIGN_EXPIRED": 10004, // Sign 过期
-  if (err.error || err.error_code === 10001) {
+  if (err.data.error || err.data.error_code === 10001) {
     wx.showModal({
       title: '授权错误',
-      content: '由于你取消了用户授权，后续将影响购物，请点击确定重新授权。',
+      content: '由于你尚未授权登录，后续将影响购物，请授权。',
+      confirmText: '跳转',
       // showCancel: false,
       success: function (cif) {
         if (cif.confirm) {
-          wx.getSetting({
-            success() {
-              wx.openSetting({
-                success: () => {
-                  getApp().getUserInfo();
-                  showToast('授权开启成功','success',800);
-                }
-              });
-            }
+          wx.navigateTo({
+            url: '/pages/auth/login/login'
           });
-        }else if(cif.cancel){
+        }else{
           wx.showModal({
             title: '授权取消',
             content: '由于你取消了用户授权，是否使用账号登录？',
-            cancelText: '否',
-            confirmText: '是',
             success: function (eci) {
               if (eci.confirm) {
-                wx.navigateTo({
+                wx.redirectTo({
                   url: '/pages/auth/login/login'
                 });
-              }else if(eci.cancel){
-                getApp().getUserInfo();
-              }else{
-                getApp().getUserInfo();
+              }else {
+                wx.switchTab({
+                  url: '/pages/index/index'
+                });
               }
             }
           });
-        }else{
-          getApp().getUserInfo();
         }
       }
     });

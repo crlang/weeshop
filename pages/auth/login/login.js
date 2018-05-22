@@ -1,6 +1,7 @@
 // login.js
 import util from '../../../utils/util.js';
-
+var app = getApp();
+var openid = '',session_key = '',loginCode = '',loginCodeNew='';
 Page({
   /**
    * 页面的初始数据
@@ -48,6 +49,12 @@ Page({
     });
   },
 
+  // 小程序注册获取用户信息
+  // ecapi.auth.social
+  getUserInfo: function(cb) {
+    app.getUserInfo();
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -87,13 +94,6 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
 
   }
 });

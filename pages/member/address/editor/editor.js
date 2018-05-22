@@ -221,6 +221,7 @@ Page({
     p = e.detail.value[0];
     c = e.detail.value[1];
     d = e.detail.value[2];
+    console.log(p,c,d);
     this.setAreaData(p, c, d);
   },
 

@@ -8,24 +8,31 @@ App({
     var logs = wx.getStorageSync('logs') || [];
     logs.unshift(Date.now());
     wx.setStorageSync('logs', logs);
+    util.updateCartNum();
   },
 
   // 小程序注册获取用户信息
   // ecapi.auth.social
   getUserInfo: function(cb) {
     var self = this;
+    console.log("gb",self);
+
     if(self.globalData.userInfo) {
       typeof cb == "function" && cb(self.globalData.userInfo);
     }else{
       //调用登录接口
       wx.login({
         success: function(res){
+          console.log("wlog",res);
+
           loginCodeNew = res.code;
         }
       });
       wx.getUserInfo({
         withCredentials: false,
         success: function(res) {
+          console.log('yes',res);
+
           util.request(util.apiUrl + "ecapi.auth.social","POST",{
             vendor:5,
             js_code: loginCodeNew,
@@ -76,7 +83,7 @@ App({
                   }
                 });
               }else if(cif.cancel) {
-                self.getUserInfo();
+                // self.getUserInfo();
               }
             }
           });

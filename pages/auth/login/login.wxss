@@ -35,7 +35,9 @@ page, .container{
   border-radius: 0;
   border: none;
 }
-
+.login .btn-item.btn-item-wx {
+  background: #1AAD19;
+}
 .login .link-item{
   margin-top: 20rpx;
   height: 40rpx;

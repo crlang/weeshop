@@ -80,6 +80,7 @@ Page({
             code:  self.data.code,
             openid: app.globalData.openid
           }).then(res => {
+            console.log("pay",res);
             if (self.data.code === "balance" && res.error_code === 0) {
               util.showToast('支付成功','success');
               setTimeout(function(){
