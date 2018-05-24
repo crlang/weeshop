@@ -1,4 +1,4 @@
-<!--cart.wxml-->
+<!--favorite.wxml-->
 <view class="container">
   <view class="favorite-list" wx:if="{{favoriteList.length > 0}}">
       <view class="list-item" wx:for="{{favoriteList}}" wx:key="{{item.id}}">

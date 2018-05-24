@@ -1,19 +1,22 @@
 # weeshop
 ECShop 微信小程序商城，基于3.6版本 appserver 接口，100% 兼容原有程序。
-> 注意：本项目还在开发中，功能还未完善，请匆商用。
+
+> 注意：本项目开发基本完善，如用于商业用途，请务必去往博客文章留言备注。
 > 项目内容基于 ECShop 3.6 的 API 接口，如需二次开发，请参考 appserver 源码
 
+
 # 欢迎 S T A R T
+
 
 # 功能 Function
 + [x] 首页：
 轮播图、滚动公告、精品推荐、新品上市、销量排行
 
 + [x] 分类：
-分类目录
+分类目录、商品搜索
 
 + [x] 我的：
-退出登录、用户信息显示、订单统计
+退出登录、用户信息显示、订单统计、列表入口
 
 + [x] 列表：
 商品排序、商品列表
@@ -24,7 +27,7 @@ ECShop 微信小程序商城，基于3.6版本 appserver 接口，100% 兼容原
 + [x] 商品详情：
 商品详情、规格选择、加入购物车、立即购买、评价详情、收藏功能
 
-+ [x] 登录「默认微信登录」：
++ [x] 登录：
 用户登录、用户注册、找回密码
 
 + [x] 购物车：
@@ -53,38 +56,36 @@ ECShop 微信小程序商城，基于3.6版本 appserver 接口，100% 兼容原
 用户信息、等级详情、折扣详情
 
 + [x] 红包/优惠券：
-红包列表、优惠券列表、x使用红包x、x使用优惠券x
+红包列表、优惠券列表、x使用红包x、x使用优惠券
 
 + [x] 积分：
-积分记录列表、x使用积分x
+积分记录列表、x使用积分
 
-+ [ ] 微信：
++ [x] 微信：
 微信登陆、微信支付
 
-+ [ ] 文章：
-文章列表、文章详情
-
-+ [ ] 密码：
-修改密码
-
-+ [ ] 分成：
-推荐记录、分成规则、推荐规则
-
 + [ ] 其它功能正在开发中...
+
 
 # 预览 Previews
 
 ![首页](./images/ScreenShot01.png)
 ![列表](./images/ScreenShot02.png)
 
+
 ![购物](./images/ScreenShot03.png)
 ![我的](./images/ScreenShot04.png)
+
 
 ![列表](./images/ScreenShot05.png)
 ![支付](./images/ScreenShot06.png)
 
+
 ## 进度 progress
 目前已经完善基本商城购物流程，支持余额支付、微信支付、微信登录。
+
+注意：商用务必前往 [博客文章](https://www.darlang.com/?p=709) 留言备注，谢谢。
+
 
 ## 前提概要 Prerequisites
 如果你不懂搭建 ECShop 3.6 ，请**必须**跟着该先决条件进行操作。
@@ -139,11 +140,16 @@ ECShop 微信小程序商城，基于3.6版本 appserver 接口，100% 兼容原
 ## 反馈 Issues
 本人博客文章关联了该项目，如果有疑问，可通过文章评论功能提交你的疑问。
 
-博客链接地址：https://www.darlang.com/?p=709
+博客链接地址：[https://www.darlang.com/?p=709](https://www.darlang.com/?p=709)
 
-标题: [ECShop 小程序「weeshop 」- 基于 ECShop 3.6 版本开发的非官方微信小程序](https://www.darlang.com/2018/03/ecshop-xiao-cheng-xu-weeshop-ji-yu-ecshop-3-6-ban-ben-kai-fa-de-fei-guan-fang-wei-xin-xiao-cheng-xu/)
+标题: [ECShop 小程序「weeshop 」](https://www.darlang.com/?p=709)
 
 如需反馈，请在博客文章评论区域回复讨论，**我只在博客评论区域回复**。
+
+
+欢迎加QQ群：
+
+点击链接加入群聊【WeeShop 讨论群号737840076】：[https://jq.qq.com/?_wv=1027&k=5e0ANUg](https://jq.qq.com/?_wv=1027&k=5e0ANUg)
 
 ## 关于 weeshop
 基于原 tumobi 的基础修正多处错误，增加并完善商城功能。

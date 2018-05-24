@@ -1,3 +1,4 @@
+<!-- editor.wxml -->
 <view class="container">
   <form bindsubmit="editAddress">
     <view class="form-list">

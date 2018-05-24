@@ -1,3 +1,14 @@
+/**
+ * WeeShop 声明
+ * ===========================================================
+ * 版权 大朗 所有，并保留所有权利
+ * 网站地址: http://www.darlang.com
+ * 标题: ECShop 小程序「weeshop 」- 基于 ECShop 3.6 版本开发的非官方微信小程序
+ * 短链接: https://www.darlang.com/?p=709
+ * 说明：源码已开源并遵循 MIT 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
+ * ==========================================================
+ * @Author: Darlang
+ */
 import XXTEA from '../libs/security/xxtea.js';
 
 //////////////////////////////////////////////////////////////
@@ -39,7 +50,7 @@ https === true ? shopUrl = 'https://' + shopUrl : shopUrl = 'http://' + shopUrl;
       if (com.data !== 'Hi') {
         wx.showModal({
           title: 'API地址错误',
-          content: '请访问\r\n' + apiSiteURL + '\r\n能否正常得到 Hi 字符.\r\n谨记：\r\n如果商城地址为 ecshop.com ,\r\n则 api 地址必须为 api.ecshop.com .',
+          content: '请访问\r\n' + apiSiteURL + '\r\n能否正常得到 Hi 字符.\r\n请参考文章 https://www.darlang.com/?p=709！',
           showCancel: false
         });
       }
@@ -50,15 +61,15 @@ https === true ? shopUrl = 'https://' + shopUrl : shopUrl = 'http://' + shopUrl;
 // 格式化时间
 // util.formatTiem(timeStamp,'Y/M/D h:m:s') 或 util.formatTiem(timeStamp)
 function formatTime(date,format = null) {
-  var date = new Date(date * 1000), // 毫秒级
+  var daDate = new Date(date * 1000), // 毫秒级
     formatsArr = ['Y','M','D','h','i','s'],
     returnArr = [],
-    year = date.getFullYear(),
-    month = date.getMonth() + 1,
-    day = date.getDate(),
-    hour = date.getHours(),
-    minute = date.getMinutes(),
-    second = date.getSeconds();
+    year = daDate.getFullYear(),
+    month = daDate.getMonth() + 1,
+    day = daDate.getDate(),
+    hour = daDate.getHours(),
+    minute = daDate.getMinutes(),
+    second = daDate.getSeconds();
   function formatNumber(n) {
     n = n.toString();
     return n[1] ? n : '0' + n;

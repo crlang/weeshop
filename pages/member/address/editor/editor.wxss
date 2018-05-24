@@ -1,4 +1,4 @@
-/* cart.wxss */
+/* editor.wxss */
 page, .container{
   height: 100%;
 }

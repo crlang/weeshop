@@ -1,8 +1,8 @@
 <!--index.wxml-->
 <view class="container">
   <view class="user-box">
-    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
-    <text class="username">{{userInfo.nickName}}</text>
+    <image class="avatar" src="{{userInfo.avatar}}"></image>
+    <text class="username">{{userInfo.username}}</text>
     <navigator url="../level/level"><text class="username">{{userInfo.level.name}}</text></navigator>
   </view>
   <view class="order">

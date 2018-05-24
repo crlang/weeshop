@@ -1,4 +1,4 @@
-// page.js
+// changepassword.js
 import util from '../../../utils/util.js';
 
 Page({

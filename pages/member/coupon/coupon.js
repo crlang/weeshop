@@ -1,4 +1,4 @@
-// page.js
+// coupon.js
 import util from '../../../utils/util.js';
 
 Page({

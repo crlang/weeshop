@@ -1,11 +1,16 @@
 <!-- login.wxml -->
 <view class="container">
   <view class="login">
+    <view class="login-logo" wx:if="{{logoURL}}">
+      <image class="icon" src="{{logoURL}}"></image>
+    </view>
     <form bindsubmit="login">
       <input class="input-item" name="username" placeholder="请输入用户名/邮箱" />
       <input class="input-item" name="password" type="password" placeholder="请输入密码" />
-      <button class="btn-item" formType="submit">登录</button>
-      <button open-type="getUserInfo" hover-class='none' class="btn-item btn-item-wx" bindgetuserinfo="getUserInfo">微信快捷登录</button>
+      <view class="submit-btn">
+        <button class="btn-item" formType="submit">登录</button>
+        <button open-type="getUserInfo" class="btn-item btn-item-wx" bindgetuserinfo="getUserInfo"><image class="icon" src="/images/icon_wechat.png"></image>快捷登录</button>
+      </view>
       <view class="link-item">
         <navigator url="../forget/forget" class="l">忘记密码了？</navigator>
         <navigator url="../register/register" class="r">新用户注册</navigator>

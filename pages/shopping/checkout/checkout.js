@@ -1,4 +1,4 @@
-// cart.js
+// checkout.js
 import util from '../../../utils/util.js';
 
 Page({
@@ -132,18 +132,14 @@ Page({
           });
           self.getOrderBuylist();
         },
-        fail: function(res) {
-          console.log(res);
+        fail: function(fai) {
+          util.showToast('取消选择','error');
         }
       });
     }).catch(err => {
       util.showToast(err.error_desc);
     });
   },
-
-  // 红包筛选
-  // ecapi.cashgift.available
-  // total_price page per_page
 
   // 订单购买列表
   // ecapi.order.price

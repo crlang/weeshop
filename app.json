@@ -28,8 +28,7 @@
     "pages/member/comment/list/list",
     "pages/member/level/level",
     "pages/member/score/score",
-    "pages/member/changepassword/changepassword",
-    "pages/wechat/pay/pay"
+    "pages/member/changepassword/changepassword"
   ],
 
   "window": {

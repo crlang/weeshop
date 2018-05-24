@@ -38,8 +38,6 @@ Page({
       page: 1,
       per_page: 999
     }).then(res => {
-      console.log(res.categories);
-
       this.setData({
         categories: res.categories,
         childCategories: res.categories[0].categories,
@@ -54,8 +52,6 @@ Page({
     // 获取item项的id，和数组的下标值
     let id = e.target.dataset.id,
       index = parseInt(e.target.dataset.index);
-    console.log(index,id);
-
     // 把点击到的某一项，设为当前index
     this.setData({
       curId: id,

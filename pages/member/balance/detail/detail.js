@@ -1,4 +1,4 @@
-// page.js
+// detail.js
 import util from '../../../../utils/util.js';
 
 Page({

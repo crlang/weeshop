@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    logoURL: '',
     username: '',
     password: ''
   },
@@ -17,6 +18,13 @@ Page({
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: util.pageTitle.login
+    });
+    util.request(util.apiUrl + 'ecapi.site.get', 'POST').then(res => {
+      // ...
+    }).catch(err =>{
+      this.setData({
+        logoURL: err.data.site_info.logo.large
+      });
     });
   },
 

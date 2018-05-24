@@ -1,4 +1,4 @@
-// page.js
+// userinfo.js
 import util from '../../../utils/util.js';
 
 Page({

@@ -437,8 +437,6 @@ Page({
     this.getCartCount();
     this.getGoodsComment();
     this.getGoodsRelated();
-    console.log(this.data);
-
   },
 
   /**

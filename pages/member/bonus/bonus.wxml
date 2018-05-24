@@ -1,4 +1,4 @@
-<!-- coupon.wxml -->
+<!-- bonus.wxml -->
 <view class="container">
   <view class="cashgift-filter">
       <view class="filter-item {{status == '0' ? 'active' : ''}}" bindtap="bindSbonustap" data-id="0">

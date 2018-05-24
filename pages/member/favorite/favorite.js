@@ -1,4 +1,4 @@
-// cart.js
+// favorite.js
 import util from '../../../utils/util.js';
 
 Page({

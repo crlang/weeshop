@@ -1,4 +1,4 @@
-<!-- catalog.wxml -->
+<!-- search.wxml -->
 <view class="container">
   <view class="search">
     <view class="form">

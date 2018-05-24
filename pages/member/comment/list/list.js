@@ -1,4 +1,4 @@
-// page.js
+// list.js
 import util from '../../../../utils/util.js';
 
 Page({

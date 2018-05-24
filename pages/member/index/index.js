@@ -24,7 +24,9 @@ Page({
   logout() {
     wx.removeStorageSync('token');
     wx.removeStorageSync('user');
+    wx.removeStorageSync('openid');
     app.globalData.userInfo = null;
+    this.data.orderTotal = null;
     util.showToast('退出登录成功', 'success');
     setTimeout(function(){
       wx.switchTab({
@@ -47,28 +49,26 @@ Page({
 
   // 个人信息
   bindUserTap() {
-    var self = this;
-    var userInfo = wx.getStorageSync('user');
-    console.log('ccc',typeof userInfo);
+    var self = this,
+      userInfo = wx.getStorageSync('user');
+    if (userInfo.avatar === null) {
+      userInfo.avatar = "/images/default-avatar.png";
+    }
+    console.log('td',self.data);
 
     // 判断是否登陆
-    if (userInfo.is_completed) {
-      // 获取用户信息
-      if (userInfo.avatar === null) {
-        userInfo.avatar = "/images/default-avatar.png";
-      }
-      var photo = userInfo.avatar,
-        name = userInfo.username,
-        level = userInfo.rank,
-        user = {};
-      user.avatarUrl = photo;
-      user.nickName = name;
-      user.level = level;
-      self.setData({
-        userInfo: user
-      });
-    } else {
-      if (userInfo === '') {
+    if (!userInfo) {
+      let openid = wx.getStorageSync('openid'),
+        defaultUserInfo = {};
+      // 初始化用户信息
+      if (!userInfo && !openid) {
+        defaultUserInfo.avatarUrl = "/images/default-avatar.png";
+        defaultUserInfo.nickName = "你好，大朗！";
+        defaultUserInfo.level = "游客";
+        self.setData({
+          userInfo: defaultUserInfo
+        });
+
         wx.showModal({
           title: '登录提示',
           content: '由于你尚未授权登录，请登录。',
@@ -88,14 +88,22 @@ Page({
         });
         return false;
       }else {
-        // 获取全局用户数据
-        app.getUserInfo(userInfo => {
-          self.setUserInfo();
-          self.setData({
-            userInfo: userInfo
-          });
+        self.setData({
+          userInfo: userInfo
         });
       }
+    } else {
+      self.setData({
+        userInfo: userInfo
+      });
+      // 获取全局用户数据
+      // app.getUserInfo(userInfo => {
+      //   console.log('app user',userInfo);
+      //   // self.setUserInfo();
+      //   self.setData({
+      //     userInfo: userInfo
+      //   });
+      // });
     }
   },
 
@@ -125,12 +133,12 @@ Page({
   },
 
   // 设置会员信息
-  setUserInfo() {
-    let user = wx.getStorageSync('user');
-    this.setData({
-      userInfo: user
-    });
-  },
+  // setUserInfo() {
+  //   let user = wx.getStorageSync('user');
+  //   this.setData({
+  //     userInfo: user
+  //   });
+  // },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

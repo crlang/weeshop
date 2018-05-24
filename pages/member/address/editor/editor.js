@@ -1,4 +1,4 @@
-// cart.js
+// editor.js
 import util from '../../../../utils/util.js';
 let p = 0, c = 0, d = 0;
 
@@ -110,6 +110,7 @@ Page({
           wx.navigateBack();
         },800);
       }).catch(err => {
+        util.notLogin(err);
         util.showToast(err.error_desc);
       });
     }else{
@@ -132,6 +133,7 @@ Page({
             });
           },800);
         }).catch(err => {
+          util.notLogin(err);
           util.showToast(err.error_desc);
         });
       }
@@ -157,6 +159,8 @@ Page({
                 url: '../selector/selector',
               });
             },800);
+          }).catch(err => {
+            util.notLogin(err);
           });
         }
       }
@@ -221,7 +225,6 @@ Page({
     p = e.detail.value[0];
     c = e.detail.value[1];
     d = e.detail.value[2];
-    console.log(p,c,d);
     this.setAreaData(p, c, d);
   },
 

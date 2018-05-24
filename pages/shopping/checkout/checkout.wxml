@@ -1,4 +1,4 @@
-<!-- cart.wxml -->
+<!-- checkout.wxml -->
 <view class="container">
   <!-- Address -->
   <navigator class="confirm-address" bindtap="bindAddress" url="../../member/address/selector/selector?order_product={{order_product}}">

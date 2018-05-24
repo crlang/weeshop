@@ -1,4 +1,4 @@
-// page.js
+// success.js
 import util from '../../../../utils/util.js';
 
 Page({

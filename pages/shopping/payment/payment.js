@@ -1,4 +1,15 @@
-// cart.js
+/**
+ * WeeShop 声明
+ * ===========================================================
+ * 版权 大朗 所有，并保留所有权利
+ * 网站地址: http://www.darlang.com
+ * 标题: ECShop 小程序「weeshop 」- 基于 ECShop 3.6 版本开发的非官方微信小程序
+ * 短链接: https://www.darlang.com/?p=709
+ * 说明：源码已开源并遵循 MIT 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
+ * ==========================================================
+ * @Author: Darlang
+ */
+// payment.js
 import util from '../../../utils/util.js';
 
 let app = getApp();
@@ -30,32 +41,18 @@ Page({
     this.getBalanceInfo();
   },
 
-  // 支付列表
-  // ecapi.payment.types.list
-  // ecapi.product.purchase
-  // product: 74 产品
-  // property: "[245,243]" 规格
-  // amount: 1 数量
-  // comment: "留言，我要红色的"
-  // consignee: 3, 收货id
-  // shipping: 8 快递id
-
-  // 支付方式
-  // ecapi.payment.types.list
-  // shop: 1
-
+  // 获取订单信息
+  // ecapi.order.get
   getOrderInfo(order) {
-    let self = this,
-      orderInfo = [];
+    let self = this;
     util.request(util.apiUrl + 'ecapi.order.get', 'POST',{
       order: order
     }).then(res => {
-      console.log('inf',res);
       self.setData({
         orderInfo: res.order
       });
     }).catch(err => {
-      console.log(err);
+      util.showToast(err.error_desc,'error');
     });
   },
 
@@ -69,7 +66,38 @@ Page({
   // 支付
   // ecapi.payment.pay
   toPay() {
-    let self = this;
+    let self = this,openid = null;
+    if(app.globalData.openid === null) {
+      let cacheOpenid = wx.getStorageSync('openid');
+      if (cacheOpenid) {
+        openid = cacheOpenid;
+      }else {
+        wx.showModal({
+          title: '登录异常',
+          content: '支付错误，登录超时或者异常，请重新登录!',
+          cancelText: '返回首页',
+          confirmText: '重新登录',
+          success: function (res) {
+            if(res.confirm) {
+              app.getUserInfo();
+              setTimeout(function(){
+                wx.navigateTo({
+                  url: '/pages/shopping/payment/payment?order=' + self.data.order,
+                });
+              }, 1500);
+            }else {
+              wx.navigateTo({
+                url: '/pages/index/index',
+              });
+            }
+          }
+        });
+        return false;
+      }
+    }else {
+      openid = app.globalData.openid;
+    }
+
     wx.showModal({
       title: '确认支付',
       content: '你选择的是 ' +LANGUAGESET(self.data.code)+ ' 请确认支付.',
@@ -78,9 +106,8 @@ Page({
           util.request(util.apiUrl + 'ecapi.payment.pay', 'POST',{
             order: self.data.order,
             code:  self.data.code,
-            openid: app.globalData.openid
+            openid: openid
           }).then(res => {
-            console.log("pay",res);
             if (self.data.code === "balance" && res.error_code === 0) {
               util.showToast('支付成功','success');
               setTimeout(function(){
@@ -100,22 +127,22 @@ Page({
                 'signType': 'MD5',
                 'paySign': res.wxpay.sign,
                 success: res => {
+                  //requestPayment:ok
                   util.showToast('支付成功','success');
-                  console.log('res',res);
                 },
                 fail: fai =>{
-                  util.showToast('支付错误','error');
-                  console.log('fai',fai);
+                  //requestPayment:fail cancel
+                  util.showToast('支付未完成','error');
                 }
               });
             }
           }).catch(err => {
-            console.log('e',err);
             util.showToast(err.error_desc,'error',800);
           });
         }
       }
     });
+
     function LANGUAGESET(name) {
       switch (name) {
       case "balance":

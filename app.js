@@ -1,3 +1,14 @@
+/**
+ * WeeShop 声明
+ * ===========================================================
+ * 版权 大朗 所有，并保留所有权利
+ * 网站地址: http://www.darlang.com
+ * 标题: ECShop 小程序「weeshop 」- 基于 ECShop 3.6 版本开发的非官方微信小程序
+ * 短链接: https://www.darlang.com/?p=709
+ * 说明：源码已开源并遵循 MIT 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
+ * ==========================================================
+ * @Author: Darlang
+ */
 // app.js
 import util from './utils/util.js';
 var openid = '',session_key = '',loginCode = '',loginCodeNew='';
@@ -15,48 +26,42 @@ App({
   // ecapi.auth.social
   getUserInfo: function(cb) {
     var self = this;
-    console.log("gb",self);
-
     if(self.globalData.userInfo) {
       typeof cb == "function" && cb(self.globalData.userInfo);
     }else{
-      //调用登录接口
-      wx.login({
-        success: function(res){
-          console.log("wlog",res);
-
-          loginCodeNew = res.code;
-        }
-      });
       wx.getUserInfo({
         withCredentials: false,
         success: function(res) {
-          console.log('yes',res);
-
-          util.request(util.apiUrl + "ecapi.auth.social","POST",{
-            vendor:5,
-            js_code: loginCodeNew,
-            open_id: openid
-          }).then(soc => {
-            wx.setStorageSync('token', soc.token);
-            wx.setStorageSync('user', soc.user);
-            self.globalData.openid = soc.openid;
-            self.globalData.userInfo = soc.user;
-            typeof cb == "function" && cb(self.globalData.userInfo);
-            self.getUserInfo();
-            if (soc.is_new_user) {
-              util.showToast('你已成功注册,欢迎您...');
-            }else{
-              util.showToast('你已成功登录,跳转中...');
-            }
-            setTimeout(function(){
-              wx.switchTab({
-                url: '/pages/index/index'
+          //调用登录接口
+          wx.login({
+            success: function(res){
+              loginCodeNew = res.code;
+              util.request(util.apiUrl + "ecapi.auth.social","POST",{
+                vendor:5,
+                js_code: loginCodeNew,
+                open_id: openid
+              }).then(soc => {
+                wx.setStorageSync('token', soc.token);
+                wx.setStorageSync('user', soc.user);
+                wx.setStorageSync('openid', soc.openid);
+                self.globalData.openid = soc.openid;
+                self.globalData.userInfo = soc.user;
+                typeof cb == "function" && cb(self.globalData.userInfo);
+                if (soc.is_new_user) {
+                  util.showToast('你已成功注册,欢迎您...');
+                }else{
+                  util.showToast('你已成功登录,跳转中...');
+                }
+                setTimeout(function(){
+                  wx.switchTab({
+                    url: '/pages/index/index'
+                  });
+                },600);
+              }).catch(err =>{
+                if (err.error_code === 400) {
+                  util.showToast(err.error_desc);
+                }
               });
-            },600);
-          }).catch(err =>{
-            if (err.error_code === 400) {
-              util.showToast(err.error_desc);
             }
           });
         },

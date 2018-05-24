@@ -1,4 +1,4 @@
-// catalog.js
+// search.js
 import util from '../../utils/util.js';
 
 Page({
