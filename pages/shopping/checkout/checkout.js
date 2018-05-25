@@ -137,7 +137,7 @@ Page({
         }
       });
     }).catch(err => {
-      util.showToast(err.error_desc);
+      util.showToast(err.data.error_desc);
     });
   },
 
@@ -155,7 +155,7 @@ Page({
         orderPrice: res.order_price
       });
     }).catch(err => {
-      util.showToast(err.error_desc);
+      util.showToast(err.data.error_desc);
     });
   },
 
@@ -200,7 +200,7 @@ Page({
           });
         },800);
       }).catch(err => {
-        util.showToast(err.error_desc,'none',900);
+        util.showToast(err.data.error_desc,'none',900);
         util.notLogin(err);
       });
     }else{
@@ -223,7 +223,7 @@ Page({
           });
         },800);
       }).catch(err => {
-        util.showToast(err.error_desc,'none',900);
+        util.showToast(err.data.error_desc,'none',900);
         util.notLogin(err);
       });
     }

@@ -64,7 +64,7 @@ Page({
               self.getOrderInfo();
             }, 1000);
           }).catch(err => {
-            util.showToast(err.error_desc,'none');
+            util.showToast(err.data.error_desc,'none');
           });
         }
       }

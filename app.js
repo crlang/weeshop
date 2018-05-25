@@ -58,8 +58,8 @@ App({
                   });
                 },600);
               }).catch(err =>{
-                if (err.error_code === 400) {
-                  util.showToast(err.error_desc);
+                if (err.data.error_code === 400) {
+                  util.showToast(err.data.error_desc);
                 }
               });
             }

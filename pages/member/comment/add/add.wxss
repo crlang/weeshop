@@ -138,15 +138,9 @@ page, .container{
     margin-top: -10px;
     width: 20px;
     height: 20px;
-    /* background-image: url("../image/check-off.png"); */
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 .review-anon.active .item-checkbox {
-    /* background-image: url("../image/check-on-multi.png"); */
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 .review-anon .item-title {

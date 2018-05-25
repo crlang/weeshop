@@ -83,7 +83,7 @@ Page({
         }
       });
     }).catch(err => {
-      util.showToast(err.error_desc);
+      util.showToast(err.data.error_desc);
     });
   },
 

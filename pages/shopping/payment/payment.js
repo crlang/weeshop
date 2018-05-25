@@ -52,7 +52,7 @@ Page({
         orderInfo: res.order
       });
     }).catch(err => {
-      util.showToast(err.error_desc,'error');
+      util.showToast(err.data.error_desc,'error');
     });
   },
 
@@ -137,7 +137,7 @@ Page({
               });
             }
           }).catch(err => {
-            util.showToast(err.error_desc,'error',800);
+            util.showToast(err.data.error_desc,'error',800);
           });
         }
       }

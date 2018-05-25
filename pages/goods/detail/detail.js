@@ -284,8 +284,8 @@ Page({
         self.getCartCount();
       }).catch(err => {
         util.notLogin(err);
-        if (err.error_code !== 10001) {
-          util.showToast(err.error_desc, 'error');
+        if (err.data.error_code !== 10001) {
+          util.showToast(err.data.error_desc, 'error');
         }
       });
     // 没规格，直接选
@@ -300,8 +300,8 @@ Page({
         self.getCartCount();
       }).catch(err => {
         util.notLogin(err);
-        if (err.error_code !== 10001) {
-          util.showToast(err.error_desc, 'error');
+        if (err.data.error_code !== 10001) {
+          util.showToast(err.data.error_desc, 'error');
         }
       });
     }

@@ -30,41 +30,21 @@ Page({
     this.goodsInfo();
   },
 
-  // 绑定输入
+  // 绑定输入 - 评级
   bindGrade(e) {
+    let cg = parseInt(e.currentTarget.dataset.id);
     this.setData({
-      grade: e.currentTarget.dataset.id
+      grade: cg,
+      cg: cg
     });
-    this.checkedGrade();
   },
+
   bindIsAnonymous(e) {
     let id = 0;
     e.detail.value === true ? id = 1 : id = 0;
     this.setData({
       is_anonymous: id
     });
-  },
-
-  // 评级
-  checkedGrade() {
-    let cg = this.data.grade;
-    switch (cg) {
-    case 1:
-      this.setData({
-        cg: 1
-      });
-      break;
-    case 2:
-      this.setData({
-        cg: 2
-      });
-      break;
-    case 3:
-      this.setData({
-        cg: 3
-      });
-      break;
-    }
   },
 
   // 获取订单信息
@@ -78,7 +58,7 @@ Page({
         goods: res.order.goods[0].id
       });
     }).catch(err => {
-      util.showToast(err.error_desc);
+      util.showToast(err.data.error_desc);
       util.notLogin(err);
     });
   },
@@ -100,7 +80,7 @@ Page({
         });
       }, 800);
     }).catch(err => {
-      util.showToast(err.error_desc,'none',800);
+      util.showToast(err.data.error_desc,'none',800);
     });
   },
 

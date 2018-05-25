@@ -166,15 +166,15 @@ getShopConfig().then(res => {
       return false;
     }else {
       // 未授权提示
-      if (res.config.authorize !== true) {
-        let authorizeTip = XXTEA.utf8Decode("æªææï¼å°ç¨åºåè½åéå¶ã\r\nè¯·æ³¨æï¼å¦éææï¼è¯·åå¾ ecshop å®æ¹ç½ç«è´­ä¹°ï¼ï¼ï¼");
-        wx.showModal({
-          title: '',
-          content: authorizeTip,
-          showCancel: false
-        });
-        return false;
-      }
+      // if (res.config.authorize !== true) {
+      //   let authorizeTip = XXTEA.utf8Decode("æªææï¼å°ç¨åºåè½åéå¶ã\r\nè¯·æ³¨æï¼å¦éææï¼è¯·åå¾ ecshop å®æ¹ç½ç«è´­ä¹°ï¼ï¼ï¼");
+      //   wx.showModal({
+      //     title: '',
+      //     content: authorizeTip,
+      //     showCancel: false
+      //   });
+      //   return false;
+      // }
     }
   }
 });

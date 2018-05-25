@@ -75,15 +75,10 @@ page, .container{
     margin-top: -10px;
     width: 20px;
     height: 20px;
-    background-image: url("../image/check-off.png");
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 .cashgift-list .list-item.active .item-checkbox {
-    background-image: url("../image/check-on-single.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+
 }
 
 .cashgift-list .list-item .item-tips {

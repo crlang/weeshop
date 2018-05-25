@@ -35,7 +35,7 @@ Page({
    */
   onLoad: function (options) {
     let addType = options.type || 'edit',
-      consignee = options.id || null,
+      consignee = parseInt(options.id) || null,
       n = '';
     addType === 'add' ? n = util.pageTitle.addressM.add : n = util.pageTitle.addressM.edit;
     wx.setNavigationBarTitle({
@@ -111,7 +111,7 @@ Page({
         },800);
       }).catch(err => {
         util.notLogin(err);
-        util.showToast(err.error_desc);
+        util.showToast(err.data.error_desc);
       });
     }else{
       if (self.consignee !== null) {
@@ -134,7 +134,7 @@ Page({
           },800);
         }).catch(err => {
           util.notLogin(err);
-          util.showToast(err.error_desc);
+          util.showToast(err.data.error_desc);
         });
       }
     }

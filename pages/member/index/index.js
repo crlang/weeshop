@@ -54,7 +54,6 @@ Page({
     if (userInfo.avatar === null) {
       userInfo.avatar = "/images/default-avatar.png";
     }
-    console.log('td',self.data);
 
     // 判断是否登陆
     if (!userInfo) {
