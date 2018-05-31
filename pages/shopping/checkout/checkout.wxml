@@ -61,25 +61,25 @@
           </view>
           <image class="item-arrow" src="/images/nav-right.png"></image>
       </view>
-      <view class="form-item" bindtap="bindCashgift" style="display: none;">
+      <view class="form-item" bindtap="bindCashgift">
           <view class="item-title">
               使用红包
           </view>
           <view class="item-value">
-              {{cashgift ? '￥' + cashgift.value : '不使用红包'}}
+              {{cashgift.value ? '￥' + cashgift.value : '不使用红包'}}
           </view>
           <image class="item-arrow" src="/images/nav-right.png"></image>
       </view>
-      <view class="form-item" wx:if="bindscoreInfo" style="display: none;">
+      <view class="form-item" wx:if="bindscoreInfo">
           <view class="item-title">
               使用积分
           </view>
           <view class="item-input">
-              <input type="text" ng-class="{active: maxUseScore > 0}" placeholder="填写积分" ng-disabled="maxUseScore <= 0" ng-model="input.score" ng-change="refreshScore()"/>
-              <view class="input-tips" wx:if="maxUseScore > 0">
-                  您当前可用 {{scoreInfo.score}} 积分，本订单最多可以使用{{maxUseScore}}积分，每积分抵扣 {{scoreInfo.rule}} 元
+              <input type="number" class="{{maxScore > 0 ? 'active':''}}" placeholder="填写积分" disabled="{{scoreInfo.score > 0 ? false : true}}" bindinput="getInputScore" bindblur="getInputScoreNum" />
+              <view class="input-tips" wx:if="{{scoreInfo.score > 0}}">
+                您当前可用 {{scoreInfo.score}} 积分，本订单最多可以使用{{maxScore}}积分，每积分抵扣 {{scoreInfo.rule}} 元
               </view>
-              <view class="input-tips" wx:if="maxUseScore <= 0">
+              <view class="input-tips" wx:else>
                   无可用积分
               </view>
           </view>
@@ -102,9 +102,9 @@
       <view class="summury-detail">
           运费金额 <text class="total-price">+ ￥({{orderPrice.shipping_price}})</text>
       </view>
-<!--       <view class="summury-detail" wx:for="{{orderPrice.promos}}" wx:key="{{item.id}}">
-          <block wx:if="{{item.promo == 'score'}}">积分</block><block wx:elif="{{item.promo == 'cashgift'}}">红包</block><block wx:elif="{{item.promo == 'preferential'}}">优惠金额</block><block wx:elif="{{item.promo == 'goods_reduction'}}">商品减免</block><block wx:elif="{{item.promo == 'order_reduction'}}">订单减免</block><block wx:elif="{{item.promo == 'coupon_reduction'}}">优惠券减免</block><block wx:else>其他优惠 </block><text class="total-price">- ￥{{item.price}}</text>
-      </view> -->
+      <view class="summury-detail" wx:for="{{orderPrice.promos}}" wx:key="{{item.id}}">
+        <block wx:if="{{item.promo == 'score'}}">积分</block><block wx:elif="{{item.promo == 'cashgift'}}">红包</block><block wx:elif="{{item.promo == 'preferential'}}">优惠金额</block><block wx:elif="{{item.promo == 'goods_reduction'}}">商品减免</block><block wx:elif="{{item.promo == 'order_reduction'}}">订单减免</block><block wx:elif="{{item.promo == 'coupon_reduction'}}">优惠券减免</block><block wx:else>其他优惠 </block><text class="total-price">- ￥{{item.price}}</text>
+      </view>
   </view>
 
   <!-- Submit -->
