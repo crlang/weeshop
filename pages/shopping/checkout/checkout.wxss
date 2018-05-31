@@ -305,7 +305,7 @@ page, .container{
     border-bottom: #e2e2e2 1px solid;
     background-color: #ffffff;
     margin-top: 10px;
-    padding-bottom: 4px;
+    padding-bottom: 60px;
 }
 
 .confirm-summury .summury-total {

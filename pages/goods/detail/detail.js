@@ -457,9 +457,14 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+    let self = this;
     return {
-      title: this.data.goods.name,
-      path: '/pages/goods/detail/detail',
+      title: self.data.goods.name,
+<<<<<<< HEAD
+      path: '/pages/goods/detail/detail?id=' + self.data.id,
+=======
+      path: '/pages/goods/detail/detail' + self.data.id,
+>>>>>>> d141289... 修复banner图不显示，修复转发分享时，链接不显示产品
       success(e) {
         // 需要在页面onLoad()事件中实现接口
         wx.showShareMenu({
@@ -470,6 +475,6 @@ Page({
       fail(e) {
       },
       complete() { }
-    }
+    };
   }
 });

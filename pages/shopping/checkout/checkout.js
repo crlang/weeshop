@@ -22,7 +22,9 @@ Page({
     comment: '',
     buyNow: false,
     score: null,
-    cashgift: null,
+    scoreInfo: '',
+    maxScore: 0,
+    cashgift: {id:null,value:0},
     preferential: null,
     goods_reduction: null,
     order_reduction: null,
@@ -141,6 +143,99 @@ Page({
     });
   },
 
+  // 选择红包
+  // ecapi.cashgift.available
+  bindCashgift() {
+    let self = this, flPrice = parseFloat(self.data.orderPrice.total_price);
+    util.request(util.apiUrl + "ecapi.cashgift.available","POST",{
+      total_price: flPrice,
+      page: 1,
+      per_page: 15
+    }).then(res => {
+      let tpArrs = [],
+        tpi = '';
+      for (let i in res.cashgifts) {
+        tpArrs.push(res.cashgifts[i].name + '( 满 ' + res.cashgifts[i].condition +' 立减 ￥: ' + res.cashgifts[i].value + ')');
+      }
+
+      wx.showActionSheet({
+        itemList: tpArrs,
+        success: function(sASres) {
+          tpi = sASres.tapIndex;
+          self.setData({
+            cashgift: {
+              id: res.cashgifts[tpi].id,
+              value: res.cashgifts[tpi].value
+            }
+          });
+          self.getOrderBuylist();
+        },
+        fail: function(fai) {
+          util.showToast('取消选择','error');
+        }
+      });
+    }).catch(err => {
+    });
+  },
+
+  // 获取用户可用积分
+  // ecapi.score.get
+  getScoreInfo() {
+    util.request(util.apiUrl + 'ecapi.score.get', 'POST').then(res => {
+      this.setData({
+        scoreInfo: res
+      });
+    });
+  },
+
+  // 获取订单最大积分
+  // ecapi.product.get
+  getMaxScore(){
+    let self = this;
+    let newOP = JSON.parse(this.data.order_product);
+    for (let i = 0; i < newOP.length; i++) {
+      util.request(util.apiUrl + 'ecapi.product.get', 'POST',{
+        product: newOP[i].goods_id
+      }).then(res => {
+        let od = parseInt(res.product.score);
+        let oldod = parseInt(this.data.maxScore);
+        self.setData({
+          maxScore: oldod + od
+        });
+      });
+    }
+  },
+
+  // 输入积分
+  getInputScore(e) {
+    let gis = e.detail.value;
+    let gisREG = /^[0-9]*$/;
+    let cc = gisREG.test(gis);
+    let maxScore = this.data.maxScore;
+    let userScore = this.data.scoreInfo.score;
+    if (!cc) {
+      return gis = '';
+    }else {
+      if (userScore > maxScore) {
+        if(gis > maxScore) {
+          return gis = maxScore;
+        }
+      }else {
+        if(gis > userScore) {
+          return gis = userScore;
+        }
+      }
+    }
+  },
+
+  // 提交积分
+  getInputScoreNum(e) {
+    this.setData({
+      score: e.detail.value
+    });
+    this.getOrderBuylist();
+  },
+
   // 订单购买列表
   // ecapi.order.price
   getOrderBuylist() {
@@ -149,6 +244,8 @@ Page({
       consignee: self.data.consignee,
       order_product: self.data.order_product,
       shipping: self.data.shipping,
+      cashgift: self.data.cashgift.id,
+      score: self.data.score,
       comment: self.data.comment
     }).then(res => {
       self.setData({
@@ -166,6 +263,8 @@ Page({
     });
   },
 
+
+
   // 检查订单
   // ecapi.cart.checkout
   checkoutOrder() {
@@ -178,6 +277,7 @@ Page({
     if (this.data.orderFormat[0].property !== null) {
       checkedValue = this.data.orderFormat[0].property.toString();
     }
+
     if (self.data.buyNow) {
     // product: 74, property: "[245]", amount: 1, consignee: 11, shipping:
       util.request(util.apiUrl + 'ecapi.product.purchase', 'POST',{
@@ -185,7 +285,7 @@ Page({
         consignee: self.data.consignee,
         shipping: self.data.shipping,
         comment: self.data.comment,
-        cashgift: self.data.cashgift,
+        cashgift: self.data.cashgift.id,
         score: self.data.score,
         product: self.data.orderFormat[0].goods_id,
         amount: self.data.orderFormat[0].num,
@@ -209,7 +309,7 @@ Page({
         consignee: self.data.consignee,
         shipping: self.data.shipping,
         comment: self.data.comment,
-        cashgift: self.data.cashgift,
+        cashgift: self.data.cashgift.id,
         score: self.data.score,
         invoice_content: self.data.invoice_content,
         invoice_title: self.data.invoice_title,
@@ -244,6 +344,8 @@ Page({
   onShow: function () {
     // 页面显示
     this.getConsignee();
+    this.getScoreInfo();
+    this.getMaxScore();
   },
 
   /**
@@ -259,5 +361,5 @@ Page({
    */
   onUnload: function () {
     // 页面关闭
-  },
+  }
 });
