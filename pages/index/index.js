@@ -98,7 +98,7 @@ Page({
         }).catch(xml => {
           const exp = /item_url="([^"]+)"\slink="([^"]+)"\stext="([^"]*)"/ig;
           let result,j=[] ;
-          while( (result = exp.exec(xml)) !== null){
+          while( (result = exp.exec(xml.data)) !== null){
             j.push(result);
           }
           for (let i in j) {
@@ -214,6 +214,6 @@ Page({
       fail(e) {
       },
       complete() { }
-    }
+    };
   }
 });
