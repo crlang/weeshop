@@ -19,8 +19,15 @@ import XXTEA from '../libs/security/xxtea.js';
 // 商城地址
 let https     = true,
   // 如果网站是 HTTPS 的则设为 true
-  shopUrl     = 'ecshop.crlang.com';
-// 商城地址，不是 API 地址。不包含 "http://"
+
+  shopUrl     = 'ecshop.crlang.com',
+  // 商城地址，不是 API 地址。不包含 "http://"
+  // 例如：ecshop.xxx.com
+
+  apiUrl = '';
+  // 商城 API 地址，如果为空则默认为 api.ecshop.xxx.com
+  // 例如：api.xxx.com
+  // 默认的 API 地址应为 api.ecshop.xxx.com，但你的 API 地址却是 api.xxx.com // 则你需要填写为 api.xxx.com，而不应该留空。
 
 ///////////////////////////////////////////////////////////////
 //////////////// 以下区域，如果不会修改，则不要动 ////////////////
@@ -28,9 +35,13 @@ let https     = true,
 
 // ecshop 接口地址
 // util.apiUrl + url
-let apiUrl = 'http://api.' + shopUrl + '/v2/';
-if(https) {apiUrl = 'https://api.' + shopUrl + '/v2/';}
-https === true ? shopUrl = 'https://' + shopUrl : shopUrl = 'http://' + shopUrl;
+https === true ? https = 'https://' : https = 'http://';
+if(apiUrl.length <= 0 || apiUrl === ''){
+  apiUrl = https + 'api.' + shopUrl + '/v2/';
+}else{
+  apiUrl = https +  apiUrl + '/v2/';
+}
+shopUrl = https + shopUrl;
 
 // API 地址检测
 !(function apiTest(){
