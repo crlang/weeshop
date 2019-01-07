@@ -70,6 +70,9 @@
       }
     ]
   },
-
+  "networkTimeout": {
+    "request": 20000,
+    "downloadFile": 30000
+  },
   "debug": false
 }

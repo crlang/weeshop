@@ -1,5 +1,5 @@
 // index.js
-import util from '../../../utils/util.js';
+import util from "../../../utils/util.js";
 var app = getApp();
 
 Page({
@@ -14,7 +14,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     wx.setNavigationBarTitle({
       title: util.pageTitle.member
     });
@@ -22,134 +22,101 @@ Page({
 
   // 登出账号
   logout() {
-    wx.removeStorageSync('token');
-    wx.removeStorageSync('user');
-    wx.removeStorageSync('openid');
-    app.globalData.userInfo = null;
-    this.data.orderTotal = null;
-    util.showToast('退出登录成功', 'success');
-    setTimeout(function(){
-      wx.switchTab({
-        url: '/pages/index/index'
-      });
-    }, 1500);
+    wx.showModal({
+      title: "退出提示",
+      content: "",
+      showCancel: true,
+      cancelText: "点错了",
+      cancelColor: "#999999",
+      confirmText: "退出登录",
+      confirmColor: "#3CC51F",
+      success: res => {
+        if (res.confirm) {
+          wx.clearStorageSync();
+          util.showToast("退出成功", "success");
+          setTimeout(function() {
+            wx.reLaunch({
+              url: "/pages/index/index"
+            });
+          }, 1500);
+        }
+      }
+    });
   },
 
   // 获取订单统计
   // ecapi.order.subtotal
   getOrderTotal() {
-    util.request(util.apiUrl + 'ecapi.order.subtotal', 'POST').then(res => {
-      this.setData({
-        orderTotal: res.subtotal,
+    if (!util.checkLogin()) {
+      return false;
+    }
+    util
+      .request(util.apiUrl + "ecapi.order.subtotal")
+      .then(res => {
+        this.setData({
+          orderTotal: res.subtotal
+        });
+      })
+      .catch(err => {
+        //...
       });
-    }).catch(err => {
-      //...
-    });
   },
 
   // 个人信息
   bindUserTap() {
     var self = this,
-      userInfo = wx.getStorageSync('user');
+      userInfo = wx.getStorageSync("user");
     if (userInfo.avatar === null) {
       userInfo.avatar = "/images/default-avatar.png";
     }
-
     // 判断是否登陆
-    if (!userInfo) {
-      let openid = wx.getStorageSync('openid'),
-        defaultUserInfo = {};
-      // 初始化用户信息
-      if (!userInfo && !openid) {
-        defaultUserInfo.avatarUrl = "/images/default-avatar.png";
-        defaultUserInfo.nickName = "你好，大朗！";
-        defaultUserInfo.level = "游客";
-        self.setData({
-          userInfo: defaultUserInfo
-        });
-
-        wx.showModal({
-          title: '登录提示',
-          content: '由于你尚未授权登录，请登录。',
-          // confirmText: '跳转',
-          // showCancel: false,
-          success: function (cif) {
-            if (cif.confirm) {
-              wx.navigateTo({
-                url: '/pages/auth/login/login'
-              });
-            }else{
-              wx.switchTab({
-                url: '/pages/index/index'
-              });
-            }
-          }
-        });
-        return false;
-      }else {
-        self.setData({
-          userInfo: userInfo
-        });
-      }
-    } else {
+    if (userInfo) {
       self.setData({
         userInfo: userInfo
       });
-      // 获取全局用户数据
-      // app.getUserInfo(userInfo => {
-      //   console.log('app user',userInfo);
-      //   // self.setUserInfo();
-      //   self.setData({
-      //     userInfo: userInfo
-      //   });
-      // });
     }
   },
 
-  // jump
-  gOrderPay() {
-    wx.navigateTo({
-      url: '../order/list/list?status=0'
-    });
+  pushPagePath(e) {
+    let type = e.currentTarget.dataset.type || "";
+    console.log(type);
+    if (type === "pay") {
+      wx.navigateTo({
+        url: "../order/list/list?status=0"
+      });
+    } else if (type === "ship") {
+      wx.navigateTo({
+        url: "../order/list/list?status=1"
+      });
+    } else if (type === "rece") {
+      wx.navigateTo({
+        url: "../order/list/list?status=2"
+      });
+    } else if (type === "comm") {
+      wx.navigateTo({
+        url: "../order/list/list?status=3"
+      });
+    }
   },
-  // jump
-  gOrderShip() {
-    wx.navigateTo({
-      url: '../order/list/list?status=1'
-    });
-  },
-  // jump
-  gOrderRece() {
-    wx.navigateTo({
-      url: '../order/list/list?status=2'
-    });
-  },
-  // jump
-  gOrderComm() {
-    wx.navigateTo({
-      url: '../order/list/list?status=3'
-    });
-  },
-
-  // 设置会员信息
-  // setUserInfo() {
-  //   let user = wx.getStorageSync('user');
-  //   this.setData({
-  //     userInfo: user
-  //   });
-  // },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-
-  },
+  onReady: function() {},
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
+    wx.setNavigationBarColor({
+      frontColor: "#ffffff",
+      backgroundColor: "#333333",
+      animation: {
+        duration: 300,
+        timingFunc: "linear"
+      }
+    });
+    util.checkLogin(true);
     this.bindUserTap();
     this.getOrderTotal();
   },
@@ -157,27 +124,20 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-
-  },
+  onHide: function() {},
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-
-  },
+  onUnload: function() {},
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-  },
+  onPullDownRefresh: function() {},
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
-
-  }
+  onReachBottom: function() {}
 });

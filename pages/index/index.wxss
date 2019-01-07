@@ -14,17 +14,12 @@
   height: 180rpx;
   background: #fff;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  flex-direction: row;
+  text-align: center;
 }
 
 .menu .item{
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  width: 25%;
 }
 
 .menu .icon{
@@ -33,6 +28,7 @@
 }
 
 .menu .name{
+  display: block;
   line-height: 24px;
   font-size: 14px;
 }

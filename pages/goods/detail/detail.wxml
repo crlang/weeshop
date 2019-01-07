@@ -8,9 +8,10 @@
   <view class="goods-info">
     <view class="c">
       <view class="name">{{goods.name}}</view>
-      <view class="price" wx:if="{{goods.discount !== null}}">活动价：￥{{goods.discount.price}} <text class="price-or">原价：￥{{goods.price}}</text>
-        <view class="price-time">活动截止时间：￥{{goods.discount.end_at}}</view> </view>
-      <text class="price" wx:else>￥{{goods.current_price}}<text class="price-or">市场价：￥{{goods.price}}</text></text>
+      <view class="price" wx:if="{{goods.discount !== null}}">活动价：￥{{floatPrice}}
+        <view class="price-time">活动截止时间：￥{{goods.discount.end_at}}</view>
+      </view>
+      <text class="price" wx:else>￥{{floatPrice}}</text>
     </view>
   </view>
   <view class="section-nav section-attr">
@@ -21,15 +22,16 @@
           <view class="spec-item" wx:for="{{specificationList}}" wx:key="{{item.id}}">
             <view class="name">{{item.name}}</view>
             <view class="values">
-              <view class="value {{vitem.checked ? 'selected' : ''}}" bindtap="clickSkuValue" wx:for="{{item.attrs}}" wx:for-item="vitem" wx:key="{{vitem.id}}" data-value-id="{{vitem.id}}" data-name-id="{{item.id}}">{{vitem.attr_name}} +￥{{vitem.attr_price}}</view>
+              <view class="value {{vitem.checked ? 'selected' : ''}}" bindtap="clickSkuValue" wx:for="{{item.attrs}}"
+                wx:for-item="vitem" wx:key="{{vitem.id}}" data-id="{{item.id}}" data-item="{{vitem}}">{{vitem.attr_name}}</view>
             </view>
           </view>
           <view class="number-item">
             <view class="name">购买数量<text>（库存{{goods.good_stock}}）</text></view>
             <view class="selnum">
-              <view class="cut" bindtap="cutNumber">-</view>
+              <view class="cut" bindtap="changeGoodNum" data-type="cut">-</view>
               <input value="{{number}}" class="number" disabled="true" type="number" />
-              <view class="add" bindtap="addNumber">+</view>
+              <view class="add" bindtap="changeGoodNum" data-type="add">+</view>
             </view>
           </view>
         </view>

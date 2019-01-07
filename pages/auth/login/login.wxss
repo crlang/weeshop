@@ -38,37 +38,16 @@ page, .container{
   overflow: hidden;
 }
 .login .btn-item{
-  flex-basis: 40%;
-  background: #CD3232;
-  background-image: linear-gradient(-90deg,#CD3232 0%,rgb(255, 61, 61) 100%);
+  /* flex-basis: 40%; */
+  width: 100%;
+  background: #eee;
+  /* background-image: linear-gradient(-90deg,#CD3232 0%,rgb(255, 61, 61) 100%); */
   text-align: center;
   font-size: 14px;
-  color: #fff;
+  color: #333;
   border-radius: 0;
   border: none;
   transition: all 0.25s linear;
-}
-.login .btn-item.btn-item-wx {
-  flex-basis: 60%;
-  background:#65CD32;
-  background-image: linear-gradient(90deg,#65CD32 0%, rgb(126, 255, 61) 100%);
-  position: relative;
-  overflow:visible;
-  transition: all 0.25s linear;
-}
-.login .submit-btn:focus .btn-item,.login .submit-btn:active .btn-item{
-  flex-basis: 25%;
-}
-.login .submit-btn:focus .btn-item.btn-item-wx,.login .submit-btn:active .btn-item.btn-item-wx{
-  flex-basis: 75%;
-}
-.login .btn-item .icon {
-  width: 64rpx;
-  height: 64rpx;
-  position: absolute;
-  top: 0;
-  left: -32rpx;
-  z-index: 1;
 }
 .login .link-item{
   margin-top: 20rpx;
@@ -84,4 +63,27 @@ page, .container{
 
 .login .link-item .r{
   float: right;
+}
+.wechat-login-btn {
+  width: 100%;
+  position: absolute;
+  bottom: 35px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  text-align: center;
+}
+.wechat-login-btn button {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+}
+.wechat-login-btn image{
+  width: 100%;
+  height: 100%;
 }

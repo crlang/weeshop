@@ -37,6 +37,9 @@ Page({
   // 获取积分
   // ecapi.score.get
   getScore() {
+    if (!util.checkLogin()) {
+      return false;
+    }
     util.request(util.apiUrl + 'ecapi.score.get', 'POST').then(res => {
       this.setData({
         score: res.score
@@ -56,6 +59,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    util.checkLogin(true)
   },
 
   /**

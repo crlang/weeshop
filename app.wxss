@@ -10,7 +10,9 @@ page{
 view, text, image, navigator, input, button{
   box-sizing: border-box;
 }
-
+button::after{
+  display: none;
+}
 .container {
   min-height: 100%;
   box-sizing: border-box;

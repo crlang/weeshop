@@ -52,6 +52,9 @@ Page({
   // 获取购物车列表
   // ecapi.cart.get
   getCartList: function () {
+    if (!util.checkLogin()) {
+      return false;
+    }
     util.request(util.apiUrl + 'ecapi.cart.get', 'POST').then(res => {
       if (res.goods_groups.length >= 1) {
         let cartGoodsInfo = res.goods_groups[0];
@@ -240,6 +243,7 @@ Page({
   onShow: function () {
     // 页面显示
     this.getCartList();
+
   },
 
   /**

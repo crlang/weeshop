@@ -137,6 +137,9 @@ Page({
   // 获取订单列表
   // ecapi.order.list
   getOrderList() {
+    if (!util.checkLogin()) {
+      return false;
+    }
     wx.showLoading({
       title: '加载中...',
     });
@@ -194,7 +197,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    util.checkLogin(true)
   },
 
   /**

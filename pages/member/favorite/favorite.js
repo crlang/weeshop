@@ -54,6 +54,9 @@ Page({
   // 收藏列表
   // ecapi.product.liked.list
   getFavoriteList() {
+    if (!util.checkLogin()) {
+      return false;
+    }
     wx.showLoading({
       title: '加载中...',
     });
@@ -96,6 +99,7 @@ Page({
    */
   onShow: function () {
     // 页面显示
+    util.checkLogin(true)
   },
 
   /**

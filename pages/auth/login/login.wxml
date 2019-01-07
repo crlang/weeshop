@@ -9,7 +9,7 @@
       <input class="input-item" name="password" type="password" placeholder="请输入密码" />
       <view class="submit-btn">
         <button class="btn-item" formType="submit">登录</button>
-        <button open-type="getUserInfo" class="btn-item btn-item-wx" bindgetuserinfo="getUserInfo"><image class="icon" src="/images/icon_wechat.png"></image>快捷登录</button>
+
       </view>
       <view class="link-item">
         <navigator url="../forget/forget" class="l">忘记密码了？</navigator>
@@ -17,4 +17,5 @@
       </view>
     </form>
   </view>
+  <view class="wechat-login-btn"><button open-type="getUserInfo" class="btn-item btn-item-wx" bindgetuserinfo="getUserInfo"><image class="icon" src="/images/icon_wechat.png"></image>快捷登录</button></view>
 </view>
