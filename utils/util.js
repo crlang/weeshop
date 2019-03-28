@@ -17,7 +17,7 @@ import XXTEA from "../libs/security/xxtea.js";
 //////////////////////////////////////////////////////////////
 
 // 商城地址
-const shopUrl = "https://ecshop.crlang.com";
+const shopUrl = "https://www.ecshopxxx.com";
 // 商城地址，不是 API 地址
 // 例如：https://ecshop.com
 
@@ -295,7 +295,7 @@ function notLogin(err) {
   // "SIGN_INVALID": 10003, // Sign 无效
   // "SIGN_EXPIRED": 10004, // Sign 过期
   let errorCode = [10000, 10001, 10002, 10003, 10004];
-  if (err.data.error || err.data.error_code.includes(errorCode)) {
+  if (err.data.error || errorCode.includes(err.data.error_code)) {
     wx.showModal({
       title: "登录异常",
       content: "由于您长时间未有操作，请重新登录",
