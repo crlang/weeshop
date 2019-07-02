@@ -1,0 +1,29 @@
+/** detail.wxss */
+@import "/libs/wxParse/wxParse.wxss";
+
+.news-detail-wrap {
+  background: #fff;
+}
+
+.nd-titel {
+  width: 100%;
+  font-size: 36rpx;
+  color: #333;
+  padding: 30rpx;
+}
+
+.nd-info {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.nd-content {
+  font-size: 28rpx;
+  color: #555;
+  padding: 30rpx;
+  border-top: 1px solid #eee;
+}
+
+.nd-content image {
+  width: 100%;
+}

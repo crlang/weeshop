@@ -1,0 +1,10 @@
+/* history.wxss */
+@import "../../balance/history/history.wxss";
+
+.hl-name {
+  margin-bottom: 20rpx;
+}
+
+.hl-amount.increase {
+  color: #01cd9a;
+}

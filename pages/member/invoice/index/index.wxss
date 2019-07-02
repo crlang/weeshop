@@ -1,0 +1,49 @@
+/* invoice.wxss */
+.invoice-wrap {
+  padding: 30rpx;
+}
+
+.iw-box {
+  width: 100%;
+  border-radius: 10rpx;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+
+.iw-item {
+  border-bottom: 1px solid #eee;
+  padding: 30rpx;
+}
+
+.iw-item .label {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 24rpx;
+  color: #555;
+  padding-bottom: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.iw-item .cont {
+  padding: 0;
+}
+
+.iw-item .cont input {
+  width: 100%;
+  padding: 0 20rpx;
+  font-size: 24rpx;
+}
+
+.iw-item .cont .iw-sele {
+  display: inline-block;
+  padding: 8rpx 16rpx;
+  border-radius: 6rpx;
+  border: 1px solid #ededed;
+  font-size: 28rpx;
+  margin: 10rpx;
+}
+
+.iw-item .cont .iw-sele.is-actived {
+  border-color: #9c27ff;
+  color: #9c27ff;
+}

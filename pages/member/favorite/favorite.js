@@ -1,5 +1,30 @@
+/**
+ * WeeShop 声明
+ * ===========================================================
+ * 网站： https://www.darlang.com
+ * 标题： ECShop 小程序「weeshop 」- 基于 ECShop 为后台系统开发的非官方微信商城小程序
+ * 链接： https://www.darlang.com/?p=709
+ * 说明： 源码已开源并遵循 Apache 2.0 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
+ * ==========================================================
+ * Copyright 2019 darlang
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ===========================================================
+ */
+
 // favorite.js
-import util from '../../../utils/util.js';
+import {PNT,setNavBarTitle,showToast,scrollLoadList} from '../../../utils/utils';
+import {GetFavoriteList,ChangeFavoriteStatus} from '../../../utils/apis';
 
 Page({
   /**
@@ -7,84 +32,91 @@ Page({
    */
   data: {
     favoriteList: [],
-    paged: {
+    pages: {
       page: 1,
-      size: 10
-    },
-    loadMore: true
+      size: 10,
+      total: 10,
+      done: false,
+      loading: false
+    }
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    wx.setNavigationBarTitle({
-      title: util.pageTitle.favorite
-    });
-    // 页面初始化 options为页面跳转所带来的参数
-    this.getFavoriteList();
+  onLoad: function () {
+    setNavBarTitle(PNT.member.favorite);
+    this.loginModal = this.selectComponent("#login-modal");
   },
 
-  // 删除收藏
-  // ecapi.product.unlike
-  onCancelFavorite(event) {
-    let itemIndex = event.currentTarget.dataset.indexid;
+  /**
+   * 页面跳转
+   * @author darlang
+   */
+  pushPath(e) {
+    let items = e.currentTarget.dataset;
+    let type = items.type;
+    if (!type) {
+      return false;
+    }
+    if (type === 'goods') {
+      wx.navigateTo({
+        url: '/pages/goods/detail/detail?id='+items.id
+      });
+    }
+  },
+
+  /**
+   * 登录回调
+   * @author darlang
+   */
+  loginCallback(cb) {
+    if (cb.detail.type === 'success') {
+      this.getFavoriteList();
+    }
+  },
+
+  /**
+   * 收藏列表
+   * @author darlang
+   */
+  getFavoriteList() {
+    if (this.data.pages.done) {
+      return false;
+    }
+    wx.showLoading({title: '加载中...',mask: true});
+    GetFavoriteList(this.data.pages.page,this.data.pages.size).then(res => {
+      const lst = scrollLoadList(this,res,'products','favoriteLst');
+      this.setData({
+        favoriteLst: lst,
+      });
+    });
+  },
+
+  /**
+   * 移除收藏
+   * @author darlang
+   */
+  onCancelFavorite(e) {
     let self = this;
+    let items = e.currentTarget.dataset;
+    let lst = this.data.favoriteLst;
     wx.showModal({
       title: '提示',
       content: '是否要移除当前收藏？',
       success: function (res) {
         if (res.confirm) {
-          util.request(util.apiUrl + 'ecapi.product.unlike', 'POST', {
-            product: itemIndex
-          }).then(res => {
-            util.showToast('移除收藏成功!','success');
+          wx.showLoading({title: '移除中...',mask: true});
+          ChangeFavoriteStatus(items.id).then(() => {
+            showToast('移除成功!','success');
+            lst.splice(items.i,1);
             self.setData({
-              'paged.page': 1
+              favoriteLst: lst
             });
-            setTimeout(function () {
-              self.getFavoriteList();
-            }, 1000);
           });
         }
       }
     });
-  },
-
-  // 收藏列表
-  // ecapi.product.liked.list
-  getFavoriteList() {
-    if (!util.checkLogin()) {
-      return false;
-    }
-    wx.showLoading({
-      title: '加载中...',
-    });
-    let self = this;
-    util.request(util.apiUrl + 'ecapi.product.liked.list', 'POST',{
-      page: self.data.paged.page,
-      per_page: self.data.paged.size
-    }).then(res => {
-      if (self.data.loadMore) {
-        self.data.favoriteList = self.data.favoriteList.concat(res.products);
-      }else{
-        self.data.favoriteList = res.products;
-      }
-      let newFavoriteList = self.data.favoriteList;
-      self.setData({
-        favoriteList: newFavoriteList,
-        paged: res.paged,
-        loadMore:true,
-      });
-      if (res.paged.more > 0) {
-        self.setData({ loadMore:true });
-      }else{
-        self.setData({ loadMore:false });
-      }
-    }).catch(err => {
-      util.notLogin(err);
-    });
-    wx.hideLoading();
   },
 
   /**
@@ -99,7 +131,7 @@ Page({
    */
   onShow: function () {
     // 页面显示
-    util.checkLogin(true)
+    this.getFavoriteList();
   },
 
   /**
@@ -119,17 +151,18 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    this.setData({
+      'pages.page': 1,
+      'pages.done': false,
+      favoriteLst: '',
+    });
+    this.getFavoriteList();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.loadMore) {
-      this.setData({
-        'paged.page': parseInt(this.data.paged.page) + 1
-      });
-      this.getFavoriteList();
-    }
+    this.getFavoriteList();
   },
 });

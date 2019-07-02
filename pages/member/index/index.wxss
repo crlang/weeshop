@@ -1,135 +1,114 @@
 /* index.wxss */
-.container{
-  height: 100%;
+@import "../setting/setting.wxss";
+
+.user-box {
+  background-color: #9c27ff;
+  background-image: linear-gradient(to top, #29cdf4 0%, #9c27ff 100%);
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  padding: 30rpx 30rpx 60rpx;
+  max-height: 200rpx;
   overflow: hidden;
 }
-.user-box{
-  background: #333;
-  height: 400rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;  
-}
 
-.user-box .avatar{
-  width: 140rpx;
-  height: 140rpx;
+.user-box .avatar {
+  width: 100rpx;
+  height: 100rpx;
   border-radius: 50%;
-}
-
-.user-box .username{
-  margin-top: 30rpx;
-  font-size: 14px;
-  color: #fff;
-}
-
-.order{
-  height: auto;
   overflow: hidden;
-  background: #fff;
+  flex-shrink: 0;
 }
 
-.order .h{
-  height: 108rpx;
-  padding-left: 30rpx;
-  padding-right: 20rpx;
-  border-bottom: 1px solid #e6e6e6;
-  display: flex;
-  align-items: center;
-}
-
-.order .h .label{
-  flex: 1;
-}
-
-.order .h .icon-go{
-  width: 44rpx;
-  height: 44rpx;
-}
-
-.order .b{
-  height: 168rpx;
-  display: flex;
-}
-
-.order .b .item{
-  width: 25%;
+.user-box .avatar image {
+  width: 100%;
   height: 100%;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
-.order .b .icon{
+.user-box .contxt {
+  flex-grow: 1;
+  padding-left: 20rpx;
+}
+
+.user-box .nickname {
+  font-size: 32rpx;
+  color: #fff;
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.user-box .nickname .level {
+  float: right;
+  width: 120rpx;
+  height: auto;
+}
+
+.user-box .score {
+  font-size: 26rpx;
+  color: #e7ccfe;
+}
+
+.order-box {
+  margin: -30rpx 0 20rpx;
+  padding: 0 30rpx;
+}
+
+.order-box-inner {
+  width: 100%;
+  background: #fff;
+  border-radius: 10rpx;
+  overflow: hidden;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  color: #888;
+  padding: 30rpx;
+  text-align: center;
+}
+
+.ob-item {
+  position: relative;
+  padding: 20rpx;
+  width: 25%;
+}
+
+.ob-item.-h {
+  background-color: #f9f9f9;
+}
+
+.ob-item .count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  min-width: 28rpx;
+  height: 28rpx;
+  text-align: center;
+  line-height: 28rpx;
+  border-radius: 50%;
+  font-size: 20rpx;
+  color: #fff;
+  background: #9c27ff;
+  overflow: hidden;
+}
+
+.ob-item .icon {
+}
+
+.ob-item .icon image {
+  display: inline-block;
   width: 72rpx;
   height: 72rpx;
 }
 
-.order .b .label{
-  font-size: 12px;
-  color: #666;
-}
-
-.order .b .count{
-  position: absolute;
-  top: 20rpx;
-  display: block;
-  right: 40rpx;
-  font-size: 12px;
-  min-width: 16px;
-  height: 16px;
-  text-align: center;
-  line-height: 14px;
-  border-radius: 8px;
-  border: 1px solid #d81e06;
-  color: #d81e06;
-}
-
-.section-menu{
-  background: #fff;
-  height: auto;
-  overflow: hidden;
-  margin-top: 20rpx;
-  margin-bottom: 20rpx;
-}
-
-.section-menu .item{
-  height: 108rpx;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #e6e6e6;
-  padding: 0 20rpx;
-}
-
-.section-menu .item:last-child{
-  border-bottom: 1px solid #fff;
-}
-
-.section-menu .item .icon{
-  width: 44rpx;
-  height: 44rpx;
-}
-
-.section-menu .item .label{
-  margin-left: 10rpx;
-  flex: 1;
-  font-size: 12px;
-}
-
-.section-menu .item .icon-go{
-  width: 44rpx;
-  height: 44rpx;
-}
-
-.logout{
-  margin-bottom: 20rpx;
-  width: 100%;
-  height: 108rpx;
-  background: #fff;
-  text-align: center;
-  line-height: 108rpx;
+.ob-item .label {
+  font-size: 22rpx;
 }

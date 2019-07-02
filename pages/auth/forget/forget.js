@@ -1,34 +1,61 @@
+/**
+ * WeeShop 声明
+ * ===========================================================
+ * 网站： https://www.darlang.com
+ * 标题： ECShop 小程序「weeshop 」- 基于 ECShop 为后台系统开发的非官方微信商城小程序
+ * 链接： https://www.darlang.com/?p=709
+ * 说明： 源码已开源并遵循 Apache 2.0 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
+ * ==========================================================
+ * Copyright 2019 darlang
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ===========================================================
+ */
+
 // forget.js
-import util from '../../../utils/util.js';
+import {PNT,setNavBarTitle,showToast,checkEmail} from "../../../utils/utils";
+import {ForgetPwdByEmail} from "../../../utils/apis";
+
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    email: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    wx.setNavigationBarTitle({
-      title: util.pageTitle.forget
-    });
+  onLoad: function () {
+    setNavBarTitle(PNT.auth.forget);
   },
 
-  // 重置密码
-  // ecapi.auth.default.reset
-  forget(event) {
-    util.request(util.apiUrl + 'ecapi.auth.default.reset', 'POST', {
-      email: event.detail.value.email
-    }).then(res => {
-      util.showToast('发送成功，请查收邮箱！','none');
-      // 返回登录
-      wx.navigateBack();
-    }).catch(err => {
-      util.showToast(err.data.error_desc,'none');
+  /**
+   * 重置密码
+   * @author darlang
+   */
+  forget(e) {
+    let params = e.detail.value || '';
+    if (!params.email || !checkEmail(params.email)) {
+      showToast('请填写正确邮箱');
+      return false;
+    }
+    ForgetPwdByEmail(params.email).then(() => {
+      showToast('发送成功，请留意邮箱！');
+      setTimeout(() => {
+        wx.navigateBack();
+      },1200);
     });
   },
 

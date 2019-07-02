@@ -1,21 +1,26 @@
 <!-- login.wxml -->
 <view class="container">
   <view class="login">
-    <view class="login-logo" wx:if="{{logoURL}}">
-      <image class="icon" src="{{logoURL}}"></image>
+    <view class="login-slogan">
+      欢迎登录{{miniProName}}
     </view>
-    <form bindsubmit="login">
-      <input class="input-item" name="username" placeholder="请输入用户名/邮箱" />
-      <input class="input-item" name="password" type="password" placeholder="请输入密码" />
-      <view class="submit-btn">
-        <button class="btn-item" formType="submit">登录</button>
-
+    <view class="login-form">
+      <form bindsubmit="login">
+      <view class="login-input-item">
+        <input name="username" type="text" placeholder="请输入用户名/邮箱/手机号" />
       </view>
-      <view class="link-item">
-        <navigator url="../forget/forget" class="l">忘记密码了？</navigator>
-        <navigator url="../register/register" class="r">新用户注册</navigator>
+      <view class="login-input-item">
+        <input name="password" type="password" placeholder="请输入密码" />
       </view>
-    </form>
+      <view class="login-btn-item">
+        <button class="darlang-btn" type="default" form-type="submit">登录</button>
+      </view>
+      <view class="login-link-item">
+        <text class="l" bind:tap="pushPath" data-type="register">没有账号？</text>
+        <text class="r" bind:tap="pushPath" data-type="forget">忘记密码？</text>
+      </view>
+      </form>
+    </view>
   </view>
-  <view class="wechat-login-btn"><button open-type="getUserInfo" class="btn-item btn-item-wx" bindgetuserinfo="getUserInfo"><image class="icon" src="/images/icon_wechat.png"></image>快捷登录</button></view>
+  <view class="login-wechat-btn"><button open-type="getUserInfo" bindgetuserinfo="getUserInfo"><image class="icon" src="/images/icon_wechat.png"></image></button></view>
 </view>

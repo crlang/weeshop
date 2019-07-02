@@ -1,36 +1,25 @@
 <!--favorite.wxml-->
-<view class="container">
-  <view class="favorite-list" wx:if="{{favoriteList.length > 0}}">
-      <view class="list-item" wx:for="{{favoriteList}}" wx:key="{{item.id}}">
-          <view class="item-photo" ng-click="touchProduct(product)">
-              <image src="{{item.default_photo.large}}"></image>
-          </view>
-          <view class="item-info">
-              <view class="info-delete" bindtap="onCancelFavorite" data-indexid="{{item.id}}">
-                  <image src="/images/icon_delete.png"></image>
-              </view>
-              <view class="info-name">
-                  {{item.name}}
-              </view>
-              <view class="info-attr" >
-                  <view class="info-text">
-                      销量：{{item.sales_count}}  库存：{{item.good_stock}}
-                  </view>
-              </view>
-              <view class="info-price">
-                  <text class="price-shop">￥{{item.current_price}}</text>
-                  <text class="price-market">￥{{item.price}}</text>
-              </view>
-          </view>
-      </view>
-  </view>
-  <view class="list-empty" wx:if="{{favoriteList.length <= 0}}">
-    <image class="icon" src="/images/icon_collect.png"></image>
-    <view class="msg">暂无任何收藏</view>
-  </view>
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
 
-  <view class="list-done" wx:if="{{paged.more == 0 && favoriteList.length > 0}}">
-    全部加载完毕
+<view class="container">
+  <view class="favorite-list" wx:if="{{favoriteLst.length > 0}}">
+    <view class="fl-item" wx:for="{{favoriteLst}}" wx:key="item.id" bind:tap="pushPath" data-type="goods" data-id="{{item.id}}">
+      <view class="fl-thumb" style="background-image: url('../../../images/default_image.png')">
+        <image src="{{item.default_photo.large}}"></image>
+      </view>
+      <view class="fl-info">
+        <view class="name"><view class="fl-info-name"><text class="d" wx:if="{{item.discount}}">促</text><text class="p" wx:if="{{item.promos  && item.promos.length > 0}}">惠</text><text class="n">{{item.name}}</text></view><view class="fl-info-delete" catch:tap="onCancelFavorite" data-id="{{item.id}}" data-i="{{index}}"><image src="/images/icon_delete.png"></image></view></view>
+        <view class="attr" >销量：{{item.sales_count}}  库存：{{item.good_stock}}</view>
+        <view class="price">
+          <text class="price-shop">￥{{item.current_price}}</text>
+          <text class="price-market">￥{{item.price}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_favorite.png"></image>
+    <view class="msg">暂无任何收藏</view>
   </view>
 </view>
 

@@ -1,0 +1,25 @@
+/* pages/member/about/about.wxss */
+@import "../setting/setting.wxss";
+
+.about-wrap {
+}
+
+.aw-header {
+  text-align: center;
+  padding: 30rpx;
+}
+
+.aw-logo {
+  display: inline-block;
+  width: 240rpx;
+  height: 240rpx;
+}
+
+.aw-desc {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.aw-group {
+  padding: 30rpx;
+}

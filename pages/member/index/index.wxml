@@ -1,66 +1,99 @@
 <!--index.wxml-->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
 <view class="container">
   <view class="user-box">
-    <image class="avatar" src="{{userInfo.avatar || '/images/default-avatar.png'}}"></image>
-    <text class="username">{{userInfo.username || '你好，游客'}}</text>
-    <navigator url="../level/level"><text class="username">{{userInfo.rank.name || '游客'}}</text></navigator>
+    <view class="avatar" bind:tap="getUserInfo"><image class="avatar" src="{{userInfo.avatar || '/images/default_avatar.png'}}"></image></view>
+    <view class="contxt">
+      <view class="nickname"><text bind:tap="pushPath" data-type="profile">{{userInfo.nickname || '你好，游客'}}</text><view class="level" bind:tap="pushPath" data-type="level"><image src="/images/icon_v{{userLevel || '0'}}.png" mode="widthFix"></image></view></view>
+      <view class="score"><text bind:tap="pushPath" data-type="assets">积分: {{scoreInfo || 0}}分</text></view>
+    </view>
   </view>
-  <view class="order">
-    <navigator class="h" url="../order/list/list?status=999">
-      <view class="label">我的订单</view>
-      <image class="icon-go" src="/images/icon_right.png"></image>
-    </navigator>
-    <view class="b">
-      <view class="item" bindtap="pushPagePath" data-type="pay">
-        <image class="icon" src="/images/icon_order_created.png"></image>
+
+  <view class="order-box">
+    <view class="order-box-inner">
+      <view class="ob-item" hover-class="-h" bind:tap="pushPath" data-type="order" data-id="0">
+        <view class="count" wx:if="{{orderTotal.created > 0}}">{{orderTotal.created || 0}}</view>
+        <view class="icon"><image src="/images/icon_order_created.png"></image></view>
         <view class="label">待付款</view>
-        <view class="count" wx:if="{{orderTotal.created > 0}}">{{orderTotal.created}}</view>
       </view>
-      <view class="item" bindtap="pushPagePath" data-type="ship">
-        <image class="icon" src="/images/icon_order_paid.png"></image>
+      <view class="ob-item" hover-class="-h" bind:tap="pushPath" data-type="order" data-id="1">
+        <view class="count" wx:if="{{orderTotal.paid > 0}}">{{orderTotal.paid || 0}}</view>
+        <view class="icon"><image src="/images/icon_order_paid.png"></image></view>
         <view class="label">待发货</view>
-        <view class="count" wx:if="{{orderTotal.paid > 0}}">{{orderTotal.paid}}</view>
       </view>
-      <view class="item" bindtap="pushPagePath" data-type="rece">
-        <image class="icon" src="/images/icon_order_delivering.png"></image>
+      <view class="ob-item" hover-class="-h" bind:tap="pushPath" data-type="order" data-id="2">
+        <view class="count" wx:if="{{orderTotal.delivering > 0}}">{{orderTotal.delivering || 0}}</view>
+        <view class="icon"><image src="/images/icon_order_delivering.png"></image></view>
         <view class="label">待收货</view>
-        <view class="count" wx:if="{{orderTotal.delivering > 0}}">{{orderTotal.delivering}}</view>
       </view>
-      <view class="item" bindtap="pushPagePath" data-type="comm">
-        <image class="icon" src="/images/icon_order_deliveried.png"></image>
+      <view class="ob-item" hover-class="-h" bind:tap="pushPath" data-type="order" data-id="3">
+        <view class="count" wx:if="{{orderTotal.deliveried > 0}}">{{orderTotal.deliveried || 0}}</view>
+        <view class="icon"><image src="/images/icon_order_deliveried.png"></image></view>
         <view class="label">待评论</view>
-        <view class="count" wx:if="{{orderTotal.deliveried > 0}}">{{orderTotal.deliveried}}</view>
       </view>
     </view>
   </view>
-  <view class="section-menu">
-    <navigator class="item" url="../balance/detail/detail">
-      <image class="icon" src="/images/icon_integral.png"></image>
-      <view class="label">我的余额</view>
-      <image class="icon" src="/images/icon_right.png"></image>
-    </navigator>
-    <navigator class="item" url="../favorite/favorite">
-      <image class="icon" src="/images/icon_collect.png"></image>
+
+  <view class="menu-group">
+    <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="assets">
+      <view class="icon"><image src="/images/icon_cash.png"></image></view>
+      <view class="label">钱包中心</view>
+      <view class="contxt"><text>余额/积分一目了然</text></view>
+      <view class="more"><image src="/images/icon_right.png"></image></view>
+    </view>
+    <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="order">
+      <view class="icon"><image src="/images/icon_order.png"></image></view>
+      <view class="label">我的订单</view>
+      <view class="contxt"></view>
+      <view class="more"><image src="/images/icon_right.png"></image></view>
+    </view>
+    <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="favorite">
+      <view class="icon"><image src="/images/icon_favorite.png"></image></view>
       <view class="label">我的收藏</view>
-      <image class="icon" src="/images/icon_right.png"></image>
-    </navigator>
-    <navigator class="item" url="../bonus/bonus">
-      <image class="icon" src="/images/icon_bonus.png"></image>
-      <view class="label">红包/优惠券</view>
-      <image class="icon" src="/images/icon_right.png"></image>
-    </navigator>
-    <navigator class="item" url="../address/selector/selector">
-      <image class="icon" src="/images/icon_address.png"></image>
+      <view class="contxt"></view>
+      <view class="more"><image src="/images/icon_right.png"></image></view>
+    </view>
+    <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="address">
+      <view class="icon"><image src="/images/icon_address.png"></image></view>
       <view class="label">收货地址</view>
-      <image class="icon" src="/images/icon_right.png"></image>
-    </navigator>
-    <navigator class="item" url="../score/score">
-      <image class="icon" src="/images/icon_score.png"></image>
-      <view class="label">积分记录</view>
-      <image class="icon" src="/images/icon_right.png"></image>
-    </navigator>
+      <view class="contxt"></view>
+      <view class="more"><image src="/images/icon_right.png"></image></view>
+    </view>
   </view>
-  <view class="logout" bindtap="logout">
-    <view class="label">退出登录</view>
+
+  <view class="menu-group">
+    <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="cashgift">
+      <view class="icon"><image src="/images/icon_bonus.png"></image></view>
+      <view class="label">礼券中心</view>
+      <view class="contxt"><text>红包/优惠券一个不能少</text></view>
+      <view class="more"><image src="/images/icon_right.png"></image></view>
+    </view>
+    <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="recommend">
+      <view class="icon"><image src="/images/icon_recommend.png"></image></view>
+      <view class="label">我的推荐</view>
+      <view class="contxt"><text>推荐规则、更多返佣</text></view>
+      <view class="more"><image src="/images/icon_right.png"></image></view>
+    </view>
+    <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="invite">
+      <view class="icon"><image src="/images/icon_spread.png"></image></view>
+      <view class="label">我的推广</view>
+      <view class="contxt"><text>与更多人分享这份美好</text></view>
+      <view class="more"><image src="/images/icon_right.png"></image></view>
+    </view>
+  </view>
+  <view class="menu-group">
+    <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="setting">
+      <view class="icon"><image src="/images/icon_setting.png"></image></view>
+      <view class="label">更多设置</view>
+      <view class="contxt"></view>
+      <view class="more"><image src="/images/icon_right.png"></image></view>
+    </view>
+    <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="help">
+      <view class="icon"><image src="/images/icon_support.png"></image></view>
+      <view class="label">帮助中心</view>
+      <view class="contxt"><text>余额/积分一目了然</text></view>
+      <view class="more"><image src="/images/icon_right.png"></image></view>
+    </view>
   </view>
 </view>

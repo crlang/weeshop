@@ -3,70 +3,96 @@
     "pages/index/index",
     "pages/goods/list/list",
     "pages/goods/detail/detail",
+    "pages/goods/search/search",
+    "pages/points/index/index",
+    "pages/points/detail/detail",
+    "pages/points/checkout/checkout",
+    "pages/points/complete/complete",
     "pages/catalog/catalog",
-    "pages/search/search",
+    "pages/message/detail/detail",
+    "pages/message/list/list",
+    "pages/message/activity/index",
+    "pages/message/activity/detail",
+    "pages/message/help/index",
+    "pages/message/notices/index",
+    "pages/message/copyright/copyright",
     "pages/shopping/cart/cart",
     "pages/shopping/checkout/checkout",
     "pages/shopping/payment/payment",
     "pages/auth/login/login",
     "pages/auth/forget/forget",
     "pages/auth/register/register",
+    "pages/auth/changepassword/changepassword",
     "pages/member/index/index",
-    "pages/member/address/selector/selector",
-    "pages/member/address/editor/editor",
+    "pages/member/setting/setting",
+    "pages/member/about/about",
+    "pages/member/address/list/list",
+    "pages/member/address/edit/edit",
     "pages/member/order/list/list",
     "pages/member/order/detail/detail",
     "pages/member/favorite/favorite",
     "pages/member/coupon/coupon",
-    "pages/member/bonus/bonus",
+    "pages/member/cashgift/info/info",
+    "pages/member/cashgift/select/select",
     "pages/member/userinfo/userinfo",
-    "pages/member/balance/detail/detail",
+    "pages/member/assets/index/index",
     "pages/member/balance/history/history",
-    "pages/member/withdraw/success/success",
+    "pages/member/withdraw/index/index",
+    "pages/member/withdraw/info/info",
+    "pages/member/withdraw/complete/complete",
     "pages/member/withdraw/history/history",
+    "pages/member/score/history/history",
+    "pages/member/invoice/index/index",
     "pages/member/comment/add/add",
     "pages/member/comment/list/list",
     "pages/member/level/level",
-    "pages/member/score/score",
-    "pages/member/changepassword/changepassword"
+    "pages/member/invite/index/index",
+    "pages/member/invite/info/info"
   ],
-
+  "usingComponents": {
+    "loginModal": "/components/loginModal/loginModal"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "位置信息仅用于匹配，不收集您的位置信息。"
+    }
+  },
+  "cloud": true,
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fafafa",
-    "navigationBarTitleText": "",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#f0f2f5",
+    "navigationBarTitleText": "weeShop",
     "navigationBarTextStyle": "black"
   },
-
   "tabBar": {
     "color": "#2c2c2c",
-    "selectedColor": "#d81e06",
-    "backgroundColor": "#fafafa",
+    "selectedColor": "#9c27ff",
+    "backgroundColor": "#ffffff",
     "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/index/index",
         "text": "首页",
-        "iconPath": "images/icon_home.png",
-        "selectedIconPath": "images/icon_home_active.png"
+        "iconPath": "images/icon_tabbar-1.png",
+        "selectedIconPath": "images/icon_tabbar-1-active.png"
       },
       {
         "pagePath": "pages/catalog/catalog",
         "text": "分类",
-        "iconPath": "images/icon_catalog.png",
-        "selectedIconPath": "images/icon_catalog_active.png"
+        "iconPath": "images/icon_tabbar-2.png",
+        "selectedIconPath": "images/icon_tabbar-2-active.png"
       },
       {
         "pagePath": "pages/shopping/cart/cart",
         "text": "购物车",
-        "iconPath": "images/icon_cart.png",
-        "selectedIconPath": "images/icon_cart_active.png"
+        "iconPath": "images/icon_tabbar-3.png",
+        "selectedIconPath": "images/icon_tabbar-3-active.png"
       },
       {
         "pagePath": "pages/member/index/index",
         "text": "我的",
-        "iconPath": "images/icon_member.png",
-        "selectedIconPath": "images/icon_member_active.png"
+        "iconPath": "images/icon_tabbar-4.png",
+        "selectedIconPath": "images/icon_tabbar-4-active.png"
       }
     ]
   },
@@ -74,5 +100,6 @@
     "request": 20000,
     "downloadFile": 30000
   },
-  "debug": false
+  "debug": false,
+  "sitemapLocation": "sitemap.json"
 }

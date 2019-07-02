@@ -1,0 +1,69 @@
+/* setting.wxss */
+.menu-group {
+  background: #fff;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+}
+
+.menu-group .menu-item {
+  width: 100%;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding: 30rpx;
+}
+
+.menu-group .menu-item.-h {
+  background-color: #f9f9f9;
+}
+
+.menu-group .menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-group .menu-item .icon {
+  flex-shrink: 0;
+  width: 48rpx;
+  height: 48rpx;
+  overflow: hidden;
+}
+
+.menu-group .menu-item .label {
+  margin: 0 10rpx;
+  color: #333;
+  font-size: 28rpx;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.menu-group .menu-item .contxt {
+  flex-grow: 1;
+  width: 100%;
+  font-size: 24rpx;
+  color: #999;
+  text-align: right;
+  padding: 0 20rpx;
+}
+
+.menu-group .menu-item .contxt image {
+  vertical-align: middle;
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.menu-group .menu-item .more {
+  flex-shrink: 0;
+  width: 24rpx;
+  height: 24rpx;
+  overflow: hidden;
+}
+
+.menu-group .menu-item .icon image, .menu-group .menu-item .more image {
+  width: 100%;
+  height: 100%;
+}

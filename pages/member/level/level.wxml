@@ -1,12 +1,45 @@
 <!-- level.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
 <view class="container">
-  <view class="level">
-    <view class="level-p">当前用户：<text class="val">{{userInfo.username || '游客'}}</text></view>
-    <view class="level-p">手机号码：<text class="val">{{userInfo.mobile || '无'}}</text></view>
-    <view class="level-p">加入时间：<text class="val">{{userInfo.joined_at || '无'}}</text></view>
-    <view class="level-t">当前等级：<text class="val">{{userInfo.rank.name || '游客'}}</text></view>
-    <view class="level-u">会员距离下级还需：<text class="val">{{nextLevel - score || 0}} 积分</text></view>
-    <view class="level-d">特权说明：</view>
-    <view class="level-p">尊享商品 <text class="val">{{userInfo.rank.desc || 0}}</text> 折扣</view>
+  <view class="level-head">
+    <view class="lh-avatar"><image class="ava" src="{{userInfo.avatar || '/images/default_avatar.png'}}" mode="widthFix"></image><image class="vip" src="/images/icon_v{{userLevel || 0}}.png" mode="widthFix"></image></view>
+    <view class="lh-name">{{userInfo.nickname || userInfo.username}}</view>
+    <view class="lh-score">会员积分: {{scoreInfo.rank || '???'}} | 可用积分: {{scoreInfo.score || 0}}</view>
+  </view>
+  <block wx:if="{{shopLevelRank && shopLevelRank.length > 0}}">
+    <view class="level-title">
+      <text>我的会员</text>
+    </view>
+    <view class="level-progress">
+      <view class="lp-size" bind:tap="getUserInfo"><view class="lp-size-w darlang-btn" style="width: {{userLevel ? (100/maxVip*userLevel) : 0}}%"></view></view>
+      <view class="lp-label">
+        <view class="lp-label-item" wx:for="{{shopLevelRank}}" wx:key="item">VIP{{item.level}}</view>
+      </view>
+      <view class="lp-desc">距离下个等级还需 <text>{{scoreInfo.next || '???'}}</text> 会员积分</view>
+    </view>
+  </block>
+  <view class="level-title">
+    <text>会员特权</text>
+  </view>
+  <view class="level-desc">
+    <view class="icon"><image src="/images/icon_level-i1.png"></image></view>
+    <view class="contxt"><view class="name">尊享折扣</view><view class="desc">在下单时，后台智能根据会员等级进行优惠折扣，您无需担心。 您当前享有 <text>{{userInfo.rank.desc || '100%'}}</text> 折扣！</view></view>
+  </view>
+  <view class="level-desc">
+    <view class="icon"><image src="/images/icon_level-i2.png"></image></view>
+    <view class="contxt"><view class="name">会员等级</view><view class="desc">每个会员等级享有不同的积分折扣，您当前会员等级为 <text>{{userInfo.rank.name || '普通用户'}}</text>。</view></view>
+  </view>
+  <view class="level-desc">
+    <view class="icon"><image src="/images/icon_level-i3.png"></image></view>
+    <view class="contxt"><view class="name">积分抵现</view><view class="desc">在每个订单中，依据订单的金额不同，可使用的积分也不同，积分也能当现金使用，可与红包等优惠叠加！</view></view>
+  </view>
+  <view class="level-desc">
+    <view class="icon"><image src="/images/icon_level-i4.png"></image></view>
+    <view class="contxt"><view class="name">积分兑换</view><view class="desc">定期推出好物兑换，积分也能换好东西！</view></view>
+  </view>
+  <view class="level-desc">
+    <view class="icon"><image src="/images/icon_level-i5.png"></image></view>
+    <view class="contxt"><view class="name">积分规则</view><view class="desc">每成交一个订单都有一定的积分，积分将在确认收货后到账，同时会员积分相应的增加。会员积分不随积分的使用而降低，永久有效。</view></view>
   </view>
 </view>

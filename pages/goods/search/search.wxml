@@ -1,0 +1,25 @@
+<!-- search.wxml -->
+<view class="container">
+  <view class="search-wrap">
+    <view class="search">
+      <view class="form">
+        <input type="text"  confirm-type="search" value="{{keyword}}" bindinput="bindSearch" placeholder="请输入公司或职位" bindconfirm="searchKey" focus="{{true}}" /><image class="btn" src="/images/icon_search.png" bindtap="bindSearchTap"></image>
+      </view>
+    </view>
+    <view class="search-hot-box">
+      <view class="search-mo-title"><image class="hot" src="/images/icon_hot.png"></image><text>热门搜索</text></view>
+      <view class="search-hot-item" wx:if="{{hotData.length > 0}}">
+        <text wx:for="{{hotData}}" wx:key="item.id" data-name="{{item.content}}" bind:tap="searchKey">{{item.content}}</text>
+      </view>
+      <view class="search-hot-item" wx:else>
+        无
+      </view>
+    </view>
+    <view class="search-history-box">
+      <view class="search-mo-title"><text>历史搜索</text></view>
+      <view class="search-history-item" hover-class="-h" wx:for="{{historyData}}" wx:key="item" bind:tap="searchKey" data-name="{{item}}"><image src="/images/icon_time.png"></image>{{item}}</view>
+      <view class="search-history-clear" wx:if="{{historyData.length > 0}}" bind:tap="clearHistoryData">清空搜索记录</view>
+      <view class="search-history-clear" wx:else>无</view>
+    </view>
+  </view>
+</view>

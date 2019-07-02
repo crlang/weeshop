@@ -1,0 +1,33 @@
+<!-- setting.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <view class="settings">
+    <view class="menu-group">
+      <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="changePassword">
+        <view class="label">修改密码</view>
+        <view class="contxt"></view>
+        <view class="more"><image src="/images/icon_right.png"></image></view>
+      </view>
+
+      <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="userInfo">
+        <view class="label">修改资料</view>
+        <view class="more"><image src="/images/icon_right.png"></image></view>
+      </view>
+    </view>
+
+    <view class="menu-group">
+      <view class="menu-item" hover-class="-h" bind:tap="clearLocalCache">
+        <view class="label">清空缓存</view>
+        <view class="contxt"><text>缓存一键清理</text></view>
+        <view class="more"><image src="/images/icon_right.png"></image></view>
+      </view>
+      <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="about">
+        <view class="label">关于</view>
+        <view class="more"><image src="/images/icon_right.png"></image></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="da-fixed-btns"><view class="da-fixed-btns-inner"><button class="darlang-btn da-fixed-btn" type="default" bind:tap="logout" wx:if="{{hasLogged}}">退出登录</button></view></view>
+</view>

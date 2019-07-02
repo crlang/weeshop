@@ -1,0 +1,14 @@
+<!-- index.wxml-->
+<view class="container">
+  <view class="help-list" wx:if="{{helpLst}}">
+    <view class="hl-item" hover-class="-h" wx:for="{{helpLst}}" wx:key="item" bind:tap="getArticleList" data-id="{{item.id}}" data-more="{{item.more}}">
+      <view class="icon" wx:if="{{!item.more}}"><image src="/images/icon_help.png"></image></view>
+      <view class="cont">{{item.title || '无主题'}}</view>
+      <view class="more" wx:if="{{item.more}}"><image src="/images/icon_right.png"></image></view>
+    </view>
+  </view>
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_help.png"></image>
+    <view class="msg">暂无内容</view>
+  </view>
+</view>

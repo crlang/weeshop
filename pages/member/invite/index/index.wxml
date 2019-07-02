@@ -1,0 +1,45 @@
+<!-- index.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container" style="background-image: url('/images/bg_invite.png');">
+  <view class="invite-wrap">
+    <view class="iw-rules" bind:tap="switchRulesPop">推荐规则</view>
+    <view class="iw-banner"><image src="/images/bg_invite_title.png" mode="widthFix"></image></view>
+    <view class="iw-box">
+      <view class="iw-title">分享好友赚收益</view>
+      <view class="iw-btns">
+        <button type="default" open-type="share"><image src="/images/icon_wechat.png"></image><text>微信</text></button>
+        <button type="default" bind:tap="copyLink"><image src="/images/icon_link.png"></image><text>链接</text></button>
+        <!-- <button type="default" wx:if="{{wxaCodeStatus}}"><image src="/images/icon_wxacode.png"></image><text>小程序码</text></button> -->
+        <!-- <button type="default"><image src="/images/icon_qrcode.png"></image><text>二维码</text></button> -->
+      </view>
+    </view>
+    <view class="iw-table-title">邀请记录</view>
+    <scroll-view scroll-y bindscrolltolower="getRecommendList" class="iw-table" wx:if="{{recommendLst && recommendLst.length}}">
+      <view class="iw-table-item" wx:for="{{recommendLst}}" wx:key="item">
+        <view class="desc price"><text>分成金额</text><text>{{item.price || '0.00'}}</text></view>
+        <view class="desc score"><text>分成积分</text><text>{{item.score || 0}}</text></view>
+        <view class="desc"><text>分成方式</text><text>{{item.type === 1 ? '订单分成' : '注册分成'}}</text></view>
+        <view class="desc"><text>来源订单</text><text>{{item.order_sn}}</text></view>
+        <view class="foot"><block wx:if="{{item.status === 0}}"><text class="s1">待处理</text></block><block wx:elif="{{item.status === 1}}"><text class="s2">已分成</text></block><block wx:elif="{{item.status === 2}}"><text class="s3">已取消</text></block><block wx:elif="{{item.status === 3}}"><text class="s4">已撤销</text></block><text class="time">{{item.time || '分成时间'}}</text></view>
+      </view>
+      <view class="iw-table-item" wx:for="{{recommendLst}}" wx:key="item">
+        <view class="desc price"><text>分成金额</text><text>{{item.price || '0.00'}}</text></view>
+        <view class="desc score"><text>分成积分</text><text>{{item.score || 0}}</text></view>
+        <view class="desc"><text>分成方式</text><text>{{item.type === 1 ? '订单分成' : '注册分成'}}</text></view>
+        <view class="desc"><text>来源订单</text><text>{{item.order_sn}}</text></view>
+        <view class="foot"><block wx:if="{{item.status === 0}}"><text class="s1">待处理</text></block><block wx:elif="{{item.status === 1}}"><text class="s2">已分成</text></block><block wx:elif="{{item.status === 2}}"><text class="s3">已取消</text></block><block wx:elif="{{item.status === 3}}"><text class="s4">已撤销</text></block><text class="time">{{item.time || '分成时间'}}</text></view>
+      </view>
+    </scroll-view>
+    <view class="iw-table-none" wx:else>
+      <view class="msg"> - 暂无记录 - </view>
+    </view>
+  </view>
+  <view class="invite-rules" wx:if="{{rulesPopup}}">
+    <view class="ir-inner">
+      <rich-text nodes="{{recommendInfo.rule_desc || '空'}}"></rich-text>
+    </view>
+  </view>
+  <view class="mask" wx:if="{{rulesPopup}}" bind:tap="switchRulesPop"></view>
+</view>
+

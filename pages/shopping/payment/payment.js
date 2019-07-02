@@ -1,180 +1,250 @@
 /**
  * WeeShop 声明
  * ===========================================================
- * 版权 大朗 所有，并保留所有权利
- * 网站地址: http://www.darlang.com
- * 标题: ECShop 小程序「weeshop 」- 基于 ECShop 3.6 版本开发的非官方微信小程序
- * 短链接: https://www.darlang.com/?p=709
- * 说明：源码已开源并遵循 MIT 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
+ * 网站： https://www.darlang.com
+ * 标题： ECShop 小程序「weeshop 」- 基于 ECShop 为后台系统开发的非官方微信商城小程序
+ * 链接： https://www.darlang.com/?p=709
+ * 说明： 源码已开源并遵循 Apache 2.0 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
  * ==========================================================
- * @Author: Darlang
+ * Copyright 2019 darlang
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ===========================================================
  */
-// payment.js
-import util from '../../../utils/util.js';
 
-let app = getApp();
+// payment.js
+import {PNT,setNavBarTitle,showToast,pushPagePath,formatTime} from "../../../utils/utils";
+import {GetOrderInfo,PayOrder,GetBalanceTotal} from '../../../utils/apis';
+import {CheckInvoiceInfo} from '../../../utils/publics';
+import {PAY_CODE,PROMOS_TYPE} from '../../../utils/status';
+
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    order: '',// 订单
-    code: '',// 支付方式
-    orderInfo: [],
-    balance: 0,
+    orderInfo: '',
+    orderInfoPop: false,
+    balanceInfo: '',
+    payParams: {
+      'order': '',// 订单id
+      'code': 'wxpay.wxa',// 支付类型 alipay.app,wxpay.app,unionpay.app,cod.app,wxpay.web,teegon.wap,alipay.wap,wxpay.wxa,balance
+      'openid': '',// openid 默认空，微信支付时必填
+      'channel': '',// 渠道
+      'referer': '',// 来源
+    },
+    payWay: [{
+      label: '微信支付',
+      code: 'wxpay.wxa',
+      checked: true,
+      icon: '/images/icon_wxpay.png',
+      desc: '微信小程序支付(推荐)'
+    },{
+      label: '余额支付',
+      code: 'balance',
+      checked: false,
+      icon: '/images/icon_balance.png',
+      desc: '账户余额支付'
+    }],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    // 页面初始化 options为页面跳转所带来的参数
-    wx.setNavigationBarTitle({
-      title: util.pageTitle.orderM.payment
-    });
-    let order = options.order;
-    this.setData({
-      order: order
-    });
-    this.getOrderInfo(order);
-    this.getBalanceInfo();
-  },
+  onLoad: function (opt) {
+    setNavBarTitle(PNT.order.payment);
+    this.loginModal = this.selectComponent("#login-modal");
 
-  // 获取订单信息
-  // ecapi.order.get
-  getOrderInfo(order) {
-    let self = this;
-    util.request(util.apiUrl + 'ecapi.order.get', 'POST',{
-      order: order
-    }).then(res => {
-      self.setData({
-        orderInfo: res.order
-      });
-    }).catch(err => {
-      util.showToast(err.data.error_desc,'error');
-    });
-  },
-
-  // 选择支付方式
-  setPayType(event) {
-    this.setData({
-      code: event.detail.value
-    });
-  },
-
-  // 支付
-  // ecapi.payment.pay
-  toPay() {
-    let self = this,openid = null;
-    if(app.globalData.openid === null) {
-      let cacheOpenid = wx.getStorageSync('openid');
-      if (cacheOpenid) {
-        openid = cacheOpenid;
-      }else {
-        wx.showModal({
-          title: '登录异常',
-          content: '支付错误，登录超时或者异常，请重新登录!',
-          cancelText: '返回首页',
-          confirmText: '重新登录',
-          success: function (res) {
-            if(res.confirm) {
-              app.getUserInfo();
-              setTimeout(function(){
-                wx.navigateTo({
-                  url: '/pages/shopping/payment/payment?order=' + self.data.order,
-                });
-              }, 1500);
-            }else {
-              wx.navigateTo({
-                url: '/pages/index/index',
-              });
-            }
-          }
-        });
-        return false;
-      }
-    }else {
-      openid = app.globalData.openid;
+    if (!opt.orderId) {
+      showToast('订单错误','error');
+      return false;
     }
 
-    wx.showModal({
-      title: '确认支付',
-      content: '你选择的是 ' +LANGUAGESET(self.data.code)+ ' 请确认支付.',
-      success: function (res) {
-        if(res.confirm) {
-          util.request(util.apiUrl + 'ecapi.payment.pay', 'POST',{
-            order: self.data.order,
-            code:  self.data.code,
-            openid: openid
-          }).then(res => {
-            if (self.data.code === "balance" && res.error_code === 0) {
-              util.showToast('支付成功','success');
-              setTimeout(function(){
-                wx.navigateTo({
-                  url: '../../member/order/list/list',
-                });
-              },800);
-            }else if(self.data.code === "wxpay.wxa" && res.error_code === 0){
-              if (res.wxpay.prepay_id === null) {
-                util.showToast('支付失败','error');
-                return false;
-              }
-              wx.requestPayment({
-                'timeStamp': res.wxpay.timestamp,
-                'nonceStr': res.wxpay.nonce_str,
-                'package': res.wxpay.packages,
-                'signType': 'MD5',
-                'paySign': res.wxpay.sign,
-                success: res => {
-                  //requestPayment:ok
-                  util.showToast('支付成功','success');
-                },
-                fail: fai =>{
-                  //requestPayment:fail cancel
-                  util.showToast('支付未完成','error');
-                }
-              });
-            }
-          }).catch(err => {
-            util.showToast(err.data.error_desc,'error',800);
+    this.setData({
+      "payParams.order": opt.orderId || ''
+    });
+  },
+
+  /**
+   * 登录回调
+   * @author darlang
+   */
+  loginCallback(cb) {
+    if (cb.detail.type === 'success') {
+      this.getOrderInfo();
+      this.getBalanceInfo();
+    }
+  },
+
+
+  /**
+   * 获取订单信息
+   * @author darlang
+   */
+  getOrderInfo() {
+    wx.showLoading({title: '正在检查订单...',mask: true});
+    GetOrderInfo(this.data.payParams.order).then(res => {
+      if (res.order) {
+        let o = res.order;
+        o.created_at = formatTime(o.created_at,'Y/M/D h:i:s');
+        o.promos = o.promos.filter(k => k.price > 0);
+        if (o.promos && o.promos.length > 0) {
+          for (let i = 0; i < o.promos.length; i++) {
+            let item = o.promos[i];
+            item.label = PROMOS_TYPE.find(k => k.code === item.promo).label || '其他优惠';
+          }
+        }
+        if (o.invoice && o.invoice.type) {
+          CheckInvoiceInfo(o.invoice.type,'type').then(xres => {
+            this.setData({
+              'orderInfo.invoice.type': xres
+            });
+          });
+          CheckInvoiceInfo(o.invoice.content,'content').then(xres => {
+            this.setData({
+              'orderInfo.invoice.content': xres
+            });
           });
         }
+        this.setData({
+          orderInfo: res.order
+        });
       }
     });
-
-    function LANGUAGESET(name) {
-      switch (name) {
-      case "balance":
-        return '余额支付';
-      case "cod.app":
-        return '货到付款';
-      case "alipay.wap":
-        return '支付宝wap支付';
-      case "teegon.wap":
-        return '天工收银';
-      case "alipay.app":
-        return '支付宝支付';
-      case "wxpay.app":
-        return '微信支付';
-      case "wxpay.web":
-        return '微信支付';
-      case "wxpay.wxa":
-        return '小程序支付';
-      case "unionpay.app":
-        return '银联支付';
-      default:
-        return '错误支付方式';
-      }
-    }
   },
 
-  // 账户余额
-  // ecapi.balance.get
+  /**
+   * 订单详情弹窗
+   * @author darlang
+   */
+  setOrderInfoPop() {
+    if (!this.data.orderInfoPop && !this.loginModal.check()) {
+      return false;
+    }
+    this.setData({
+      orderInfoPop: !this.data.orderInfoPop
+    });
+  },
+
+  /**
+   * 修改支付方式
+   * @author darlang
+   */
+  setPayType(e) {
+    let items = e.currentTarget.dataset;
+    let pw = this.data.payWay;
+    for (let i = 0; i < pw.length; i++) {
+      if (pw[i].checked) {
+        pw[i].checked = false;
+      }
+    }
+    pw[items.i].checked = true;
+    this.setData({
+      "payParams.code": items.code,
+      "payWay": pw
+    });
+  },
+
+  /**
+   * 支付检查
+   * @author darlang
+   */
+  toPay() {
+    let self = this;
+    let openid = wx.getStorageSync("openid") || '';
+    let payCode = this.data.payParams.code || '';
+    let payName = PAY_CODE.find( k => k.code === payCode).label;
+    if (!payName) {
+      showToast('请选择支付方式');
+      return false;
+    }
+
+    if (!this.loginModal.check()) {
+      showToast('请选择先登录');
+      return false;
+    }
+
+    if (!openid && payCode === 'wxpay.wxa') {
+      showToast('微信授权登录才能使用微信支付');
+      return false;
+    }
+
+    wx.showLoading({title: '支付中...',mask: true});
+    PayOrder(self.data.payParams.order,payCode,openid,'weeshop','wxa').then(res => {
+      if (res.error_code === 0) {
+        if (payCode === 'balance') {
+          showToast('支付成功','success');
+          self.paySuccess();
+        }else if(payCode === 'wxpay.wxa') {
+          if (!res.wxpay.prepay_id) {
+            showToast('支付失败','error');
+            return false;
+          }
+          wx.requestPayment({
+            'timeStamp': res.wxpay.timestamp,
+            'nonceStr': res.wxpay.nonce_str,
+            'package': res.wxpay.packages,
+            'signType': 'MD5',
+            'paySign': res.wxpay.sign,
+            success: () => {
+              showToast('支付成功','success');
+              self.paySuccess();
+            },
+            fail: () =>{
+              showToast('支付取消','warning');
+            }
+          });
+        }
+      }else{
+        showToast('支付错误','success');
+      }
+    }).catch(err => {
+      if (parseInt(err.data.error_code) === 400 &&payCode === 'balance') {
+        wx.showModal({
+          title: '余额不足',
+          content: '你的账户余额为 '+self.data.balanceInfo+ ' 元,余额不足,建议您使用微信支付.',
+          showCancel: false,
+          confirmText: '确定',
+          confirmColor: '#9c27ff'
+        });
+      }else{
+        showToast(err.data.error_desc,'error',800);
+      }
+    });
+  },
+
+  /**
+   * 支付成功跳转
+   * @author darlang
+   */
+  paySuccess() {
+    setTimeout(() => {
+      wx.redirectTo({
+        url: this.data.payParams.order ? '/pages/member/order/detail/detail?id='+this.data.payParams.order : '/pages/member/order/list/list'
+      });
+    },900);
+  },
+
+  /**
+   * 账户余额
+   * @author darlang
+   */
   getBalanceInfo() {
-    util.request(util.apiUrl + 'ecapi.balance.get', 'POST').then(res =>{
+    wx.showLoading({title: '检查余额...',mask: true});
+    GetBalanceTotal().then(res =>{
       this.setData({
-        balance: res.amount
+        balanceInfo: res.amount
       });
     });
   },
@@ -191,6 +261,8 @@ Page({
    */
   onShow: function () {
     // 页面显示
+    this.getOrderInfo();
+    this.getBalanceInfo();
   },
 
   /**

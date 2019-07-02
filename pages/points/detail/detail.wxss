@@ -1,0 +1,31 @@
+/* detail.wxss */
+@import "../../goods/detail/detail.wxss";
+
+.gi-price {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.gi-price .price {
+  color: #01cd9a;
+  vertical-align: bottom;
+}
+
+.gi-price .price-o {
+  display: inline-block;
+  padding-left: 10rpx;
+}
+
+.gfb-btns .now {
+  background: #01cd9a;
+}
+
+.gfb-btns .now.disabled {
+  color: #fff;
+  background-color: #e4e4e4;
+  background-image: linear-gradient(to right, #e4e4e4 0%, #c4c4c4 100%);
+}
+
+.gs-info-name .price {
+  color: #01cd9a;
+}

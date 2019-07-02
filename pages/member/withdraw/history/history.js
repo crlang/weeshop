@@ -1,82 +1,111 @@
+/**
+ * WeeShop 声明
+ * ===========================================================
+ * 网站： https://www.darlang.com
+ * 标题： ECShop 小程序「weeshop 」- 基于 ECShop 为后台系统开发的非官方微信商城小程序
+ * 链接： https://www.darlang.com/?p=709
+ * 说明： 源码已开源并遵循 Apache 2.0 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
+ * ==========================================================
+ * Copyright 2019 darlang
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ===========================================================
+ */
+
 // history.js
-import util from '../../../../utils/util.js';
+import {PNT,setNavBarTitle,pushPagePath,scrollLoadList,formatTime} from "../../../../utils/utils";
+import {GetWithdrawList} from "../../../../utils/apis";
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    withdrawsList: [],
-    paged: {
+    withdrawLst: '',
+    pages: {
       page: 1,
-      size: 10
-    },
-    loadMore: true
+      size: 10,
+      total: 10,
+      done: false,
+      loading: false
+    }
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    // 页面初始化 options为页面跳转所带来的参数
-    wx.setNavigationBarTitle({
-      title: util.pageTitle.withdraw
-    });
+  onLoad: function () {
+    setNavBarTitle(PNT.withdraw.history);
+    this.loginModal = this.selectComponent("#login-modal");
     this.getWithdrawList();
   },
 
-  // 取消提现
-  // ecapi.withdraw.cancel
-  onCancelWithdraw(e) {
-    let itemIndex = e.currentTarget.dataset.indexid;
-    let self = this;
-    wx.showModal({
-      title: '提示',
-      content: '是否取消该提现？',
-      success: function (res) {
-        if (res.confirm) {
-          util.request(util.apiUrl + 'ecapi.withdraw.cancel', 'POST', {
-            id: itemIndex,
-          }).then(res => {
-            util.showToast('已取消提现', 'success');
-            setTimeout(function () {
-              self.getWithdrawList();
-            }, 1000);
-          });
+  /**
+   * 页面跳转
+   * @author darlang
+   */
+  pushPath(e) {
+    const items = e.currentTarget.dataset;
+    const pathData = [
+      {type: 'info',path: '/pages/member/withdraw/info/info?id='+items.id},
+    ];
+    pushPagePath(e,pathData);
+  },
+
+  /**
+   * 登录回调
+   * @author darlang
+   */
+  loginCallback(cb) {
+    if (cb.detail.type === 'success') {
+      this.reList();
+    }
+  },
+
+  /**
+   * 提现记录
+   * @author darlang
+   */
+  getWithdrawList() {
+    if (this.data.pages.done) {
+      return false;
+    }
+    wx.showLoading({title: '加载中...',mask: true});
+    GetWithdrawList(this.data.pages.page,this.data.pages.size).then(res => {
+      if (res.withdraws && res.withdraws.length > 0) {
+        for (let i = 0; i < res.withdraws.length; i++) {
+          res.withdraws[i].create_at = formatTime(res.withdraws[i].create_at,"Y年M月D日 h:i:s");
         }
       }
+
+      const lst = scrollLoadList(this,res,'withdraws','withdrawLst');
+      this.setData({
+        withdrawLst: lst
+      });
     });
   },
 
-  // 提现记录
-  // ecapi.withdraw.list
-  getWithdrawList() {
-    let self = this;
-    util.request(util.apiUrl + 'ecapi.withdraw.list', 'POST', {
-      page: self.data.paged.page,
-      per_page: self.data.paged.size
-    }).then(res => {
-      for (let i in res.withdraws) {
-        res.withdraws[i].create_at = util.formatTime(res.withdraws[i].create_at);
-      }
-      if (self.data.loadMore) {
-        self.data.withdrawsList = self.data.withdrawsList.concat(res.withdraws);
-      }else{
-        self.data.withdrawsList = res.withdraws;
-      }
-      let newWithdraw = self.data.withdrawsList;
-      self.setData({
-        withdrawsList: newWithdraw,
-        paged: res.paged
-      });
-      if (res.paged.more > 0) {
-        self.setData({ loadMore:true });
-      }else{
-        self.setData({ loadMore:false });
-      }
-    }).catch(err => {
-      util.notLogin(err);
+  /**
+   * 重新获取列表
+   * @author darlang
+   */
+  reList() {
+    this.setData({
+      withdrawLst: '',
+      'pages.page': 1,
+      'pages.done': false
     });
+    this.getWithdrawList();
   },
 
   /**
@@ -107,17 +136,13 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    this.reList();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.loadMore) {
-      this.setData({
-        "paged.page": parseInt(this.data.paged.page) + 1
-      });
-      this.getWithdrawList();
-    }
+    this.getWithdrawList();
   },
 });

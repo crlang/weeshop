@@ -1,0 +1,73 @@
+<!-- checkout.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <view class="confirm-wrap">
+    <!-- 地址 -->
+    <view class="confirm-address" hover-class="-h" bind:tap="pushPath" data-type="consignee">
+      <view class="ca-icon"><image src="/images/icon_consignee.png"></image></view>
+      <view class="ca-cont" wx:if="{{consigneeInfo && checkoutParams.consignee}}">
+        <view class="ca-contact"><text class="name">{{consigneeInfo.name}}</text> <text class="tel">{{consigneeInfo.mobile}}</text></view>
+        <view class="ca-addr">{{consigneeInfo.region}} {{consigneeInfo.address}}</view>
+      </view>
+      <view class="ca-create" wx:else><text>请填写地址</text></view>
+      <view class="ca-arr"><image src="/images/icon_right.png"></image></view>
+    </view>
+
+    <!-- 订单信息 -->
+    <view class="confirm-goods">
+      <view class="cg-item" wx:for="{{orderInfo}}" wx:key="item.id">
+        <view class="cg-thumb">
+          <image src="{{item.thumb}}"></image>
+        </view>
+        <view class="cg-info">
+          <view class="cg-name">{{item.name}}</view>
+          <view class="cg-attr" wx:if="{{item.attrs && item.attrs.length > 0}}"><view class="cg-attr-item" wx:for="{{item.attrs}}" wx:key="item" wx:for-item="attr"><text>{{attr.name}}</text><text wx:if="{{attr.price > 0}}">￥{{attr.price}}</text></view></view>
+          <view class="cg-total">x {{item.total}}</view>
+          <view class="cg-price cg-score">{{item.price}}积分</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 附加内容 -->
+    <view class="confirm-form">
+      <view class="cf-item" hover-class="-h" bind:tap="getExpress">
+        <view class="label">快递配送</view>
+        <view class="contxt"><block wx:if="{{expressData}}">{{expressData.name}}</block><block wx:else>请选择配送快递</block></view>
+        <view class="arr"><image src="/images/icon_right.png"></image></view>
+      </view>
+    </view>
+
+    <!-- 金额详细 -->
+    <view class="confirm-form confirm-price">
+      <view class="cf-item">
+        <view class="label">商品</view>
+        <view class="contxt"><block wx:if="{{orderPriceInfo.product_price > 0}}">￥{{orderPriceInfo.product_price || 0}}</block><block wx:else>赠品</block></view>
+      </view>
+      <view class="cf-item">
+        <view class="label">运费</view>
+        <view class="contxt"><block wx:if="{{orderPriceInfo.shipping_price > 0}}">￥{{orderPriceInfo.shipping_price || 0}}</block><block wx:else>免运费</block></view>
+      </view>
+      <view class="cf-item">
+        <view class="contxt">兑换需要： <text class="cg-price">{{scoreInfo.usable || 0}}</text> 积分，您当前拥有共 {{scoreInfo.score || 0}} 积分。</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 提交订单 -->
+  <view class="confirm-submit">
+    <view class="confirm-submit-inner">
+      <view class="cs-total">
+        <view class="price"><text class="t">共 {{totalGoods || 0}} 件商品,</text> 合计:<text class="cg-price">{{scoreInfo.usable || 0}}积分</text></view>
+        <view class="discount">合计:￥{{orderPriceInfo.total_price|| '0.00'}}</view>
+      </view>
+      <block wx:if="{{isExchangeFail}}">
+        <view class="cs-btn"><button type="default" class="is-disabled" >积分不足</button></view>
+      </block>
+      <block wx:else>
+      <view class="cs-btn"><button type="default" class="{{checkoutParams.shipping ? 'darlang-btn' : 'is-disabled'}}" bind:tap="submitCheckoutOrder" >立即兑换</button></view>
+      </block>
+    </view>
+  </view>
+</view>
+

@@ -1,15 +1,32 @@
 <!-- register.wxml -->
 <view class="container">
-  <view class="register">
-    <form bindsubmit="register">
-      <input class="input-item" name="username" placeholder="Name" />
-      <text class="t">请输入用户名</text>
-      <input class="input-item" name="email" placeholder="E-mail" />
-      <text class="t">请输入邮箱</text>
-      <input class="input-item" type="password" name="password" placeholder="Password" />
-      <input class="input-item" type="password" name="repassword" placeholder="Repassword" />
-      <text class="t">请输入密码</text>
-      <button class="btn-item" formType="submit">注册</button>
-    </form>
+  <view class="register login">
+    <view class="login-slogan">
+      欢迎加入{{miniProName}}
+    </view>
+    <view class="login-form">
+      <form bindsubmit="register">
+      <view class="login-input-item">
+        <input type="text" name="username" placeholder="请输入用户名" />
+      </view>
+
+      <view class="login-input-item">
+        <input type="text" name="email" placeholder="请输入邮箱" />
+      </view>
+
+      <view class="login-input-item">
+        <input name="password" type="password" placeholder="请输入密码" />
+      </view>
+
+      <view class="login-input-item">
+        <input name="password" type="password" placeholder="请重复密码" />
+      </view>
+
+      <view class="login-btn-item">
+        <button class="darlang-btn" type="default" form-type="submit">注册</button>
+        <button class="wechat-btn" type="primary" open-type="getUserInfo" bindgetuserinfo="getUserInfo">一键注册</button>
+      </view>
+      </form>
+    </view>
   </view>
 </view>

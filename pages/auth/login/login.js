@@ -1,118 +1,99 @@
+/**
+ * WeeShop 声明
+ * ===========================================================
+ * 网站： https://www.darlang.com
+ * 标题： ECShop 小程序「weeshop 」- 基于 ECShop 为后台系统开发的非官方微信商城小程序
+ * 链接： https://www.darlang.com/?p=709
+ * 说明： 源码已开源并遵循 Apache 2.0 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
+ * ==========================================================
+ * Copyright 2019 darlang
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ===========================================================
+ */
+
 // login.js
-import util from "../../../utils/util.js";
-var app = getApp();
-var openid = "",
-  session_key = "",
-  loginCode = "",
-  loginCodeNew = "";
+import {PNT,setNavBarTitle,showToast,miniProName,checkRoutePage,pushPagePath} from "../../../utils/utils";
+import {SignIn} from "../../../utils/apis";
+import {GetWechatUserInfo} from "../../../utils/publics";
+
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    logoURL: "",
-    username: "",
-    password: ""
+    miniProName,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
-    wx.setNavigationBarTitle({
-      title: util.pageTitle.login
+  onLoad: function() {
+    setNavBarTitle(PNT.auth.login);
+  },
+
+  /**
+   * 页面跳转
+   * @author darlang
+   */
+  pushPath(e) {
+    const pathData = [
+      {type: 'register',path: '/pages/auth/register/register'},
+      {type: 'forget',path: '/pages/auth/forget/forget'},
+    ];
+    pushPagePath(e,pathData);
+  },
+
+  /**
+   * 登录
+   * @author darlang
+   */
+  login(e) {
+    let params = e.detail.value;
+    if (!params.username) {
+      showToast("用户名不能为空");
+      return false;
+    }
+    if (params.password.length < 6) {
+      showToast("密码不能少于6个字符");
+      return false;
+    }
+
+    SignIn(params.username,params.password).then(res => {
+      showToast('登录成功','success',800);
+      wx.setStorageSync("token", res.token);
+      wx.setStorageSync("userInfo", res.user);
+      wx.setStorageSync("openid", res.openid);
+      wx.setStorageSync('loginStatus', true);
+      wx.showModal({
+        title: '登录成功',
+        content: '注意，如您使用账号登录，将无法使用微信支付，但您可以通过余额支付。',
+        showCancel: false,
+        confirmText: '了解',
+        confirmColor: '#9c27ff',
+        complete: () => {
+          checkRoutePage();
+        }
+      });
     });
-    util
-      .request(util.apiUrl + "ecapi.site.get", "POST")
-      .then(res => {
-        // ...
-      })
-      .catch(err => {
-        if (err.data.site_info.logo) {
-          let siteLogo = err.data.site_info.logo.large || "";
-          this.setData({
-            logoURL: siteLogo
-          });
-        }
-      });
   },
 
-  // 登录
-  // ecapi.auth.signin
-  login(event) {
-    let self = this;
-    if (event.detail.value.username.length <= 0) {
-      util.showToast("用户名不能为空", "none");
-      return false;
-    }
-    if (event.detail.value.password.length < 6) {
-      util.showToast("密码不能少于 6 个字符", "none");
-      return false;
-    }
-    util
-      .request(util.apiUrl + "ecapi.auth.signin", "POST", {
-        username: event.detail.value.username,
-        password: event.detail.value.password
-      })
-      .then(res => {
-        self.setData({
-          token: res.token,
-          user: res.user
-        });
-        wx.setStorageSync("token", res.token);
-        wx.setStorageSync("user", res.user);
-        // 从哪来回哪去
-        wx.navigateBack();
-      })
-      .catch(err => {
-        util.showToast(err.data.error_desc, "none");
-      });
-  },
-
-  // 小程序注册获取用户信息
-  // ecapi.auth.social
+  /**
+   * 微信快捷登录
+   * @author darlang
+   */
   getUserInfo(e) {
-    console.log(e);
-    // 拒绝授权
-    if (e.detail.errMsg === "getUserInfo:fail auth deny") {
-      util.showToast("由于您尚未授权登录，后续将影响购物。");
-      return false;
-    }
-    // 允许授权
-    if (e.detail.errMsg === "getUserInfo:ok" && e.detail.iv.length > 0) {
-      wx.login({
-        success: function(res) {
-          loginCodeNew = res.code;
-          util
-            .request(util.apiUrl + "ecapi.auth.social", "POST", {
-              vendor: 5,
-              js_code: loginCodeNew,
-              open_id: openid
-            })
-            .then(soc => {
-              wx.setStorageSync("token", soc.token);
-              wx.setStorageSync("user", soc.user);
-              wx.setStorageSync("openid", soc.openid);
-              if (soc.is_new_user) {
-                util.showToast("已成功注册,欢迎您...");
-              } else {
-                util.showToast("已成功登录,跳转中...");
-              }
-              setTimeout(()=> {
-                wx.switchTab({
-                  url: '/pages/index/index'
-                });
-              }, 600);
-            })
-            .catch(err => {
-              console.log(err);
-              if (err.data.error_code === 400) {
-                util.showToast(err.data.error_desc);
-              }
-            });
-        }
-      });
-    }
+    GetWechatUserInfo(e);
   },
 
   /**
@@ -123,7 +104,16 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {},
+  onShow: function() {
+    wx.setNavigationBarColor({
+      frontColor: "#000000",
+      backgroundColor: "#ffffff",
+      animation: {
+        duration: 300,
+        timingFunc: "linear"
+      }
+    });
+  },
 
   /**
    * 生命周期函数--监听页面隐藏

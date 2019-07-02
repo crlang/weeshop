@@ -1,43 +1,125 @@
 /** app.wxss **/
 
-page{
-  background: #f4f4f4;
-  color: #333;
-  font-size: 14px;
-  min-height: 100%;
+/* 全局样式重置 */
+ad, aria-component, audio, button, camera, canvas, checkbox, checkbox-group, cover-image, cover-view, editor, functional-page-navigator, icon, image, input, label, live-player, live-pusher, map, movable-area, movable-view, native-component, navigator, officical-account, open-data, picker, picker-view, picker-view-column, progress, radio, radio-group, rich-text, scroll-view, slider, swiper, swiper-item, switch, text, textarea, video, view, web-view {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
-view, text, image, navigator, input, button{
-  box-sizing: border-box;
+button, button[type=default] {
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  line-height: 1;
 }
-button::after{
+
+.button-hover, .button-hover[type=default] {
+  background-color: transparent;
+  opacity: 0.88;
+}
+
+button::after, button[type=default]::after {
+  content: '';
   display: none;
 }
-.container {
+
+image {
+  max-width: 100%;
+  max-height: 100%;  /* height: auto; */
+}
+
+page {
+  font-family: -apple-system-font, "Helvetica Neue", Helvetica, "Microsoft YaHei", sans-serif;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background: #f0f2f5;
+  color: #333;
+  font-size: 28rpx;
   min-height: 100%;
-  box-sizing: border-box;
-  background: #f4f4f4;
 }
 
-.fixed-bottom {
-    position: fixed !important;
-    top: auto !important;
-    bottom: 0 !important;
+/* 默认输入文字颜色 */
+.input-placeholder, .placeholderColor {
+  color: #a1a2a3;
 }
 
-.list-done {
-  display: block;
-  width: 100%;
-  height: 44px;
-  box-sizing: border-box;
-  color: #666666;
-  font-size: 12px;
-  font-weight: normal;
-  line-height: 44px;
+/*checkbox 未选中样式  */
+checkbox .wx-checkbox-input {
+  -webkit-border-radius: 3rpx;
+  border-radius: 3rpx;
+  height: 28rpx;
+  width: 28rpx;
+  margin-top: -4rpx;  /* background: #999; */
+}
+
+/* checkbox 选项框大小  */
+checkbox .wx-checkbox-input {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+/* checkbox 选中后样式  */
+checkbox .wx-checkbox-input.wx-checkbox-input-checked {
+  background: #9c27ff;
+}
+
+/* checkbox 选中后图标样式  */
+checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
+  width: 28rpx;
+  height: 28rpx;
+  line-height: 28rpx;
   text-align: center;
+  font-size: 22rpx;
+  color: #fff;
+  background: transparent;
+  -ms-transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(1);
+  -webkit-transform: translate(-50%, -50%) scale(1);
 }
 
-.list-empty{
+.container {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background: #f0f2f5;
+}
+
+/* 全局样式重置  end */
+.darlang-btn {
+  color: #fff;
+  background-color: #9c27ff;
+  background-image: linear-gradient(to right, #29cdf4 0%, #9c27ff 100%);
+}
+
+.disable-btn {
+  color: #fff;
+  background-color: #e4e4e4;
+  background-image: linear-gradient(to right, #e4e4e4 0%, #c4c4c4 100%);
+}
+
+/**
+ * 列表为空
+ * 示例
+ * ----------
+<view class="list-empty">
+  <image class="icon" src="/images/default_image.png"></image>
+  <view class="msg">暂无内容</view>
+</view>
+ * ----------
+ */
+.list-empty {
   height: 100%;
   width: 100%;
   padding: 50% 0;
@@ -47,13 +129,136 @@ button::after{
   align-items: center;
 }
 
-.list-empty .icon{
+.list-empty .icon {
   height: 200rpx;
   width: 200rpx;
 }
 
-.list-empty .msg{
+.list-empty .msg {
   line-height: 40rpx;
   font-size: 12px;
   color: #999;
+}
+
+/**
+ * 背景蒙层
+ * 示例
+ * ----------
+<view class="mask"></view>
+ * ----------
+ */
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 997;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/**
+ * tab 选项卡样式
+ * 示例
+ * ----------
+<view class="all-in-one-tabs">
+  <view class="all-in-one-tab-item {{true ? 'is-actived' : ''}}" data-type="true"><text>示例一</text></view>
+</view>
+ * ----------
+ */
+.all-in-one-tabs {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: #fff;
+  border-top: 1px solid #eee;
+}
+
+.all-in-one-tabs .all-in-one-tab-item {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+.all-in-one-tabs .all-in-one-tab-item > text {
+  display: inline-block;
+  padding: 25rpx 0;
+  color: #666;
+  font-size: 14px;
+  border-bottom: 2px solid #fff;
+}
+
+.all-in-one-tabs .all-in-one-tab-item.is-actived > text {
+  color: #9c27ff;
+  border-bottom-color: #9c27ff;
+}
+
+/* 通用底部悬浮按钮 */
+
+/**
+ *结构
+<view class="da-fixed-btns"><view class="da-fixed-btns-inner"><button class="darlang-btn da-fixed-btn" type="default">按钮</button></view></view>
+ */
+.da-fixed-btns {
+  width: 100%;
+  height: 128rpx;
+}
+
+.da-fixed-btns-inner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  width: 100%;
+  padding: 20rpx 40rpx;
+  background-color: none;
+  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(255, 255, 255, 0.95)), color-stop(75%, rgba(255, 255, 255, 0.3)), to(rgba(255, 255, 255, 0)));
+  background-image: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.95) 0, rgba(255, 255, 255, 0.3) 75%, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(bottom, rgba(255, 255, 255, 0.95) 0, rgba(255, 255, 255, 0.3) 75%, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0, rgba(255, 255, 255, 0.3) 75%, rgba(255, 255, 255, 0) 100%);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.da-fixed-btns button, .da-fixed-btns .da-fixed-btn {
+  -webkit-border-radius: 56rpx;
+  border-radius: 56rpx;
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  color: #fff;
+  margin-right: 10rpx;
+  -webkit-box-shadow: 0 18rpx 10rpx -10rpx rgba(51, 51, 51, 0.15);
+  box-shadow: 0 18rpx 10rpx -10rpx rgba(51, 51, 51, 0.15);
+}
+
+.da-fixed-btns button:last-child, .da-fixed-btns .da-fixed-btn:last-child {
+  margin-right: 0;
+}
+
+.da-fixed-btns button:hover, .da-fixed-btns .da-fixed-btn:hover, .da-fixed-btns button:active, .da-fixed-btns .da-fixed-btn:active {
+  opacity: 0.88;
 }

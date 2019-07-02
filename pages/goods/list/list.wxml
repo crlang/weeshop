@@ -1,35 +1,54 @@
 <!--list.wxml-->
+<!-- <import src="../../../libs/wxParse/wxParse.wxml" /> -->
+
 <view class="container">
-  <view class="sort">
-    <view class="sort-box">
-      <view class="item {{sort_key == 0 ? 'active' : ''}}" bindtap="bindSorderTap" data-id="0">
-        <text class="txt">综合</text>
+  <view class="sort-wrap">
+    <view class="sort-box" catchtouchmove="preventTouchMove">
+      <view class="item down-lst {{downState ? 'active' : ''}}" bindtap="bindDorderTap">
+        <text class="txt" wx:if="{{lstParams.sort_key == 2}}">热度</text>
+        <text class="txt" wx:elif="{{lstParams.sort_key == 3}}">信用</text>
+        <text class="txt" wx:else>综合</text>
+        <text class="ico"></text>
       </view>
-      <view class="item {{sort_key == 4 ? 'active' : ''}}" bindtap="bindSorderTap" data-id="4">
+      <view class="item {{lstParams.sort_key == 4 ? 'active' : ''}}" bindtap="bindSorderTap" data-sk="4">
         <text class="txt">销量</text>
       </view>
-      <view class="item {{sort_key == 5 ? 'active' : ''}}" bindtap="bindSorderTap" data-id="5">
+      <view class="item {{lstParams.sort_key == 5 ? 'active' : ''}}" bindtap="bindSorderTap" data-sk="5">
         <text class="txt">新品</text>
       </view>
-      <view class="item by-price {{sort_key == 1 ? 'active' : ''}} {{sort_value == 1  ? 'asc' : 'desc'}}" bindtap="bindSorderTap" data-id="1">
+      <view class="item {{lstParams.sort_key == 1 ? 'active' : ''}} " bindtap="bindSorderTap" data-sk="1">
         <text class="txt">价格</text>
+        <block wx:if="{{lstParams.sort_key == 1}}">
+          <text class="price {{lstParams.sort_value == 1  ? 'asc' : 'desc'}}"></text>
+        </block>
+        <block wx:else>
+          <text class="price"></text>
+        </block>
       </view>
     </view>
+    <view class="sort-downlst" wx:if="{{downState}}" catchtouchmove="preventTouchMove">
+      <view class="sort-down-li {{lstParams.sort_key == 0 ? 'active' : ''}}" bindtap="bindSorderTap" data-sk="0"><text class="txt">综合排序</text></view>
+      <view class="sort-down-li {{lstParams.sort_key == 2 ? 'active' : ''}}" bindtap="bindSorderTap" data-sk="2"><text class="txt">近期热门</text></view>
+      <view class="sort-down-li {{lstParams.sort_key == 3 ? 'active' : ''}}" bindtap="bindSorderTap" data-sk="3"><text class="txt">好评优先</text></view>
+    </view>
+    <view class="mask" wx:if="{{downState}}" catchtouchmove="preventTouchMove"></view>
   </view>
-  <view class="goods-section" wx:if="{{products.length > 0}}">
-    <view class="b">
-      <navigator url="../detail/detail?id={{item.id}}" class="item" wx:for="{{products}}" wx:key="{{item.id}}">
-        <image src="{{item.default_photo.thumb}}" class="thumb"></image>
+
+  <view class="goods-list" wx:if="{{goodsLst.length > 0}}">
+    <view class="gl-item" hover-class="-h" wx:for="{{goodsLst}}" wx:key="item.id" bind:tap="pushPath" data-type="goods" data-id="{{item.id}}">
+      <view class="item-l">
+        <image src="{{item.default_photo.thumb || '/images/default_image.png'}}" class="thumb"></image>
+      </view>
+      <view class="item-r">
         <view class="name">{{item.name}}</view>
-        <view class="price">￥{{item.current_price}}</view>
-      </navigator>
+        <view class="price">￥{{item.current_price}} <text class="origin" wx:if="{{item.price}}">￥{{item.price}}</text></view>
+        <view class="sale">{{item.sales_count || '0'}}人付款 <text class="shipping" wx:if="{{item.is_shipping === 1}}">包邮</text><text class="score" wx:if="{{item.score > 0}}">积分抵 {{item.score_rate}}</text><text class="comm">{{item.review_rate || '0%'}}满意</text></view>
+      </view>
+      <view class="tags"><text class="discount" wx:if="{{item.discount}}">折</text><text class="promo" wx:if="{{item.promos && item.promos.length > 0}}">惠</text></view>
     </view>
   </view>
-  <view class="list-empty" wx:if="{{products.length <= 0}}">
-    <image class="icon" src="/images/icon_goods.png"></image>
-    <text class="msg">找到不商品</text>
-  </view>
-  <view class="list-done" wx:if="{{paged.more == 0 && products.length > 0}}">
-      全部加载完毕
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_goods.png"></image>
+    <text class="msg">商品为空</text>
   </view>
 </view>

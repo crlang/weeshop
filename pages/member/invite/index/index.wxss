@@ -1,0 +1,115 @@
+/* index.wxss */
+@import "../info/info.wxss";
+
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+.container {
+  background-color: #ad41d0;
+  background-image: linear-gradient(135deg, #f63a4f 0%, #f63a4f 35%, #ad41d0 65%, #ad41d0 100%);
+}
+
+.invite-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.iw-banner {
+  text-align: center;
+  padding: 80rpx 30rpx;
+}
+
+.iw-banner image {
+  display: inline-block;
+  width: 75%;
+  height: auto;
+}
+
+.iw-rules {
+  position: absolute;
+  top: 60rpx;
+  right: 0;
+  z-index: 1;
+  width: 120rpx;
+  height: 52rpx;
+  font-size: 24rpx;
+  line-height: 52rpx;
+  text-align: center;
+  border-radius: 52rpx 0 0 52rpx;
+  background: #fdd880;
+  color: #fa704a;
+}
+
+.iw-box {
+  background: #fff;
+  padding: 30rpx;
+  border-radius: 10rpx;
+  margin: 0 50rpx 30rpx;
+  box-shadow: 0 0 30rpx rgba(0, 0, 0, 0.25);
+}
+
+.iw-title {
+  font-size: 32rpx;
+  color: #333;
+  text-align: center;
+}
+
+.iw-btns {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: center;
+  padding: 50rpx 30rpx;
+  text-align: center;
+}
+
+.iw-btns button {
+  margin: 0 30rpx;
+  text-align: center;
+}
+
+.iw-btns button image {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.iw-btns button text {
+  display: block;
+  color: #555;
+  font-size: 24rpx;
+  line-height: 1.8;
+}
+
+.invite-rules {
+  position: fixed;
+  top: 60rpx;
+  bottom: 60rpx;
+  left: 30rpx;
+  right: 30rpx;
+  z-index: 1000;
+  background: #fff;
+  padding: 30rpx 0;
+  font-size: 28rpx;
+  color: #555;
+  border-radius: 10rpx;
+  overflow: hidden;
+}
+
+.invite-rules .ir-inner {
+  width: 100%;
+  height: 100%;
+  padding: 0 20rpx;
+  overflow: auto;
+}

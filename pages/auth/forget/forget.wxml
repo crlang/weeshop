@@ -1,8 +1,18 @@
 <!-- forget.wxml -->
 <view class="container">
-  <view class="forget">
-    <form bindsubmit="forget">
-      <input class="input-item" name="email" placeholder="请输入邮箱" /><button class="btn-item" formType="submit">提交</button>
-    </form>
+  <view class="forget login">
+    <view class="login-slogan">
+      重置密码
+    </view>
+    <view class="login-form">
+      <form bindsubmit="forget">
+      <view class="login-input-item">
+        <input type="text" name="email" placeholder="请输入邮箱" />
+      </view>
+      <view class="login-btn-item">
+        <button class="darlang-btn" formType="submit">重置密码</button>
+      </view>
+      </form>
+    </view>
   </view>
 </view>

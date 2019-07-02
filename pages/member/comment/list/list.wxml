@@ -1,41 +1,25 @@
 <!-- list.wxml -->
 <view class="container">
-  <!-- Header -->
-  <view class="comment-header">
-    <view class="header-item {{grade == '0' ? 'active' : ''}}" bindtap="bindScommentsTap" data-id="0">
-      <text>全部</text>
-    </view>
-    <view class="header-item {{grade == '3' ? 'active' : ''}}" bindtap="bindScommentsTap" data-id="3">
-      <text>好评</text>
-    </view>
-    <view class="header-item {{grade == '2' ? 'active' : ''}}" bindtap="bindScommentsTap" data-id="2">
-      <text>中评</text>
-    </view>
-    <view class="header-item {{grade == '1' ? 'active' : ''}}" bindtap="bindScommentsTap" data-id="1">
-      <text>差评</text>
-    </view>
+  <view class="comments-tags">
+    <view class="item {{commentState == '0' ? 'active' : ''}}" bindtap="changeCommentState" data-id="0">全部</view>
+    <view class="item {{commentState == '3' ? 'active' : ''}}" bindtap="changeCommentState" data-id="3">好评</view>
+    <view class="item {{commentState == '2' ? 'active' : ''}}" bindtap="changeCommentState" data-id="2">中评</view>
+    <view class="item {{commentState == '1' ? 'active' : ''}}" bindtap="changeCommentState" data-id="1">差评</view>
   </view>
   <!-- List -->
-  <view class="comment-list" wx:if="{{comments.length > 0}}">
-    <view class="comment-item" wx:for="{{comments}}" wx:key="{{item.id}}">
-      <view class="item-info">
-        <text class="user">{{item.is_anonymous ? '匿名用户' : item.author.nickname}}</text>
-        <text class="rate" wx:if="{{item.grade == 1}}">差评</text>
-        <text class="rate" wx:elif="{{item.grade == 2}}">中评</text>
-        <text class="rate" wx:else>好评</text>
-        <text class="time">{{item.updated_at || item.created_at}}</text>
+  <view class="comment-list" wx:if="{{commentLst.length > 0}}">
+    <view class="item" wx:for="{{commentLst}}" wx:key="item">
+      <view class="user">
+        <view class="avatar"><image src="{{item.author.avatar || '/images/default_avatar.png'}}"></image></view>
+        <view class="name"><block wx:if="{{item.is_anonymous == 0}}">匿名用户</block><block wx:else>{{item.author.username || '无名氏' }}</block></view>
+        <view class="star"><block wx:for="{{item.grade}}"><image src="/images/icon_star-active.png"></image></block><block wx:for="{{(5 - item.grade)}}"><image src="/images/icon_star.png"></image></block></view>
+        <view class="date">{{item.updated_at || '最近'}}</view>
       </view>
-      <view class="item-body">
-        {{item.content}}
-      </view>
-      <view class="comment-line" wx:if="{{item !== comments[item.length-1]}}"></view>
+      <view class="info">{{item.content || '此用户没有填写评价'}}</view>
     </view>
   </view>
-  <view class="list-empty" wx:if="{{comments.length <= 0}}">
-    <image class="icon" src="/images/icon_comment_empty.png"></image>
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_comment.png"></image>
     <view class="msg">暂无任何评价</view>
-  </view>
-  <view class="list-done" wx:if="{{paged.more == 0 && comments.length > 0}}">
-    全部加载完毕
   </view>
 </view>

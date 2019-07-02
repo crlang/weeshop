@@ -1,0 +1,100 @@
+<!-- detail.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<scroll-view scroll-y class="container">
+  <view class="goods-photos" style="background-image: url('/images/default_image.png');">
+    <swiper indicator-dots="true" autoplay="true" interval="3000" duration="1000">
+      <block wx:if="{{goods.photos && goods.photos.length > 0}}">
+        <swiper-item wx:for="{{goods.photos}}" wx:key="item">
+          <image src="{{item.large}}" mode="widthFix"></image>
+        </swiper-item>
+      </block>
+      <block wx:else>
+        <swiper-item><image src="http://ec40.cc.cc/images/201605/goods_img/49_G_1462852939406.jpg"></image></swiper-item>
+      </block>
+    </swiper>
+  </view>
+
+  <view class="goods-info">
+    <!-- 默认价格 -->
+    <view class="gi-price">
+      <view class="price"><text>{{curGoodsPrice || goods.exchange_score || '???'}}</text>积分</view>
+      <view class="price-o">市场价:￥<text>{{goods.price}}</text></view>
+    </view>
+    <!-- 商品名称相关信息 -->
+    <view class="gi-name">
+      <view class="name">{{goods.name || '???'}}</view>
+    </view>
+    <view class="gi-desc"><block wx:if="{{goods.is_shipping === 1}}"><text>免运费</text></block><block wx:if="{{goods.review_rate}}"><text>{{goods.review_rate}}满意</text></block><text>{{goods.good_stock || 0}}库存</text><text>{{goods.sales_count}}销量</text></view>
+  </view>
+
+  <!-- 规格选择 -->
+  <block wx:if="{{goods.properties && goods.properties.length > 0}}">
+    <view class="goods-sele-nav" bind:tap="changeProSele"><text class="name">请选择规格</text><image class="arr" src="/images/icon_right.png"></image></view>
+  </block>
+  <block wx:else>
+    <view class="goods-amount-box mg"><view>数量</view><view class="goods-amount"><button type="default" class="cut" bind:tap="changeGoodsNum" data-type="cut"><image src="/images/icon_cut.png"></image></button><input type="number" value="{{curGoodsNum}}" bindinput="changeGoodsNum" data-type="input" maxlength="5" disabled></input><button type="default" class="add" bind:tap="changeGoodsNum" data-type="add"><image src="/images/icon_add.png"></image></button></view></view>
+  </block>
+
+  <view class="goods-detail">
+    <view class="goods-sele-nav title">商品详情</view>
+    <view class="gd-inner">
+      <import src="../../../libs/wxParse/wxParse.wxml" />
+      <template is="wxParse" data="{{wxParseData: (goodsDetail.nodes || '无描述')}}" />
+    </view>
+  </view>
+</scroll-view>
+
+<view class="goods-special" wx:if="{{propertyPopState}}">
+  <view class="gs-mask" catchtouchmove="preventTouchMove" bind:tap="switchPopstate"></view>
+  <view class="gs-wrap">
+    <view class="gs-close" bind:tap="switchPopstate"><image src="/images/icon_close.png"></image></view>
+    <view class="gs-info-box" catchtouchmove="preventTouchMove">
+      <view class="gs-info">
+        <view class="gs-info-thumb" style="../../../images/default_image.png"><image src="{{goods.default_photo.large || '/images/default_image.png'}}"></image></view>
+        <view class="gs-info-name"><view class="price"><text>{{curGoodsPrice || goods.exchange_score || '???'}}</text>积分</view><view class="count">库存{{curGoodsStock || 0}}件</view><view class="attrs"><block wx:if="{{curProperty}}">已选择：<block wx:for="{{curProperty}}" wx:key="item">{{item.name}}:{{item.attrs}} </block></block><block wx:else>请选择规格</block></view></view>
+      </view>
+    </view>
+    <scroll-view scroll-y class="gs-attrs">
+    <view class="gs-attrs-inner">
+
+      <block wx:if="{{goods.properties && goods.properties.length > 0}}">
+        <view class="gs-attrs-item" wx:for="{{goods.properties}}" wx:key="item" wx:if="{{!item.is_multiselect}}">
+          <view class="gs-ai-title">{{item.name}}</view>
+          <view class="gs-ai-sele" wx:if="{{item.attrs}}">
+            <block  wx:for="{{item.attrs}}" wx:key="attr" wx:for-item="attr" wx:for-index="sindex">
+              <view class="gs-ai-sele-item {{attr.checked ? 'is-act' : ''}}" bind:tap="bindProAttrItem" data-i="{{index}}" data-type="s" data-id="{{attr.id}}" data-price="{{attr.attr_price}}">{{attr.attr_name}}</view>
+            </block>
+          </view>
+        </view>
+      </block>
+
+      <view class="goods-amount-box"><view>数量</view><view class="goods-amount"><button type="default" class="cut" bind:tap="changeGoodsNum" data-type="cut"><image src="/images/icon_cut.png"></image></button><input type="number" value="{{curGoodsNum}}" bindinput="changeGoodsNum" data-type="input" maxlength="5"  disabled></input><button type="default" class="add" bind:tap="changeGoodsNum" data-type="add"><image src="/images/icon_add.png"></image></button></view></view>
+    </view>
+    </scroll-view>
+  </view>
+
+</view>
+
+<view class="goods-fixed-bottom" catchtouchmove="preventTouchMove">
+  <view class="goods-fixed-bottom-inner" catchtouchmove="preventTouchMove">
+    <view class="gfb-fixed-nav">
+      <block wx:if="{{!propertyPopState}}">
+        <view class="gfb-icon" hover-class="-h" bind:tap="pushPath" data-type="home"><image src="/images/icon_home.png" mode="widthFix"></image><text>首页</text></view>
+      </block>
+      <view class="gfb-btns">
+        <block wx:if="{{curGoodsStock <= 0}}">
+          <button type="default" class="now disabled" disabled>已兑完</button>
+        </block>
+        <block wx:else>
+          <block wx:if="{{curScoreState}}">
+            <button type="default" class="now {{!curStockState ? 'disabled' : ''}}" disabled="{{!curStockState}}" bind:tap="buyGoods" data-type="buy">立即兑换</button>
+          </block>
+          <block wx:else>
+            <button type="default" class="now disabled" disabled>积分不足</button>
+          </block>
+        </block>
+      </view>
+    </view>
+  </view>
+</view>

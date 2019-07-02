@@ -1,88 +1,85 @@
 <!-- index.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
 <view class="container">
   <!-- 轮播图 -->
-  <swiper autoplay="true" indicator-dots="true" class="banner">
-    <block wx:if="{{banners.length > 0}}">
-      <block wx:for="{{banners}}" indicator-dots="true" wx:key="{{item.id}}">
+  <view class="banner-box">
+    <swiper autoplay="true" indicator-dots="true" indicator-active-color="#9c27ff" indicator-color="rbga(255,255,255,0.15)" class="banner" style="background-image: url('/images/default_banner.png');" >
+      <block wx:if="{{bannerLst.length > 0}}">
+        <block wx:for="{{bannerLst}}" indicator-dots="true" wx:key="item">
+          <swiper-item>
+            <block wx:if="{{item.type}}">
+              <image bind:tap="pushPath" data-type="{{item.type}}" data-tid="{{item.tid}}" src="{{item.photo.large || '/images/default_banner.png'}}" class="slide-image"/>
+            </block>
+            <block wx:else>
+              <image src="{{item.photo.large || '/images/default_banner.png'}}" class="slide-image"/>
+            </block>
+          </swiper-item>
+        </block>
+      </block>
+      <block wx:else>
         <swiper-item>
-          <image src="{{item.photo.large}}" class="slide-image" />
+          <image src="/images/default_banner.png" class="slide-image" />
         </swiper-item>
       </block>
-    </block>
-    <block wx:else>
-      <block wx:for="{{bannersX}}" indicator-dots="true" wx:key="{{item.id}}">
-        <swiper-item>
-          <image src="{{item[1]}}" class="slide-image" />
-        </swiper-item>
-      </block>
-    </block>
-  </swiper>
+    </swiper>
+    <!-- <view class="banner-search"></view> -->
+  </view>
+
 
   <!-- 首页菜单 -->
-  <view class="menu">
-    <navigator class="item" url="/pages/goods/list/list">
-      <image src="/images/home-category.png" class="icon"></image>
-      <text class="name">购物</text>
-    </navigator>
-    <navigator class="item" url="/pages/member/order/list/list">
-      <image src="/images/home-order.png" class="icon"></image>
-      <text class="name">订单</text>
-    </navigator>
-    <navigator class="item" url="/pages/member/favorite/favorite">
-      <image src="/images/home-favorite.png" class="icon"></image>
-      <text class="name">收藏</text>
-    </navigator>
-    <navigator class="item" url="/pages/member/level/level">
-      <image src="/images/home-cart.png" class="icon"></image>
-      <text class="name">优惠</text>
-    </navigator>
+  <view class="menu" wx:if="{{mainMenu.length}}">
+    <view class="item" hover-class="-h" wx:for="{{mainMenu}}" wx:key="item" bind:tap="pushPath" data-type="{{item.type}}">
+      <image src="{{item.img}}" class="icon"></image>
+      <view class="name">{{item.title}}</view>
+    </view>
   </view>
 
   <!-- 公告栏 -->
-  <view class="notice" wx:if="{{notices.length > 0}}">
+  <view class="notice" wx:if="{{noticeLst.length}}" bindtap="pushPath" data-type="notices">
     <image class="icon" src="/images/icon_notice.png"></image>
-    <swiper class="notice-list" vertical="true" autoplay="true" circular="true" interval="2000">
-      <block wx:for="{{notices}}" wx:key="item.id">
+    <swiper class="notice-list" vertical="{{true}}" autoplay="{{true}}" circular="{{true}}" interval="2000">
+      <block wx:for="{{noticeLst}}" wx:key="item.id">
         <swiper-item>
-          <view class="swiper_item" bindtap="bindOnNotice" data-id="{{item.id}}">{{item.title}}</view>
+          <view class="swiper_item">{{item.title}}</view>
         </swiper-item>
       </block>
     </swiper>
   </view>
 
   <!-- 精品推荐  -->
-  <view class="goods-section">
-    <view class="h">精品推荐</view>
+  <view class="goods-section" wx:if="{{goodProducts.length}}">
     <view class="b">
-      <navigator url="/pages/goods/detail/detail?id={{item.id}}" class="item" wx:for="{{goodProducts}}" wx:key="{{item.id}}">
-        <image src="{{item.default_photo.thumb}}" class="thumb"></image>
+      <view class="item" hover-class="-h" wx:for="{{goodProducts}}" wx:key="item.id" bind:tap="pushPath" data-type="goods" data-id="{{item.id}}" wx:if="{{index < 6}}">
+        <image src="{{item.default_photo.thumb || '/images/default_image.png'}}" class="thumb"></image>
         <view class="name">{{item.name}}</view>
-        <view class="price">￥{{item.current_price}}</view>
-      </navigator>
+        <view class="price">￥{{item.current_price}} <text class="origin" wx:if="{{item.price}}">￥{{item.price}}</text></view>
+      </view>
     </view>
+    <view class="h" hover-class="-h" bind:tap="pushPath" data-type="list">更多精品 >></view>
   </view>
 
   <!-- 新品上市  -->
-  <view class="goods-section">
-    <view class="h">新品上市</view>
+  <view class="goods-section" wx:if="{{recentlyProducts.length}}">
     <view class="b">
-      <navigator url="/pages/goods/detail/detail?id={{item.id}}" class="item" wx:for="{{recentlyProducts}}" wx:key="{{item.id}}">
-        <image src="{{item.default_photo.thumb}}" class="thumb"></image>
+      <view class="item" hover-class="-h" wx:for="{{recentlyProducts}}" wx:key="item.id" bind:tap="pushPath" data-type="goods" data-id="{{item.id}}" wx:if="{{index < 6}}">
+        <image src="{{item.default_photo.thumb || '/images/default_image.png'}}" class="thumb"></image>
         <view class="name">{{item.name}}</view>
-        <view class="price">￥{{item.current_price}}</view>
-      </navigator>
+        <view class="price">￥{{item.current_price}} <text class="origin" wx:if="{{item.price}}">￥{{item.price}}</text></view>
+      </view>
     </view>
+    <view class="h" hover-class="-h" bind:tap="pushPath" data-type="list">更多新品 >></view>
   </view>
 
   <!-- 销量排行  -->
-  <view class="goods-section">
-    <view class="h">销量排行</view>
+  <view class="goods-section" wx:if="{{hotProducts.length}}">
     <view class="b">
-      <navigator url="/pages/goods/detail/detail?id={{item.id}}" class="item" wx:for="{{hotProducts}}" wx:key="{{item.id}}">
-        <image src="{{item.default_photo.thumb}}" class="thumb"></image>
+      <view class="item" hover-class="-h" wx:for="{{hotProducts}}" wx:key="item.id" bind:tap="pushPath" data-type="goods" data-id="{{item.id}}" wx:if="{{index < 6}}">
+        <image src="{{item.default_photo.thumb || '/images/default_image.png'}}" class="thumb"></image>
         <view class="name">{{item.name}}</view>
-        <view class="price">￥{{item.current_price}}</view>
-      </navigator>
+        <view class="price">￥{{item.current_price}} <text class="origin" wx:if="{{item.price}}">￥{{item.price}}</text></view>
+      </view>
     </view>
+    <view class="h" hover-class="-h" bind:tap="pushPath" data-type="list">更多热卖 >></view>
   </view>
 </view>

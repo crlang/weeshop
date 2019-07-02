@@ -1,0 +1,22 @@
+<!-- complete.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <view class="withdraw-complete-tip">
+    <view class="wct-icon"><image src="/images/info_wait.png"></image></view>
+    <view class="wct-msg">提现申请已提交</view>
+    <view class="wct-desc">请等待后台人员审核</view>
+    <view class="wct-info">
+      <view class="wct-info-item">
+        <view class="label">提现金额</view>
+        <view class="msg">￥{{price || '0.00'}}</view>
+      </view>
+      <view class="wct-info-item">
+        <view class="label">提现方式</view>
+        <view class="msg">银行卡</view>
+      </view>
+    </view>
+    <view class="wct-btn"><button type="default" bind:tap="onWithdrawDone" class="darlang-btn">完成</button></view>
+  </view>
+</view>
+

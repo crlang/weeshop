@@ -1,0 +1,44 @@
+/* index.wxss */
+.help-list {
+  background: #fff;
+  margin: 30rpx 0;
+}
+
+.hl-item {
+  border-bottom: 1px solid #eee;
+  padding: 30rpx;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hl-item.-h {
+  background-color: #f9f9f9;
+}
+
+.hl-item .cont {
+  color: #555;
+  font-size: 26rpx;
+  flex-grow: 1;
+  width: 100%;
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 20rpx;
+}
+
+.hl-item .icon, .hl-item .more {
+  width: 32rpx;
+  height: 32rpx;
+  flex-shrink: 0;
+}
+
+.hl-item .icon image, .hl-item .more image {
+  width: 100%;
+  height: 100%;
+}

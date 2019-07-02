@@ -1,0 +1,70 @@
+<!-- editor.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <view class="address-edit-wrap">
+    <view class="aew-item-box">
+      <view class="aew-item">
+        <view class="label"><text class="rq">*</text>姓名: </view>
+        <view class="input"><input type="text" value="{{consigneeParams.name || ''}}" bindinput="bindInputChange" data-type="name" maxlength="20" placeholder="请输入姓名"></input></view>
+      </view>
+      <view class="aew-item">
+        <view class="label"><text class="rq">*</text>手机: </view>
+        <view class="input"><input type="number" value="{{consigneeParams.mobile || ''}}" bindinput="bindInputChange" data-type="mobile" maxlength="11" placeholder="请输入手机号码"></input></view>
+      </view>
+      <view class="aew-item">
+        <view class="label">电话: </view>
+        <view class="input"><input type="text" value="{{consigneeParams.tel || ''}}" bindinput="bindInputChange" data-type="tel" maxlength="30" placeholder="请输入固定电话"></input></view>
+      </view>
+    </view>
+    <view class="aew-item-box">
+      <view class="aew-item">
+        <view class="label"><text class="rq">*</text>地区: </view>
+        <view class="select" bind:tap="changePickerState">
+          <block wx:if="{{!regionMsg}}"><view class="placeholder">请选择所在地区</view></block>
+          <block wx:else><view class="msg">{{regionMsg}}</view></block>
+        </view>
+      </view>
+      <view class="aew-item aew-item-full">
+        <view class="label"><text class="rq">*</text>详细地址: </view>
+        <view class="input"><textarea maxlength="200" bindinput="bindInputChange" data-type="addr" fixed="{{true}}" placeholder="请输入详细地址" show-confirm-bar="{{false}}" auto-height value="{{consigneeParams.address || ''}}"></textarea></view>
+      </view>
+      <view class="aew-item">
+        <view class="label">邮编: </view>
+        <view class="input"><input type="number" value="{{consigneeParams.zip_code || ''}}" bindinput="bindInputChange" data-type="code" maxlength="12" placeholder="请输入邮编号码"></input></view>
+      </view>
+      <view class="aew-item">
+        <view class="label">默认地址</view>
+        <view class="input"><switch bindchange="bindInputChange" checked="{{isDefault}}" data-type="default"/></view>
+      </view>
+    </view>
+    <view class="aew-item-box">
+      <view class="aew-submit"><block wx:if="{{type === 'edit'}}"><button type="default" class="delete-btn" bindtap="onDeleteConsignee">删除</button></block><button class="darlang-btn" type="default" bind:tap="submitAddress"><block wx:if="{{type === 'add'}}">新增</block><block wx:else>保存</block></button></view>
+    </view>
+    <view class="aew-ex-item" wx:if="{{type === 'add'}}">
+      <button type="primary" bind:tap="checkWechatAddressAuth"><icon type="search" size="14" color="#fff"/> 智能导入</button>
+      <button type="default" class="setting" open-type="openSetting" bindopensetting="authOpenCallback" wx:if="{{scopeState}}">打开设置页</button>
+    </view>
+  </view>
+  <view class="region-picker" wx:if="{{regionsPickerState}}">
+    <view class="region-picker-btn">
+      <button type="default" hover-class="btn-h" bind:tap="changePickerState">取消</button>
+      <button type="default" hover-class="btn-h" bind:tap="getRegionsChange">确定</button>
+    </view>
+    <picker-view class="region-picker-content" indicator-class="region-picker-active" value="{{regionSelector}}" bindchange="changeRegionsPicker" >
+      <!-- 省 -->
+      <picker-view-column>
+        <view wx:for="{{provinceData}}" wx:key="province" class="item">{{item.name}}</view>
+      </picker-view-column>
+      <!-- 市 -->
+      <picker-view-column>
+        <view wx:for="{{cityData}}" wx:key="city" class="item">{{item.name}}</view>
+      </picker-view-column>
+      <!-- 区 -->
+      <picker-view-column>
+        <view wx:for="{{districtData}}" wx:key="district" class="item">{{item.name}}</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+  <view class="region-picker-mask" wx:if="{{regionsPickerState}}" bind:tap="changePickerState"></view>
+</view>

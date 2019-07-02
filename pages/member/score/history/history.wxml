@@ -1,0 +1,22 @@
+<!-- history.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <!-- 明细列表 -->
+  <view class="history-list" wx:if="{{scoreLst.length > 0}}">
+    <view class="hl-item" wx:for="{{scoreLst}}" wx:key="item">
+      <view class="hl-info">
+        <view class="hl-name">{{item.reason || '无备注'}}</view>
+        <view class="hl-date">{{item.created_at || '无'}}</view>
+      </view>
+      <view class="hl-amount increase" wx:if="{{item.status == 1}}">+{{item.change || '0'}}</view>
+      <view class="hl-amount" wx:else>{{item.change || '0'}}</view>
+    </view>
+  </view>
+
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_order.png"></image>
+    <view class="msg">暂无任何记录</view>
+  </view>
+</view>
+

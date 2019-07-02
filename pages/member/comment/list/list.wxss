@@ -1,114 +1,76 @@
 /* list.wxss */
-page, .container{
-  height: 100%;
+.comments-tags {
+  width: 100%;
+  overflow: hidden;
+  padding: 10rpx 0;
 }
 
-.comment-header {
-    width: 100%;
-    height: 44px;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    border-bottom: #e2e2e2 1px solid;
+.comments-tags .item {
+  float: left;
+  font-size: 26rpx;
+  color: rgba(156, 39, 255, 0.5);
+  background: #fff;
+  border: 1px solid rgba(156, 39, 255, 0.5);
+  border-radius: 26rpx;
+  overflow: hidden;
+  margin: 10rpx 20rpx;
+  padding: 4rpx 12rpx;
 }
 
-.comment-header .header-item {
-    position: relative;
-    display: block;
-    float: left;
-    width: 25%;
-    height: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-.comment-header .header-item text {
-    display: block;
-    width: 90%;
-    height: 100%;
-    box-sizing: border-box;
-    margin: 0 auto;
-    color: #404245;
-    font-size: 14px;
-    font-weight: normal;
-    text-align: center;
-    line-height: 44px;
-}
-
-.comment-header .header-item.active text {
-    border-bottom: #404245 2px solid;
+.comments-tags .item.active {
+  background: #9c27ff;
+  color: #fff;
+  border-color: #9c27ff;
 }
 
 .comment-list {
-    margin-top: 10px;
-    position: relative;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    border-top: #e2e2e2 1px solid;
-    border-bottom: #e2e2e2 1px solid;
-    background-color: #ffffff;
+  background: #fff;
 }
 
-.comment-list .comment-line {
-    margin: 8px 0;
-    display: block;
-    width: 100%;
-    margin-left: 12px;
-    box-sizing: border-box;
-    border-bottom: #e2e2e2 1px solid;
+.comment-list .item {
+  padding: 20rpx 30rpx;
+  border-bottom: 1px solid #eee;
 }
 
-.comment-list .comment-item {
-    position: relative;
-    display: block;
-    width: 100%;
-    margin: 8px 0;
-    box-sizing: border-box;
+.comment-list .user {
+  overflow: hidden;
 }
 
-.comment-list .comment-item .item-info {
-    position: relative;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-    padding-left: 12px;
-    padding-right: 8px;
+.comment-list .user .avatar {
+  display: inline-block;
+  vertical-align: middle;
+  width: 48rpx;
+  height: 48rpx;
 }
 
-.comment-list .comment-item .item-info .user {
-    color: #404245;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 18px;
+.comment-list .user .name {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10rpx;
 }
 
-.comment-list .comment-item .item-info .rate {
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: normal;
-    line-height: 12px;
-    padding: 2px 3px;
-    background-color: #404245;
-    border-radius: 3px;
-    margin-left: 4px;
+.comment-list .user .star {
+  display: inline-block;
+  vertical-align: middle;
 }
 
-.comment-list .comment-item .item-info .time {
-    float: right;
-    color: #404245;
-    font-size: 13px;
-    font-weight: normal;
-    line-height: 18px;
-    padding: 3px;
+.comment-list .user .star image {
+  display: inline-block;
+  width: 24rpx;
+  height: 24rpx;
+  vertical-align: middle;
 }
 
-.comment-list .comment-item .item-body {
-    display: block;
-    color: #404245;
-    font-size: 13px;
-    font-weight: normal;
-    line-height: 18px;
-    margin-top: 6px;
-    padding: 0 12px;
+.comment-list .user .date {
+  float: right;
+  font-size: 24rpx;
+  color: #777;
+}
+
+.comment-list .info {
+  font-size: 26rpx;
+  color: #555;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  padding: 20rpx;
 }

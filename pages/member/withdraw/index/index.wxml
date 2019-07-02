@@ -1,0 +1,19 @@
+<!-- index.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <view class="withdraw-wrap">
+    <view class="ww-box">
+      <view class="wwb-input"><view class="label"><text class="rq">*</text>联系人</view><input type="text" maxlength="20" confirm-type="done" bindinput="bindInput" data-type="username" placeholder=""></input></view>
+      <view class="wwb-input"><view class="label"><text class="rq">*</text>联系手机</view><input type="number" maxlength="11" confirm-type="done" bindinput="bindInput" data-type="mobile" placeholder=""></input></view>
+      <view class="wwb-input"><view class="label"><text class="rq">*</text>银行卡号</view><input type="idcard" maxlength="30" confirm-type="done" bindinput="bindInput" data-type="bank" placeholder=""></input></view>
+      <view class="wwb-input"><view class="label">其他备注</view><textarea auto-height show-confirm-bar="{{false}}" adjust-position="{{true}}"  bindinput="bindInput" data-type="remark" placeholder="如您需要其他补充，请在此填写" /></view>
+      <view class="wwb-number"><view class="label"><text class="rq">*</text>提现金额</view><view class="cont"><text>￥</text><input type="digit" confirm-type="done" value="{{withdrawParams.cash}}" bindinput="bindInput" data-type="amount" placeholder="" maxlength="9"></input></view></view>
+      <view class="wwb-input-tip"><view class="label">可提现余额￥{{balanceInfo || '0.00'}}</view><view class="wwb-all" bind:tap="bindInput" data-type="all">全部提现</view></view>
+    </view>
+    <view class="ww-btn">
+      <button type="default" bind:tap="submitWithdraw" class="darlang-btn">确认提现</button>
+    </view>
+  </view>
+</view>
+

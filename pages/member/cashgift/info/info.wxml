@@ -1,0 +1,49 @@
+<!-- info.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <view class="cashgift-filter">
+    <view class="all-in-one-tabs">
+      <view class="all-in-one-tab-item {{infoType == '0' ? 'is-actived' : ''}}" bind:tap="changeCashGiftType" data-type="0"><text>未使用</text></view>
+      <view class="all-in-one-tab-item {{infoType == '1' ? 'is-actived' : ''}}" bind:tap="changeCashGiftType" data-type="1"><text>已过期</text></view>
+      <view class="all-in-one-tab-item {{infoType == '2' ? 'is-actived' : ''}}" bind:tap="changeCashGiftType" data-type="2"><text>已使用</text></view>
+    </view>
+  </view>
+
+  <!-- 列表 -->
+  <view class="cashgift-list" wx:if="{{cashgiftLst.length > 0}}">
+    <view class="cl-item {{item.status == '0' ? '' : 'disable'}}" wx:for="{{cashgiftLst}}" wx:key="item">
+      <view class="cl-info">
+        <view class="price">￥<text>{{item.value || '???'}}</text></view>
+        <view class="context">
+          <view class="name">{{item.name || '???'}}</view>
+          <block wx:if="{{item.status == '0'}}">
+            <view class="status" wx:if="{{item.starttime}}">{{item.starttime || '???'}}后可使用</view>
+            <view class="status" wx:else>还有 {{item.overtime || '???'}}失效</view>
+          </block>
+          <block wx:elif="{{item.status == '1'}}">
+            <view class="status">已失效</view>
+          </block>
+          <block wx:elif="{{item.status == '2'}}">
+            <view class="status">已使用</view>
+          </block>
+        </view>
+      </view>
+      <view class="cl-desc">
+        <view class="expires">
+          <view wx:if="{{item.condition > 0}}">红包最低使用金额：{{item.condition || 0}}</view>
+          <view wx:else>红包不限额使用</view>
+          <view>使用时间：{{item.effective || '???'}} - {{item.expires || '???'}}</view>
+        </view>
+        <view class="use-btn" wx:if="{{item.status == '0'}}"><button type="default">去使用</button></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_cashgift.png"></image>
+    <view class="msg">暂无任何红包</view>
+  </view>
+
+</view>
+

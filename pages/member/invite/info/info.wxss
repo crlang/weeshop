@@ -1,0 +1,88 @@
+/* index.wxss */
+.iw-table {
+  padding: 30rpx;
+  width: 100%;
+  height: 430rpx;
+}
+
+.iw-table-title {
+  color: #fff;
+  font-size: 32rpx;
+  text-align: center;
+  padding: 20rpx 0;
+}
+
+.iw-table-none {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.iw-table-item {
+  background: #fff;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  border-radius: 10rpx;
+  overflow: hidden;
+}
+
+.iw-table-item .desc {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+}
+
+.iw-table-item .desc text {
+  display: inline-block;
+}
+
+.iw-table-item .desc text:first-child {
+  white-space: nowrap;
+  flex-shrink: 0;
+  width: 140rpx;
+}
+
+.iw-table-item .desc.price text:last-child {
+  font-size: 32rpx;
+  color: #ea625b;
+}
+
+.iw-table-item .desc.score text:last-child {
+  font-size: 32rpx;
+  color: #01cd9a;
+}
+
+.foot {
+  border-top: 1px solid #eee;
+  padding: 20rpx 0 0;
+  overflow: hidden;
+  margin-top: 20rpx;
+}
+
+.foot text {
+  color: #555;
+  font-size: 28rpx;
+}
+
+.foot .s1 {
+  color: #fd1e57;
+}
+
+.foot .s2 {
+  color: #9c27ff;
+}
+
+.foot .s3 {
+  color: #999999;
+}
+
+.foot .s4 {
+  color: #f6c230;
+}
+
+.foot .time {
+  float: right;
+}

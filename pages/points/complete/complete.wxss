@@ -1,0 +1,70 @@
+/* complete.wxss */
+page, .container {
+  background: #fff;
+}
+
+.withdraw-complete-tip {
+  padding: 180rpx 30rpx;
+}
+
+.wct-icon {
+  width: 100%;
+  text-align: center;
+  padding: 30rpx 0;
+}
+
+.wct-icon image {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.wct-msg {
+  text-align: center;
+  font-size: 48rpx;
+  color: #9c27ff;
+}
+
+.wct-desc {
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  margin: 30rpx 0;
+}
+
+.wct-info {
+  border-top: 1px solid #eee;
+  padding: 30rpx 0;
+}
+
+.wct-info-item {
+  margin-bottom: 20rpx;
+  font-size: 26rpx;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+}
+
+.wct-info-item .label {
+  color: #999;
+}
+
+.wct-info-item .msg {
+  color: #333;
+}
+
+.wct-btn {
+  margin: 100rpx 0;
+}
+
+.wct-btn button {
+  width: 100%;
+  color: #fff;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-radius: 10rpx;
+  text-align: center;
+  overflow: hidden;
+}

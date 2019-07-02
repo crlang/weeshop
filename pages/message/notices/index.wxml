@@ -1,0 +1,14 @@
+<!-- index.wxml-->
+<view class="container">
+  <view class="notice-list" wx:if="{{noticeLst}}">
+    <view class="nl-item" hover-class="-h" wx:for="{{noticeLst}}" wx:key="item" bind:tap="pushPath" data-id="{{item.id}}" data-type="detail">
+      <view class="title">{{item.title || '无主题'}}</view>
+      <view class="thumb" style="background-image:url('/images/default_banner.png');"><image src="{{item.file_url || '/images/default_banner.png'}}"></image></view>
+      <view class="description"><text>{{item.description || '无描述'}}</text><text>{{item.author || miniProName}}</text></view>
+    </view>
+  </view>
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_notices.png"></image>
+    <view class="msg">暂无内容</view>
+  </view>
+</view>

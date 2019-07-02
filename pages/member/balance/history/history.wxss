@@ -1,145 +1,66 @@
 /* history.wxss */
-page, .container{
-  height: 100%;
+.history-filter {
+  width: 100%;
+  height: 100rpx;
 }
 
-.score-filter {
-    width: 100%;
-    height: 44px;
-    color: #404245;
-    font-size: 14px;
-    font-weight: normal;
-    text-align: center;
-    line-height: 44px;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    border-top: #e2e2e2 1px solid;
-    border-bottom: #e2e2e2 1px solid;
+.history-filter .all-in-one-tabs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 92rpx;
 }
 
-.score-filter .filter-item {
-    position: relative;
-    display: block;
-    float: left;
-    width: 33.333%;
-    height: 44px;
-    overflow: hidden;
-    box-sizing: border-box;
+.history-list {
+  background: #fff;
 }
 
-.score-filter .filter-item .text {
-    display: block;
-    width: 90%;
-    height: 100%;
-    color: #404245;
-    font-size: 14px;
-    font-weight: normal;
-    text-align: center;
-    line-height: 44px;
-    box-sizing: border-box;
-    margin: 0 auto;
+.hl-item {
+  padding: 20rpx 30rpx;
+  border-bottom: 1px solid #eee;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.score-filter .filter-item.active .text {
-    border-bottom: #404245 2px solid;
-}
-.balance-list {
-    margin-top: 10px;
-    position: relative;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    border-top: #e2e2e2 1px solid;
+.hl-item.-h {
+  background-color: #f9f9f9;
 }
 
-.balance-list .list-item {
-    position: relative;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    border-bottom: #e2e2e2 1px solid;
-    overflow: hidden;
+.hl-info {
+  flex-grow: 1;
+  padding-right: 30rpx;
 }
 
-.balance-list .list-item .item-info {
-    position: relative;
-    display: block;
-    padding-bottom: 16px;
+.hl-name {
+  font-size: 28rpx;
+  color: #666;
+  white-space: pre-wrap;
 }
 
-.balance-list .list-item .item-info .info-name {
-    display: inline-block;
-    position: relative;
-    width: 40%;
-    height: 22px;
-    left: 14px;
-    color: #404245;
-    font-size: 18px;
-    font-weight: normal;
-    vertical-align: middle;
-    text-align: left;
-    line-height: 22px;
-    box-sizing: border-box;
+.hl-desc {
+  font-size: 24rpx;
+  color: #999;
+  margin: 6rpx 0 12rpx;
 }
 
-
-.balance-list .list-item .item-info .info-value-income {
-    display: inline-block;
-    width: 40%;
-    height: 22px;
-    box-sizing: border-box;
-    color: #42B62F;
-    font-size: 14px;
-    font-weight: normal;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 22px;
+.hl-date {
+  font-size: 22rpx;
+  color: #999;
 }
 
-.balance-list .list-item .item-info .info-value-out {
-    display: inline-block;
-    width: 40%;
-    height: 22px;
-    box-sizing: border-box;
-    color: #a2a6ad;
-    font-size: 14px;
-    font-weight: normal;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 22px;
-
+.hl-amount {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 32rpx;
+  color: #111;
 }
 
-.balance-list .list-item .item-info .info-expires {
-    display: block;
-    height: 22px;
-    padding-left: 14px;
-    box-sizing: border-box;
-    vertical-align: middle;
-    color: #a2a6ad;
-    font-size: 12px;
-    font-weight: normal;
-    text-align: left;
-    line-height: 22px;
-
-}
-
-.balance-list .list-item .item-info .info-memo {
-    display: block;
-    padding-left: 14px;
-    margin-top: 10px;
-    box-sizing: border-box;
-    vertical-align: middle;
-    color: #A2A6Ad;
-    font-size: 12px;
-    font-weight: normal;
-    text-align: left;
-    line-height: 22px;
-}
-
-.balance-list .list-item .item-info .info_header {
-    display: block;
-    height: 22px;
-    margin-top: 16px;
+.hl-amount.increase {
+  color: #ff5000;
 }

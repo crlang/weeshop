@@ -1,87 +1,104 @@
+/**
+ * WeeShop 声明
+ * ===========================================================
+ * 网站： https://www.darlang.com
+ * 标题： ECShop 小程序「weeshop 」- 基于 ECShop 为后台系统开发的非官方微信商城小程序
+ * 链接： https://www.darlang.com/?p=709
+ * 说明： 源码已开源并遵循 Apache 2.0 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
+ * ==========================================================
+ * Copyright 2019 darlang
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ===========================================================
+ */
+
 // history.js
-import util from '../../../../utils/util.js';
+import {PNT,setNavBarTitle,formatTime,scrollLoadList} from '../../../../utils/utils';
+import {GetBalanceList} from '../../../../utils/apis';
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    balance: [],
-    paged: {
+    balanceStatus: '',
+    balanceLst: '',
+    pages: {
       page: 1,
-      size: 10
-    },
-    status: '',
-    loadMore: true
+      size: 10,
+      total: 10,
+      done: false,
+      loading: false
+    }
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    // 页面初始化 options为页面跳转所带来的参数
-    wx.setNavigationBarTitle({
-      title: util.pageTitle.balanceM.history
-    });
-    this.getBalanceList();
-  },
-
-  // 资金往来
-  // ecapi.balance.list
-  getBalanceList() {
-    let self = this;
-    util.request(util.apiUrl + 'ecapi.balance.list', 'POST', {
-      page: self.data.paged.page,
-      per_page: self.data.paged.size,
-      status: self.data.status
-    }).then(res => {
-      for (let i in res.balances) {
-        res.balances[i].create_at = util.formatTime(res.balances[i].create_at);
-      }
-      if (self.data.loadMore) {
-        self.data.balance = self.data.balance.concat(res.balances);
-      }else{
-        self.data.balance = res.balances;
-      }
-      let newBalance = self.data.balance;
-      self.setData({
-        balance: newBalance,
-        paged: res.paged,
-        loadMore:true,
+  onLoad: function (opt) {
+    setNavBarTitle(PNT.assets.balance);
+    this.loginModal = this.selectComponent("#login-modal");
+    if (opt.status) {
+      this.setData({
+        balanceStatus: opt.status
       });
-      if (res.paged.more > 0) {
-        self.setData({ loadMore:true });
-      }else{
-        self.setData({ loadMore:false });
+    }
+  },
+
+  /**
+   * 获取资金明细
+   * @author darlang
+   */
+  getBalanceList() {
+    if (this.data.pages.done) {
+      return false;
+    }
+    wx.showLoading({title: '加载中...',mask: true});
+    GetBalanceList(this.data.pages.page,this.data.pages.size,this.data.balanceStatus).then(res => {
+      if (res.balances && res.balances.length > 0) {
+        for (let i = 0; i < res.balances.length; i++) {
+          res.balances[i].create_at = formatTime(res.balances[i].create_at,"Y年M月D日 h:i:s");
+        }
       }
-    }).catch(err => {
-      util.notLogin(err);
+      const lst = scrollLoadList(this,res,'balances','balanceLst');
+      this.setData({
+        balanceLst: lst
+      });
     });
   },
 
-  // 资金筛选 1收入 2支出
-  bindSbalanceTap(event) {
-    let status = event.currentTarget.dataset.id;
-    this.setData({
-      balance: [],
-      'paged.page': 1,
-      status: status
-    });
-    // 导航栏标题
-    let title = '';
-    switch(status) {
-    case "1":
-      title = util.pageTitle.balanceM.s2;
-      break;
-    case "2":
-      title = util.pageTitle.balanceM.s3;
-      break;
-    case "":
-      title = util.pageTitle.balanceM.s1;
-      break;
+  /**
+   * 登录回调
+   * @author darlang
+   */
+  loginCallback(cb) {
+    if (cb.detail.type === 'success') {
+      this.bindBalanceState();
     }
-    wx.setNavigationBarTitle({
-      title: title
+  },
+
+  /**
+   * 资金过滤
+   * 1收入 2支出
+   * @author darlang
+   */
+  bindBalanceState(e) {
+    const type = e ? e.currentTarget.dataset.type : '';
+    this.setData({
+      balanceLst: '',
+      'pages.page': 1,
+      'pages.done': false,
+      balanceStatus: type
     });
     this.getBalanceList();
   },
@@ -96,6 +113,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.getBalanceList();
   },
 
   /**
@@ -114,17 +132,13 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    this.bindBalanceState();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.loadMore) {
-      this.setData({
-        "paged.page": parseInt(this.data.paged.page) + 1
-      });
-      this.getBalanceList();
-    }
+    this.getBalanceList();
   },
 });

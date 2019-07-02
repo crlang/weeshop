@@ -1,0 +1,15 @@
+<!-- index.wxml-->
+<view class="container">
+  <view class="activity-list" wx:if="{{activityLst}}">
+    <view class="al-item" hover-class="-h" wx:for="{{activityLst}}" wx:key="item" bind:tap="pushPath" data-id="{{item.id}}" data-type="detail">
+      <view class="thumb" style="background-image:url('/images/default_banner.png');"><image src="{{'/images/default_activity-'+(item.type||0)+'.png'}}"></image></view>
+      <view class="title">{{item.name || '无主题'}}</view>
+      <view class="date">{{item.start_at || ''}} - {{item.end_at || '不限期'}}</view>
+      <view class="desc"><text>{{item.promo || '无描述'}}</text><text>{{item.author || miniProName}}</text></view>
+    </view>
+  </view>
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_activities.png"></image>
+    <view class="msg">暂无活动</view>
+  </view>
+</view>

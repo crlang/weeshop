@@ -1,43 +1,36 @@
 <!-- cart.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
 <view class="container">
-  <view class="cart-view" wx:if="{{cartGoods.length > 0}}">
-    <view class="list">
-      <view class="group-item">
-        <view class="goods">
-          <view class="item {{isEditCart ? 'edit' : ''}}" wx:for="{{cartGoods}}" wx:key="{{item.id}}">
-            <view class="checkbox {{item.checked ? 'checked' : ''}}" bindtap="checkedItem" data-item-index="{{index}}"></view>
-            <view class="cart-goods">
-              <navigator  url="/pages/goods/detail/detail?id={{item.goods_id}}">
-                <image class="img" data-item-index="{{index}}" src="{{item.product.default_photo.thumb}}"></image>
-              </navigator>
-              <view class="info">
-                <view class="t">
-                  <text class="name">{{item.product.name}}</text>
-                  <image class="del" bindtap="onDeleteGoods" data-item-index="{{index}}" src="/images/icon_delete.png"></image>
-                </view>
-                <view class="attr">{{item.property}}</view>
-                <view class="b">
-                  <text class="price">￥{{item.price}}</text>
-                  <view class="selnum">
-                    <view class="cut" bindtap="cutNumber" data-item-index="{{index}}">-</view>
-                    <input value="{{item.amount}}" class="number" disabled="true" type="number" />
-                    <view class="add" bindtap="addNumber" data-item-index="{{index}}">+</view>
-                  </view>
-                </view>
-              </view>
+  <view class="cart-wrap" wx:if="{{cartGoodsLst.length > 0}}">
+    <view class="cart-list">
+      <view class="cart-list-item" wx:for="{{cartGoodsLst}}" wx:key="item" >
+        <block wx:if="{{item.attr_stock === 0}}"><view class="cli-checkbox" style="opacity: 0.5;"><image src="/images/icon_checkbox.png"></image></view></block>
+        <block wx:else><view class="cli-checkbox" bind:tap="seleGoods" data-i="{{index}}"><image src="/images/icon_checkbox{{item.checked ? '-checked' : ''}}.png"></image></view></block>
+        <view class="cli-content">
+          <view class="cli-thumb" bind:tap="pushPath" data-type="goods" data-id="{{item.product.id}}"><image src="{{item.product.default_photo.thumb || '/images/default_image.png'}}"></image><block wx:if="{{item.attr_stock <= 10}}"><view class="stock-tip"><block wx:if="{{item.attr_stock === 1}}">最后一件</block><block wx:elif="{{item.attr_stock === 0}}">库存不足</block><block wx:else>仅剩{{item.attr_stock}}件</block></view></block></view>
+          <view class="cli-info">
+            <view class="name"><text>{{item.product.name || '无'}}</text><view class="del"><image src="/images/icon_delete.png" bind:tap="delCartGoods" data-i="{{index}}"></image></view></view>
+            <view class="desc" wx:if="{{item.property}}">{{item.property || ''}}</view>
+            <view class="price">￥{{item.price || 0}}</view>
+            <view class="config">
+              <view class="sum"><button type="default" bind:tap="changeCartGoodsAmount" data-i="{{index}}" data-num="{{item.amount}}" data-type="cut" class="cut" disabled="{{item.attr_stock === 0}}"><image src="/images/icon_minus.png"></image></button><input type="number" value="{{item.amount || ''}}" bindblur="changeCartGoodsAmount" data-i="{{index}}" data-type="input" maxlength="5" disabled="{{item.attr_stock === 0}}"></input><button type="default" bind:tap="changeCartGoodsAmount" data-i="{{index}}" data-num="{{item.amount}}" data-type="add" disabled="{{item.attr_stock === 0}}"><image src="/images/icon_minus.png"></image></button></view>
             </view>
           </view>
         </view>
       </view>
     </view>
     <view class="cart-bottom">
-      <view class="checkbox {{checkedAllStatus ? 'checked' : ''}}" bindtap="checkedAll">全选({{cartTotal.checkedGoodsCount}})</view>
-      <view class="total">{{'￥' + cartTotal.checkedGoodsAmount}}</view>
-      <view class="checkout" bindtap="checkoutOrder" wx:if="{{!isEditCart}}">去结算</view>
+      <view class="cart-bottom-inner">
+        <view class="checkbox" bind:tap="seleAllGoods"><image src="/images/icon_checkbox{{cartSeleStatus === 'all' ? '-checked' : cartSeleStatus === 'some' ? '-active' : ''}}.png"></image>全选</view>
+        <view class="total">￥{{cartTotal.amount || '0.00'}}</view>
+        <view class="checkout" bind:tap="checkoutGoods"><button class="{{cartSeleStatus ? 'darlang-btn' : 'is-disabled'}}" type="default" disabled="{{!cartSeleStatus}}">结算({{cartTotal.count || 0}})</button></view>
+      </view>
     </view>
   </view>
-  <view class="list-empty" wx:if="{{cartGoods.length <= 0}}">
-    <image class="icon" src="/images/icon_cart_empty.png"></image>
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_cart.png"></image>
     <text class="msg">您的购物车没有商品</text>
+    <button class="cart-empty-btn darlang-btn" hover-class="cart-empty-btn-h" type="default">去逛逛</button>
   </view>
 </view>

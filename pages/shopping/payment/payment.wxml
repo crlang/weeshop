@@ -1,33 +1,69 @@
 <!-- payment.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
 <view class="container">
-  <view class="payment-header">
-      <view class="header-title">订单 #{{orderInfo.sn}}，请您尽快付款。</view>
-      <view class="header-total">合计：<em>￥{{orderInfo.total}}</em></view>
+  <view class="pay-wrap">
+    <view class="pay-order">
+      <view class="po-sn">SN#{{orderInfo.sn}}</view>
+      <view class="po-price">￥<text>{{orderInfo.total}}</text></view>
+      <view class="po-name" bind:tap="setOrderInfoPop"><text>订单详情</text><image src="/images/icon_right.png"></image></view>
+    </view>
+    <view class="pay-list" wx:if="{{payWay && payWay.length}}">
+      <view class="pl-item" wx:for="{{payWay}}" wx:key="item" hover-class="-h" bind:tap="setPayType" data-code="{{item.code}}" data-i="{{index}}">
+        <view class="pl-item-inner">
+          <view class="pl-icon"><image src="{{item.icon}}"></image><text>{{item.label}}</text></view>
+          <view class="pl-desc"><text>{{item.desc}}</text><image src="/images/icon_checkbox{{item.checked ? '-checked' : ''}}.png"></image></view>
+        </view>
+      </view>
+    </view>
   </view>
-  <radio-group class="payment-list radio-group" bindchange="setPayType">
-      <view class="list-item ">
-          <view class="item-checkbox"><radio value="balance" /></view>
-          <view class="item-content">
-              <view class="content-desc">
-                  可用余额：<text style="color:red;">{{balance}}</text>元
-              </view>
-              <view class="content-title">
-                  余额支付
-              </view>
-          </view>
+  <view class="da-fixed-btns"><view class="da-fixed-btns-inner"><button class="darlang-btn da-fixed-btn" type="default" bind:tap="toPay">支付</button></view></view>
+  <view class="pay-info-pop" bind:tap="setOrderInfoPop" wx:if="{{orderInfoPop}}">
+    <view class="pay-info-box" catch:tap="setOrderInfoPopx">
+      <view class="pip-title">订单详情</view>
+      <scroll-view scroll-y class="pip-scroll">
+      <view class="pip-body">
+        <view class="pip-item">
+          <view class="title">订单地址</view>
+          <view class="desc">{{orderInfo.consignee.regions || '无地址'}}{{orderInfo.consignee.address || ''}}{{orderInfo.consignee.zip_code ? '('+orderInfo.consignee.zip_code+')': ''}}</view>
+          <view class="desc">{{orderInfo.consignee.name || '匿名'}} | {{orderInfo.consignee.mobile || '无电话'}}</view>
+        </view>
+        <view class="pip-item">
+          <view class="title">订单商品</view>
+          <block wx:if="{{orderInfo.goods && orderInfo.goods.length > 0}}">
+            <block wx:for="{{orderInfo.goods}}" wx:key="item">
+              <view class="desc">{{item.product.name || '无名称'}}<text>￥{{item.product_price || '0.00'}}</text></view>
+              <view class="desc prop">{{item.property || '无规格'}}<text>x{{item.total_amount || '0'}}</text></view>
+            </block>
+          </block>
+          <block wx:else>
+            <view class="desc">无</view>
+          </block>
+        </view>
+        <view class="pip-item">
+          <view class="title">订单优惠</view>
+          <block wx:if="{{orderInfo.promos && orderInfo.promos.length > 0}}">
+            <view class="desc" wx:for="{{orderInfo.promos}}" wx:key="item" wx:if="{{item.price > 0}}">{{item.label || '优惠'}}<text>￥{{item.price || '0.00'}}</text></view>
+          </block>
+          <block wx:else>
+            <view class="desc">无</view>
+          </block>
+        </view>
+        <view class="pip-item">
+          <view class="title">订单运费</view>
+          <view class="desc">{{orderInfo.shipping.name || '无'}}<text>{{orderInfo.shipping.price > 0 ? '￥'+orderInfo.shipping.price : '免运费'}}</text></view>
+        </view>
+        <view class="pip-item">
+          <view class="title">订单发票</view>
+          <view class="desc"><block wx:if="{{orderInfo.invoice.type && orderInfo.invoice.content}}">{{orderInfo.invoice.type || ''}} - {{orderInfo.invoice.title || ''}} - {{orderInfo.invoice.content || ''}}</block><block wx:else>无</block></view>
+        </view>
+<!--         <view class="pip-item sn">
+          <view class="desc">{{orderInfo.created_at || '无'}}</view>
+          <view class="desc">{{orderInfo.sn || '无'}}</view>
+        </view> -->
       </view>
-      <view class="list-item ">
-          <view class="item-checkbox"><radio value="wxpay.wxa" /></view>
-          <view class="item-content">
-              <view class="content-desc">
-                  微信小程序支付
-              </view>
-              <view class="content-title">
-                  微信支付
-              </view>
-          </view>
-      </view>
-  </radio-group>
-  <view class="payment-submit" bindtap="toPay">确认支付</view>
+      </scroll-view>
+    </view>
+  </view>
 </view>
 

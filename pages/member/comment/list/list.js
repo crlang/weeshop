@@ -1,90 +1,96 @@
+/**
+ * WeeShop 声明
+ * ===========================================================
+ * 网站： https://www.darlang.com
+ * 标题： ECShop 小程序「weeshop 」- 基于 ECShop 为后台系统开发的非官方微信商城小程序
+ * 链接： https://www.darlang.com/?p=709
+ * 说明： 源码已开源并遵循 Apache 2.0 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
+ * ==========================================================
+ * Copyright 2019 darlang
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ===========================================================
+ */
+
 // list.js
-import util from '../../../../utils/util.js';
+import {PNT,setNavBarTitle,formatTime,scrollLoadList} from '../../../../utils/utils';
+import {GetCommentList} from '../../../../utils/apis';
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    grade: 0,
-    product: null,
-    comments: [],
-    paged: {
+    commentState: 0,
+    goodsId: null,
+    commentLst: '',
+    pages: {
       page: 1,
-      size: 10
-    },
+      size: 10,
+      total: 10,
+      done: false,
+      loading: false
+    }
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    // 页面初始化 options为页面跳转所带来的参数
-    wx.setNavigationBarTitle({
-      title: util.pageTitle.comments
-    });
+  onLoad: function (opt) {
+    setNavBarTitle(PNT.comments.list);
+
     this.setData({
-      product: options.id,
+      goodsId: opt.goodsId,
     });
-    this.getGoodsComment();
+    this.getCommentLst();
   },
 
-  // 评论列表
-  // ecapi.review.product.list
-  getGoodsComment() {
-    let self = this;
-    util.request(util.apiUrl + 'ecapi.review.product.list', 'POST', {
-      grade: self.data.grade,
-      page: self.data.paged.page,
-      per_page: self.data.paged.size,
-      product: self.data.product
-    }).then(function (res) {
-      for (let i in res.reviews) {
-        res.reviews[i].created_at = util.formatTime(res.reviews[i].created_at);
-        res.reviews[i].updated_at = util.formatTime(res.reviews[i].updated_at);
-      }
-      if (self.data.loadMore) {
-        self.data.comments = self.data.comments.concat(res.reviews);
-      }else{
-        self.data.comments = res.reviews;
-      }
-      let newComments = self.data.comments;
-      self.setData({
-        "comments": newComments,
-        paged: res.paged,
-      });
-      if (res.paged.more > 0) {
-        self.setData({ loadMore:true });
-      }else{
-        self.setData({ loadMore:false });
-      }
-    });
-  },
-
-  // 订单筛选 0待付款 1待发货 2发货中 3已收货 4已评价 5已取消
-  bindScommentsTap(event) {
-    let grade = event.currentTarget.dataset.id || this.data.grade;
-    this.setData({
-      'paged.page': 1,
-      grade: grade
-    });
-    // 导航栏标题
-    let commentsTitle = '';
-    switch(grade) {
-    case "1":
-      commentsTitle = util.pageTitle.commentsM.s1;
-      break;
-    case "2":
-      commentsTitle = util.pageTitle.commentsM.s2;
-      break;
-    case "3":
-      commentsTitle = util.pageTitle.commentsM.s3;
-      break;
+  /**
+   * 评论列表
+   * @author darlang
+   */
+  getCommentLst() {
+    if (this.data.pages.done) {
+      return false;
     }
-    wx.setNavigationBarTitle({
-      title: commentsTitle
+    wx.showLoading({title: '加载中...',mask: true});
+    GetCommentList(this.data.goodsId,this.data.pages.page,this.data.pages.size,this.data.commentState).then(res => {
+      if (res.reviews && res.reviews.length > 0) {
+        for (let i = 0; i < res.reviews.length; i++) {
+          res.reviews[i].updated_at = formatTime(res.reviews[i].updated_at);
+          res.reviews[i].content = res.reviews[i].content.replace(/^\s*$/g,'');
+        }
+      }
+      const lst = scrollLoadList(this,res,'reviews','commentLst');
+      this.setData({
+        "commentLst": lst
+      });
     });
-    this.getGoodsComment();
+  },
+
+  /**
+   * 切换评论
+   * @author darlang
+   */
+  changeCommentState(e) {
+    let commentState = e ? e.currentTarget.dataset.id : this.data.commentState;
+    this.setData({
+      'pages.page': 1,
+      'pages.done': false,
+      'commentLst': '',
+      commentState: commentState
+    });
+    this.getCommentLst();
   },
 
   /**
@@ -115,17 +121,13 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    this.changeCommentState();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.loadMore) {
-      this.setData({
-        "paged.page": parseInt(this.data.paged.page) + 1
-      });
-      this.getGoodsComment();
-    }
+    this.getCommentLst();
   },
 });

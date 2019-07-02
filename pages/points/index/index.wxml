@@ -1,0 +1,32 @@
+<!-- index.wxml -->
+<view class="container">
+  <view class="goods-list" wx:if="{{goodsLst.length > 0}}">
+    <view class="gl-item" hover-class="-h" wx:for="{{goodsLst}}" wx:key="item" bind:tap="pushPath" data-type="points" data-id="{{item.id}}">
+      <view class="item-l">
+        <image src="{{item.default_photo.thumb || '/images/default_image.png'}}" class="thumb"></image>
+        <block wx:if="{{item.attr_stock <= 10 && item.attr_stock > 0}}">
+        <view class="stock-tip">
+          <block wx:if="{{item.attr_stock === 1}}">最后一件</block><block wx:elif="{{item.attr_stock === 0}}">库存不足</block><block wx:else>仅剩{{item.attr_stock}}件</block>
+        </view>
+        </block>
+        <block wx:if="{{item.attr_stock === 0}}">
+          <image class="sold-done" src="/images/bg_exchange_done.png"></image>
+        </block>
+      </view>
+      <view class="item-r">
+        <view class="cont">
+          <view class="name">{{item.name}}</view>
+          <view class="price">{{item.exchange_score || 0}}</view>
+        </view>
+        <view class="btn">
+          <button type="default">马上兑换</button>
+          <text class="origin" wx:if="{{item.price}}">参考价：￥{{item.price}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_goods.png"></image>
+    <text class="msg">暂无兑换</text>
+  </view>
+</view>

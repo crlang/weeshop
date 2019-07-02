@@ -1,283 +1,183 @@
 /* detail.wxss */
-page, .container{
-  height: 100%;
-}
-.order-goods {
-    position: relative;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #ffffff;
-}
-
-.order-goods .goods-item {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 100px;
-    box-sizing: border-box;
-    border-bottom: #e2e2e2 1px solid;
-    background-color: #ffffff;
-}
-
-.order-goods .goods-item .item-photo {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    display: block;
-    width: 80px;
-    height: 80px;
-    overflow: hidden;
-    border: #e2e2e2 1px solid;
-}
-
-.order-goods .goods-item .item-photo image {
-    width: 100%;
-    max-width: 100%;
-    height: 100%;
-    background-color: #ffffff;
-}
-
-.order-goods .goods-item .item-info {
-    position: relative;
-    display: block;
-    height: 100%;
-    box-sizing: border-box;
-    margin-left: 104px;
-    margin-right: 5px;
-    overflow: hidden;
-}
-
-.order-goods .goods-item .item-info .info-name {
-    position: relative;
-    display: block;
-    width: 100%;
-    margin-top: 10px;
-    box-sizing: border-box;
-    color: #404245;
-    font-size: 14px;
-    font-weight: normal;
-    text-align: left;
-    line-height: 14px;
-}
-
-.order-goods .goods-item .item-info .info-attr {
-    position: relative;
-    display: block;
-    width: 100%;
-    margin-top: 8px;
-    box-sizing: border-box;
-    color: #666666;
-    font-size: 13px;
-    font-weight: normal;
-    text-align: left;
-    line-height: 14px;
-}
-
-.order-goods .goods-item .item-info .info-price {
-    position: absolute;
-    left: 0;
-    bottom: 8px;
-    width: 50%;
-    display: block;
-    box-sizing: border-box;
-    color: #404245;
-    font-size: 14px;
-    font-weight: normal;
-    text-align: left;
-    line-height: 16px;
-}
-
-.order-goods .goods-item .item-info .info-amount {
-    position: absolute;
-    right: 6px;
-    bottom: 8px;
-    width: 50%;
-    display: block;
-    box-sizing: border-box;
-    color: #888888;
-    font-size: 14px;
-    font-weight: normal;
-    text-align: right;
-    line-height: 16px;
-}
-
 .order-status {
-    margin-top: 15px;
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 34px;
-    box-sizing: border-box;
-    border-top: #e2e2e2 1px solid;
-    border-bottom: #e2e2e2 1px solid;
-    background-color: #8d8e90;
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: normal;
-    line-height: 34px;
-    overflow: hidden;
-    text-align: left;
+  font-size: 32rpx;
+  background: #9c27ff;
+  color: #fff;
+  padding: 20rpx 60rpx;
+  margin-bottom: 20rpx;
+  text-align: right;
+  overflow: hidden;
+  background-size: 64rpx;
+  background-position: center center;
+  background-repeat: repeat-x;
+}
+
+.order-status > view {
+  text-align: left;
+  font-size: 28rpx;
+  color: #E0BCFF;
 }
 
 .order-status image {
-    margin-top: 8px;
-    margin-left: 10px;
-    margin-right: 10px;
-    float: left;
-    display: block;
-    width: 16px;
-    height: 16px;
+  width: 24rpx;
+  height: 24rpx;
+  margin-left: 6rpx;
+  opacity: 0.55;
 }
 
-.order-address {
-    position: relative;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    border-bottom: #e2e2e2 1px solid;
-    background-color: #ffffff;
+.order-detail {
+  padding: 0 30rpx;
 }
 
-.order-address .address-contact {
-    position: relative;
-    display: block;
-    width: 100%;
-    padding: 15px 34px 10px 15px;
-    box-sizing: border-box;
-    color: #404245;
-    font-size: 14px;
-    font-weight: normal;
-    text-align: left;
-    line-height: 18px;
+.od-address {
+  background: #fff;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  border-radius: 10rpx;
+  overflow: hidden;
 }
 
-.order-address .address-detail {
-    position: relative;
-    display: block;
-    width: 100%;
-    padding: 0 34px 15px 15px;
-    box-sizing: border-box;
-    color: #888888;
-    font-size: 12px;
-    font-weight: normal;
-    text-align: left;
-    line-height: 14px;
+.od-address .contact {
+  font-size: 28rpx;
+  color: #666;
 }
 
-.order-address .address-detail span {
-    color: #888888;
-    font-size: 12px;
-    font-weight: normal;
-    text-align: left;
-    line-height: 14px;
+.od-address .contact image {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 18rpx;
 }
 
-.order-summury {
-    position: relative;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    border-bottom: #e2e2e2 1px solid;
-    background-color: #ffffff;
-    overflow: hidden;
+.od-address .address {
+  font-size: 26rpx;
+  color: #999;
+  padding-left: 50rpx;
 }
 
-.order-summury .summury-total {
-    display: block;
-    height: 34px;
-    overflow: hidden;
-    color: #404245;
-    font-size: 13px;
-    font-weight: normal;
-    line-height: 34px;
-    padding-left: 10px;
+.od-goods {
+  background: #fff;
+  border-radius: 10rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+  padding: 0 30rpx;
 }
 
-.order-summury .summury-total .total-price {
-    float: right;
-    display: block;
-    height: 34px;
-    overflow: hidden;
-    color: #404245;
-    font-size: 13px;
-    font-weight: normal;
-    line-height: 34px;
-    padding-right: 10px;
+.od-goods-item {
+  width: 100%;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  overflow: hidden;
+  border-bottom: 1px solid #eee;
 }
 
-.order-summury .summury-detail {
-    margin-top: 8px;
-    display: block;
-    height: 20px;
-    overflow: hidden;
-    color: #666666;
-    font-size: 13px;
-    font-weight: normal;
-    line-height: 20px;
-    padding-left: 10px;
+.od-goods-item .od-thumb {
+  width: 160rpx;
+  height: 160rpx;
+  flex-shrink: 0;
+  border: 1px solid #eee;
+  border-radius: 6rpx;
+  overflow: hidden;
+  padding: 10rpx;
+  margin: 20rpx 0;
+  position: relative;
 }
 
-.order-summury .summury-detail .total-price {
-    float: right;
-    display: block;
-    height: 20px;
-    overflow: hidden;
-    color: #666666;
-    font-size: 13px;
-    font-weight: normal;
-    line-height: 20px;
-    padding-right: 10px;
+.od-goods-item .od-info {
+  width: calc(100% - 160rpx);
+  padding: 20rpx 0 20rpx 20rpx;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-content: space-between;
+  flex-wrap: wrap;
 }
 
-.order-info {
-    position: relative;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    border-bottom: #e2e2e2 1px solid;
-    background-color: #ffffff;
-    overflow: hidden;
+.od-goods-item .od-info > view {
+  width: 100%;
 }
 
-.order-info .info-text {
-    margin: 8px 0;
-    display: block;
-    height: 20px;
-    overflow: hidden;
-    color: #666666;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 20px;
-    padding-left: 10px;
+.od-goods-item .od-info .name {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+  font-size: 26rpx;
+  color: #333;
+  margin-bottom: 4rpx;
 }
 
-.order-submit {
-    position: relative;
-    z-index: 100;
-    width: 100%;
-    height: 44px;
-    box-sizing: border-box;
-    border-top: #e2e2e2 1px solid;
-    background-color: #ffffff;
+.od-goods-item .od-info .name text {
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-.order-submit .submit-button {
-    float: right;
-    position: relative;
-    display: block;
-    width: 40%;
-    height: 100%;
-    box-sizing: border-box;
-    color: #404245;
-    background-color: #f7f7f7;
-    line-height: 44px;
-    text-align: center;
-    border-left: #e5e5e5 solid 1px;
+.od-goods-item .od-info .name .xprice {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
-.order-submit .submit-button.dark {
-    color: #ffffff;
-    background-color: #404245;
-    border-left: none;
+.od-goods-item .od-info .desc {
+  font-size: 22rpx;
+  color: #888;
+  white-space: pre-wrap;
+}
+
+.od-goods-item .od-info .price {
+  font-size: 28rpx;
+  color: #555;
+}
+
+.od-goods-item .od-info .price text:last-child {
+  color: #ea625b;
+  float: right;
+}
+
+.od-info, .od-amount-info {
+  background: #fff;
+  border-radius: 10rpx;
+  margin-bottom: 20rpx;
+}
+
+.od-info .info-item, .od-amount-info .amount-item {
+  padding: 20rpx 30rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.info-item .label, .amount-item .label {
+  display: inline-block;
+}
+
+.info-item .value, .amount-item .price {
+  float: right;
+  color: #888;
+}
+
+.od-amount-info .amount-total {
+  color: #ea625b;
+  font-size: 30rpx;
+  padding: 30rpx;
+  border-top: 1px solid #eee;
+}
+
+.od-amount-info .amount-total .price {
+  color: #ea625b;
+}
+
+.da-fixed-btns button.od-btn {
+  background-color: #fff;
+  color: rgba(156, 39, 255, 0.55);
+  border: 1px solid rgba(156, 39, 255, 0.55);
+}
+
+.da-fixed-btns button.od-btn.darlang-btn {
 }

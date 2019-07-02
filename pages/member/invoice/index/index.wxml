@@ -1,0 +1,34 @@
+<!-- invoice.wxml-->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <view class="invoice-wrap">
+    <view class="iw-box">
+      <view class="iw-item">
+        <view class="label">抬头类型</view>
+        <view class="cont">
+          <view class="iw-sele {{item.checked ? 'is-actived' : ''}}" wx:for="{{types}}" wx:key="item" bind:tap="bindChangeData" data-i="{{index}}" data-type="type" data-id="{{item.id}}">{{item.name}}</view>
+        </view>
+      </view>
+      <view class="iw-item">
+        <view class="label">发票抬头</view>
+        <view class="cont">
+          <input type="text" placeholder="请填写发票抬头" maxlength="60" bindinput="bindChangeData" data-type="title"></input>
+        </view>
+      </view>
+      <view class="iw-item">
+        <view class="label">发票税号</view>
+        <view class="cont">
+          <input type="text" placeholder="请填写发票税号/个人为身份证号码" maxlength="50" bindinput="bindChangeData" data-type="xtitle"></input>
+        </view>
+      </view>
+      <view class="iw-item">
+        <view class="label">发票内容</view>
+        <view class="cont">
+          <view class="iw-sele {{item.checked ? 'is-actived' : ''}}" wx:for="{{contents}}" wx:key="item" bind:tap="bindChangeData" data-i="{{index}}" data-type="content" data-id="{{item.id}}">{{item.name}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="da-fixed-btns"><view class="da-fixed-btns-inner"><button class="disable-btn da-fixed-btn" type="default" bind:tap="checkInvoice" data-type="need">确定</button><button class="darlang-btn da-fixed-btn" type="default" bind:tap="checkInvoice" data-type="none">不开发票</button></view></view>
+</view>

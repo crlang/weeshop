@@ -1,0 +1,85 @@
+/* index.wxss */
+.assets-wrap {
+  padding: 30rpx;
+}
+
+.assets-box {
+  background-color: #9c27ff;
+  color: #e7ccfe;
+  box-shadow: 0 0 24rpx rgba(156, 39, 255, 0.15);
+  margin-bottom: 30rpx;
+  border-radius: 10rpx;
+}
+
+.assets-box.score {
+  color: #ccfef1;
+  background-color: #01cd9a;
+  box-shadow: 0 0 24rpx rgba(1, 205, 154, 0.15);
+}
+
+.assets-card {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-items: center;
+  padding: 60rpx 30rpx;
+  -webkit-background-size: 100%;
+  background-size: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.ab-contxt {
+  flex-grow: 1;
+}
+
+.ab-contxt .ab-label {
+  font-size: 24rpx;
+  margin-bottom: 10rpx;
+}
+
+.ab-contxt .ab-info {
+  font-size: 24rpx;
+  margin-top: 4rpx;
+}
+
+.ab-contxt .ab-info image {
+  vertical-align: middle;
+  width: 24rpx;
+  height: 24rpx;
+  margin: 0 0 0 4rpx;
+  filter: brightness(600%);
+}
+
+.ab-contxt .ab-num {
+  font-size: 64rpx;
+}
+
+.ab-btns {
+  flex-shrink: 0;
+}
+
+.ab-btns button {
+  width: 150rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #e7ccfe;
+  border: 1px solid #e7ccfe;
+  border-radius: 6rpx;
+  padding: 0;
+  margin-bottom: 10rpx;
+}
+
+.assets-box.score .ab-btns button {
+  color: #ccfef1;
+  border-color: #ccfef1;
+}
+
+.ab-btns button:last-child {
+  margin-bottom: 0;
+}

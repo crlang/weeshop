@@ -1,56 +1,21 @@
 <!-- add.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
 <view class="container">
-  <form bindsubmit="submitReview">
-    <!-- Goods -->
-    <view class="review-goods">
-      <view class="goods-item">
-        <view class="item-photo">
-          <image src="{{goodsInfo.product.photos[0].large}}"></image>
-        </view>
-        <view class="item-info">
-          <view class="info-name">{{goodsInfo.product.name}}</view>
-          <view class="info-attr">{{goodsInfo.property}}</view>
-          <view class="info-grade" bindtap="bindGrade" data-id="3">
-            <block wx:if="{{cg == 3}}">
-              <image class="grade-icon" src="/images/face-smile-on.png"></image>
-            </block>
-            <block wx:else>
-              <image class="grade-icon" src="/images/face-smile-off.png"></image>
-            </block>
-            <text class="grade-name">好评</text>
-          </view>
-          <view class="info-grade" bindtap="bindGrade" data-id="2">
-            <block wx:if="{{cg == 2}}">
-              <image class="grade-icon" src="/images/face-normal-on.png"></image>
-            </block>
-            <block wx:else>
-              <image class="grade-icon" src="/images/face-normal-off.png"></image>
-            </block>
-            <text class="grade-name">中评</text>
-          </view>
-          <view class="info-grade" bindtap="bindGrade" data-id="1">
-            <block wx:if="{{cg == 1}}">
-              <image class="grade-icon" src="/images/face-sad-on.png"></image>
-            </block>
-            <block wx:else>
-              <image class="grade-icon" src="/images/face-sad-off.png"></image>
-            </block>
-            <text class="grade-name">差评</text>
-          </view>
-        </view>
-          <view class="item-textarea">
-            <textarea type="text" placeholder="请在此输入评价" name="content"></textarea>
-          </view>
+  <view class="review-goods" wx:if="{{goodsLst.length > 0}}">
+    <view class="rg-item" wx:for="{{goodsLst}}" wx:key="item">
+      <view class="rg-item-head">
+        <view class="thumb"><image src="{{item.product.photos[0].large || '/images/default_image.png'}}"></image></view>
+        <view class="star"><text>商品评级：</text><image src="/images/icon_star{{item.star-1 >= (star) ? '-active' : ''}}.png" wx:for="{{5}}" wx:key="item" wx:for-item="star" wx:for-index="j" bind:tap="bindInputChange" data-type="star" data-i="{{index}}" data-star="{{star+1}}" data-id="{{item.id}}"></image><text class="tip">{{item.grade == 3 ? '好评' : item.grade == 2 ? '中评' : '差评'}}</text></view>
+      </view>
+      <view class="rg-item-input">
+        <textarea type="text" placeholder="请在此输入评价" name="content" value="{{item.content}}" bindinput="bindInputChange" data-type="comment" data-id="{{item.id}}" data-i="{{index}}" maxlength="1000"></textarea>
       </view>
     </view>
-    <view class="review-anon">
-      <view class="item-checkbox">
-        <switch bindchange="bindIsAnonymous"/>
-      </view>
-      <view class="item-title">
-        匿名评论
-      </view>
-    </view>
-    <button class="review-submit" formType="submit">提交</button>
-  </form>
+  </view>
+  <view class="review-submit"><button class="darlang-btn" type="default" bind:tap="submitReview">提交</button></view>
+  <view class="review-anonymous">
+    <view class="sele"><switch bindchange="bindInputChange" data-type="anonymous"/></view>
+    <view class="label">匿名评论</view>
+  </view>
 </view>

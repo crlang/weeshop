@@ -1,4 +1,68 @@
-<!-- userinfo.wxml-->
-<view class="container">
-</view>
+<!-- userinfo.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
 
+<view class="container">
+  <view class="userinfo-wrap">
+    <view class="menu-group">
+      <view class="menu-item" hover-class="-h" bind:tap="bindInputChange" data-type="avatar">
+        <view class="label">头像</view>
+        <view class="contxt"><image src="{{userInfo.avatar || '/images/default_avatar.png'}}"></image></view>
+        <view class="more"><image src="/images/icon_right.png"></image></view>
+      </view>
+    </view>
+    <view class="menu-group">
+      <view class="menu-item" hover-class="-h" bind:tap="bindInputChange" data-type="nickname">
+        <view class="label">昵称</view>
+        <view class="contxt"><text>{{userInfo.nickname || '未填写'}}</text></view>
+        <view class="more"><image src="/images/icon_right.png"></image></view>
+      </view>
+
+      <view class="menu-item" hover-class="-h" bind:tap="bindInputChange" data-type="gender">
+        <view class="label">性别</view>
+        <view class="contxt">{{genderData[userInfo.gender] || '保密'}}</view>
+        <view class="more"><image src="/images/icon_right.png"></image></view>
+      </view>
+    </view>
+    <!-- 其他内容 -->
+    <view class="menu-group" wx:if="{{userFields}}">
+      <view class="menu-item" hover-class="-h" bind:tap="bindInputChange" data-type="fields">
+        <view class="label">其他</view>
+        <view class="contxt">QQ/电话/手机</view>
+        <view class="more"><image src="/images/icon_right.png"></image></view>
+      </view>
+    </view>
+  </view>
+  <!-- 弹窗 -->
+  <view class="profile-popup" wx:if="{{popupStatus}}">
+    <block wx:if="{{popupStatus === 'nickname'}}">
+      <view class="profile-head">修改昵称</view>
+      <view class="profile-body">
+        <input type="text" maxlength="25" bindinput="bindInputChange" data-type="nicknameValue" placeholder="请输入新昵称" value="{{userInfo.nickname || ''}}"></input>
+      </view>
+      <view class="pofile-foot"><button type="default" class="cancel" bind:tap="cancelChange">取消</button><button type="default" class="confirm" bind:tap="confirmChange">确定</button></view>
+    </block>
+    <block wx:if="{{popupStatus === 'avatar'}}">
+      <view class="profile-head">是否同步微信头像？</view>
+      <view class="profile-body">
+        <view class="sync-avatar-box">
+          <view class="sync-old-avatar"><image src="{{userInfo.avatar || '/images/default_avatar.png'}}"></image></view>
+          <view class="sync-avatar">=></view>
+          <view class="sync-new-avatar"><open-data class="avatar-img" type="userAvatarUrl"></open-data></view>
+        </view>
+      </view>
+      <view class="pofile-foot"><button type="default" class="cancel" bind:tap="cancelChange">取消</button><button type="default" class="confirm" open-type="getUserInfo" bindgetuserinfo="confirmChange">同步</button></view>
+    </block>
+    <block wx:if="{{popupStatus === 'fields'}}">
+      <view class="profile-head">其他修改</view>
+      <view class="profile-body">
+        <block wx:if="{{userFields && userFields.length > 0}}" wx:for="{{userFields}}" wx:key="item">
+          <view class="profile-input-item" wx:if="{{item.is_hidden === false}}">
+            <view class="label">{{item.name || ''}}</view><input type="text" maxlength="25" bindinput="bindInputChange" data-type="fields" data-id="{{item.id}}" data-i="{{index}}" placeholder="请输入{{item.name || ''}}" value="{{item.value || ''}}"></input>
+          </view>
+        </block>
+      </view>
+      <view class="pofile-foot"><button type="default" class="cancel" bind:tap="cancelChange">取消</button><button type="default" class="confirm" bind:tap="confirmChange">修改</button></view>
+    </block>
+  </view>
+  <view class="mask" wx:if="{{popupStatus}}"></view>
+</view>

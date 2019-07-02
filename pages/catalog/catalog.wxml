@@ -2,29 +2,30 @@
 <view class="container">
   <view class="search">
     <view class="form">
-      <input class="input" placeholder="输入商品名称" bindtap="goSearch" />
+      <input class="input" placeholder="输入商品名称" bind:tap="pushPath" data-type="search"/>
       <image class="btn" src="/images/icon_search.png"></image>
     </view>
   </view>
   <view class="catalog">
     <!--左侧导航-->
-    <scroll-view class="nav_left" scroll-y="true" style="height:{{srollHeight}}px">
-      <view class="nav_left_content" wx:for="{{categories}}" wx:key="{{item.id}}">
-        <view class="left_item {{curId == item.id? 'active' : ''}}" bindtap="switchRightTab" data-id="{{item.id}}" data-index="{{index}}">
-          {{item.name}}
-        </view>
+    <scroll-view class="nav-left" scroll-y="true" style="height: {{scrollHeight}}px">
+      <view class="nav-left-content" wx:for="{{categories}}" wx:key="{{item.id}}">
+        <view class="nl-item {{curCategories.id == item.id? 'active' : ''}}" hover-class="-h" bindtap="switchRightTab" data-id="{{item.id}}" data-i="{{index}}">{{item.name}}</view>
       </view>
     </scroll-view>
 
     <!--右侧导航-->
-    <scroll-view class='nav_right' scroll-y="true" style="height:{{srollHeight}}px">
-      <view class="nav_right_content">
-        <navigator class="right_item" url="../goods/list/list?category={{curId}}">全部</navigator>
-      </view>
-      <view wx:if="{{childCategories}}">
-        <view class="nav_right_content" wx:for="{{childCategories}}" wx:key="{{citem.id}}" wx:for-item="citem">
-          <navigator class="right_item" url="../goods/list/list?category={{citem.id}}">{{citem.name}}</navigator>
-        </view>
+    <scroll-view class="nav-right" scroll-y="true" style="height:{{scrollHeight}}px">
+      <!-- 最近一个热销产品图 -->
+      <view class="nav-right-banner" wx:if="{{curCategories.photo.large}}"><image src="{{curCategories.photo.large || '/images/default_banner.png'}}" mode="widthFix"></image></view>
+      <!-- 主菜单 -->
+      <view class="nr-item nr-all" hover-class="-h" bind:tap="pushPath" data-type="list" data-id="{{curCategories.id}}">进入{{curCategories.name || '当前'}}频道</view>
+      <!-- 子菜单 -->
+      <view class="nav-right-content">
+        <block wx:if="{{childCategories && childCategories.length}}">
+          <view class="nr-item" hover-class="-h" wx:for="{{childCategories}}" wx:key="item" bind:tap="pushPath" data-type="list" data-id="{{item.id}}">{{item.name}}</view>
+        </block>
+
       </view>
     </scroll-view>
   </view>

@@ -1,0 +1,12 @@
+<!-- complete.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <view class="withdraw-complete-tip">
+    <view class="wct-icon"><image src="/images/info_ok.png"></image></view>
+    <view class="wct-msg">兑换成功</view>
+    <view class="wct-desc">请等待工作人员处理。</view>
+    <view class="wct-btn"><button type="default" bind:tap="onWithdrawDone" class="darlang-btn">完成</button></view>
+  </view>
+</view>
+

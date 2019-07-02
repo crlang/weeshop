@@ -1,0 +1,43 @@
+<!-- detail.wxml -->
+<view class="container">
+  <view class="activity-wrap">
+    <view class="aw-banner">
+      <image src="{{activityInfo.banner || '/images/default_banner.png'}}"></image>
+      <view class="title"><block wx:if="{{activityInfo.status === 1}}">距活动开始：{{countTime || '0:0:0'}}</block><block wx:elif="{{activityInfo.status === 3}}">活动已结束</block><block wx:else>距活动结束：{{countTime || '0:0:0'}}</block></view>
+    </view>
+
+    <view class="aw-rules">
+      <view class="title"><text>活动详情</text></view>
+      <view class="rules-detail">
+        <view class="rd-name">{{activityInfo.name || '无主题'}}</view>
+        <view class="rd-desc"><text class="label">活动时间：</text><text class="cont">{{activityInfo.start_time}} - {{activityInfo.end_time}}</text></view>
+        <view class="rd-desc"><text class="label">活动方式：</text><text class="cont focus">{{activityInfo.promo}}</text></view>
+        <view class="rd-desc"><text class="label">适用会员：</text><text class="cont">{{activityInfo.users}}</text></view>
+        <block wx:if="{{moreDetail}}">
+          <view class="rd-desc"><text class="label">优惠上限：</text><text class="cont">{{activityInfo.max_amount > 0 ? activityInfo.max_amount : '无上限'}}</text></view>
+          <view class="rd-desc"><text class="label">最低消费：</text><text class="cont">{{activityInfo.min_amount}}</text></view>
+          <view class="rd-desc"><text class="label">优惠范围：</text><text class="cont">{{activityInfo.rangex || '待定'}}</text></view>
+          <!-- <view class="rd-desc" wx:if="{{activityInfo.range !== 0}}"><text class="label">优惠说明：</text><text class="cont">{{activityInfo.rangexs || '无'}}</text></view> -->
+        </block>
+        <view class="rd-more {{moreDetail ? 'checked' : ''}}" bind:tap="switchMoreDetail"><image src="/images/icon_db_right.png"></image></view>
+      </view>
+    </view>
+
+    <view class="aw-goods">
+      <view class="title"><text>活动商品</text></view>
+      <view class="goods-list" wx:if="{{goodsList && goodsList.length}}">
+        <view class="goods-item" wx:for="{{goodsList}}" wx:key="item" bind:tap="pushPath" data-type="goods" data-id="{{item.id}}">
+          <view class="thumb" style="background-image: url({{item.default_photo.large || '/images/default_image.png'}});"></view>
+          <view class="name">{{item.name || '商品名称'}}</view>
+          <view class="desc" wx:if="{{item.desc}}">{{item.desc || '商品描述'}}</view>
+          <view class="price">￥{{item.current_price || '0.00'}}</view>
+          <view class="buy"><text class="darlang-btn">{{activityInfo.status === 1 ? '未开始' : activityInfo.status === 3 ? '已结束' : '优惠购'}}</text></view>
+        </view>
+      </view>
+      <view class="list-empty" wx:else>
+        <image class="icon" src="/images/empty_goods.png"></image>
+        <view class="msg">暂无相关商品</view>
+      </view>
+    </view>
+  </view>
+</view>

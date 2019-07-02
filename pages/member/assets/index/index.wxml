@@ -1,0 +1,32 @@
+<!-- index.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <view class="assets-wrap">
+    <view class="assets-box">
+      <view class="assets-card" style="background-image: url('/images/bg_card.png');">
+        <view class="ab-contxt">
+          <view class="ab-label">金额(元)</view>
+          <view class="ab-num">{{balanceInfo || '0.00'}}</view>
+          <view class="ab-info" bind:tap="pushPath" data-type="balanceInfo">资金明细<image src="/images/icon_right.png"></image></view>
+        </view>
+        <view class="ab-btns">
+          <button type="default" bind:tap="pushPath" data-type="withdraw">提现</button>
+          <button type="default" bind:tap="pushPath" data-type="withdrawInfo">提现记录</button>
+        </view>
+      </view>
+    </view>
+    <view class="assets-box score">
+      <view class="assets-card" style="background-image: url('/images/bg_card.png');">
+        <view class="ab-contxt">
+          <view class="ab-label">积分</view>
+          <view class="ab-num">{{scoreInfo || '0'}}</view>
+        </view>
+        <view class="ab-btns">
+          <button type="default" bind:tap="pushPath" data-type="scoreInfo">积分明细</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+

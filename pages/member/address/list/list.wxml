@@ -1,0 +1,28 @@
+<!-- list.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <view class="address-list" wx:if="{{addressLst.length > 0}}">
+    <view class="list-item" hover-class="list-item-h" wx:for="{{addressLst}}" wx:key="item" bind:tap="pushPath" data-type="edit" data-select="{{isSelect ? 'true' : 'false'}}" data-id="{{item.id}}" data-i="{{index}}">
+      <view class="item-checkbox" catch:tap="setDefaultAddress" data-i="{{index}}" data-id="{{item.id}}"><image src="/images/icon_checkbox{{item.is_default ? '-active' : ''}}.png"></image></view>
+      <view class="item-info">
+        <view class="info-user">{{item.name}} {{item.tel}}<text wx:if="{{item.is_default}}">默认</text>
+        </view>
+        <view class="info-address">
+          <text wx:if="{{item.regions}}"><block wx:for="{{item.regions}}" wx:key="reg" wx:for-item="reg">{{reg.name}}</block></text><text wx:if="{{item.address}}"> - {{item.address}}</text>
+        </view>
+      </view>
+      <block wx:if="{{isSelect}}">
+        <view class="item-edit" catch:tap="pushPath" data-type="edit" data-id="{{item.id}}" data-i="{{index}}"><image src="/images/icon_edit.png"></image></view>
+      </block>
+      <block wx:else>
+        <view class="item-edit"><image src="/images/icon_right.png"></image></view>
+      </block>
+    </view>
+  </view>
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_address.png" ></image>
+    <view class="msg">暂无任何地址</view>
+  </view>
+  <view class="da-fixed-btns"><view class="da-fixed-btns-inner"><button class="darlang-btn da-fixed-btn" bind:tap="pushPath" data-type="add" type="default">新增</button></view></view>
+</view>

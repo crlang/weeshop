@@ -1,0 +1,15 @@
+/* copyright.wxss */
+page, .container {
+  background: #fff;
+}
+
+.copyright-wrap {
+  padding: 30rpx;
+}
+
+.cp-license {
+  white-space: pre-wrap;
+  font-size: 28rpx;
+  line-height: 1.667;
+  color: #666;
+}

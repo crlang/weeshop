@@ -1,0 +1,6 @@
+/* checkout.wxss */
+@import "/pages/shopping/checkout/checkout.wxss";
+
+.cg-price {
+  color: #01cd9a;
+}

@@ -1,121 +1,92 @@
 <!-- checkout.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
 <view class="container">
-  <!-- Address -->
-  <navigator class="confirm-address" bindtap="bindAddress" url="../../member/address/selector/selector?order_product={{order_product}}">
-      <view class="address-contact" wx:if="{{consignee > 0}}">
-          {{defaultConsignees.name}} {{defaultConsignees.mobile}}
+  <view class="confirm-wrap">
+    <!-- 地址 -->
+    <view class="confirm-address" hover-class="-h" bind:tap="pushPath" data-type="consignee">
+      <view class="ca-icon"><image src="/images/icon_consignee.png"></image></view>
+      <view class="ca-cont" wx:if="{{consigneeInfo && checkoutParams.consignee}}">
+        <view class="ca-contact"><text class="name">{{consigneeInfo.name}}</text> <text class="tel">{{consigneeInfo.mobile}}</text></view>
+        <view class="ca-addr">{{consigneeInfo.region}} {{consigneeInfo.address}}</view>
       </view>
-      <view class="address-detail" wx:if="{{consignee > 0}}">
-          <text wx:for="{{defaultConsignees.regions}}" wx:key="{{item.id}}">{{item.name}}</text>
-          {{defaultConsignees.address}}
-      </view>
-      <view class="address-create" wx:if="{{consignee <= 0}}">
-          请填写地址
-      </view>
-      <image class="address-arrow" src="/images/nav-right.png"></image>
-  </navigator>
+      <view class="ca-create" wx:else><text>请填写地址</text></view>
+      <view class="ca-arr"><image src="/images/icon_right.png"></image></view>
+    </view>
 
-  <!-- Goods -->
-  <view class="confirm-goods">
-      <view class="goods-item" wx:for="{{goods_info}}" wx:key="{{item.id}}">
-          <view class="item-photo">
-              <image src="{{item.default_photo}}"></image>
-          </view>
-          <view class="item-info">
-              <view class="info-name">
-                  {{item.good_title}}
-              </view>
-              <view class="info-attr" wx:if="{{item.good_property !== 'null'}}">
-                  {{item.good_property}}
-              </view>
-              <view class="info-price">
-                  ￥{{item.good_price}}
-              </view>
-              <view class="info-amount">
-                  x {{item.good_num}}
-              </view>
-          </view>
+    <!-- 订单信息 -->
+    <view class="confirm-goods">
+      <view class="cg-item" wx:for="{{orderInfo}}" wx:key="item.id">
+        <view class="cg-thumb">
+          <image src="{{item.thumb}}"></image>
+        </view>
+        <view class="cg-info">
+          <view class="cg-name">{{item.name}}</view>
+          <view class="cg-attr" wx:if="{{item.attrs && item.attrs.length > 0}}"><view class="cg-attr-item" wx:for="{{item.attrs}}" wx:key="item" wx:for-item="attr"><text>{{attr.name}}</text><text wx:if="{{attr.price > 0}}">￥{{attr.price}}</text></view></view>
+          <view class="cg-total">x {{item.total}}</view>
+          <view class="cg-price">￥{{item.price}}</view>
+        </view>
       </view>
+    </view>
+
+    <!-- 附加内容 -->
+    <view class="confirm-form">
+      <view class="cf-item" hover-class="-h" bind:tap="getExpress">
+        <view class="label">快递配送</view>
+        <view class="contxt"><block wx:if="{{expressData}}">{{expressData.name}}</block><block wx:else>请选择配送快递</block></view>
+        <view class="arr"><image src="/images/icon_right.png"></image></view>
+      </view>
+      <view class="cf-item" hover-class="-h" bind:tap="pushPath" data-type="invoice">
+        <view class="label">发票类型</view>
+        <view class="contxt"><block wx:if="{{orderCheckoutParams.invoice_type}}">{{orderCheckoutParams.invoice_type_name}}</block><block wx:else>不开发票</block></view>
+        <view class="arr"><image src="/images/icon_right.png"></image></view>
+      </view>
+    </view>
+    <view class="confirm-form">
+      <view class="cf-item" hover-class="-h" bind:tap="pushPath" data-type="cashgift" data-id="{{orderPriceParams.cashgift || ''}}">
+        <view class="label">红包优惠</view>
+        <view class="contxt"><block wx:if="{{cashgiftData && cashgiftData.price > 0}}">已优惠￥{{cashgiftData.price || '0.00'}}</block><block wx:else>不使用红包</block></view>
+        <view class="arr"><image src="/images/icon_right.png"></image></view>
+      </view>
+      <view class="cf-item cf-item-multi">
+        <view class="label">积分抵扣</view>
+        <view class="contxt"><input type="number" maxlength="8" placeholder="可用{{scoreInfo.usable || 0}}积分" bindinput="bindInput" data-type="score" bindblur="checkScoreValue" value="{{checkoutParams.score || ''}}"></input><view class="contxt-tip">您剩余 {{scoreInfo.score || 0}} 积分，本次最多可使用 {{scoreInfo.usable || 0}} 积分。每积分抵扣 {{scoreInfo.rule || 0}} 元。</view></view>
+      </view>
+    </view>
+    <view class="confirm-form">
+      <view class="cf-item">
+        <view class="label">留言商家</view>
+        <view class="contxt"><input type="text" value="{{checkoutParams.comment || ''}}" bindinput="bindInput" data-type="comment" placeholder="选填..." maxlength="120"></input></view>
+      </view>
+    </view>
+
+    <!-- 金额详细 -->
+    <view class="confirm-form confirm-price">
+      <view class="cf-item">
+        <view class="label">商品</view>
+        <view class="contxt"><block wx:if="{{orderPriceInfo.product_price > 0}}">￥{{orderPriceInfo.product_price || 0}}</block><block wx:else>赠品</block></view>
+      </view>
+      <view class="cf-item">
+        <view class="label">运费</view>
+        <view class="contxt"><block wx:if="{{orderPriceInfo.shipping_price > 0}}">￥{{orderPriceInfo.shipping_price || 0}}</block><block wx:else>免运费</block></view>
+      </view>
+      <block wx:for="{{orderPriceInfo.promos}}" wx:key="item" wx:if="{{item.price > 0}}">
+        <view class="cf-item">
+          <view class="label">{{item.label || '其他优惠'}}</view>
+          <view class="contxt disc">- ￥{{item.price || 0}}</view>
+        </view>
+      </block>
+    </view>
   </view>
-
-  <!-- Form -->
-  <view class="confirm-form">
-      <view class="form-item" bindtap="bindExpress">
-          <view class="item-title">
-              配送方式
-          </view>
-          <view class="item-value" wx:if="{{shippingName != ''}}">
-              -{{shippingName}} (￥{{shippingFee}})-
-          </view>
-          <view class="item-value" wx:else>
-              -选择配送方式-
-          </view>
-          <image class="item-arrow" src="/images/nav-right.png"></image>
-      </view>
-      <view class="form-item" bindtap="bindInvoice" style="display: none;">
-          <view class="item-title">
-              发票类型
-          </view>
-          <view class="item-value">
-              {{invoiceType ? invoiceType.name : '不开发票'}}
-          </view>
-          <image class="item-arrow" src="/images/nav-right.png"></image>
-      </view>
-      <view class="form-item" bindtap="bindCashgift">
-          <view class="item-title">
-              使用红包
-          </view>
-          <view class="item-value">
-              {{cashgift.value ? '￥' + cashgift.value : '不使用红包'}}
-          </view>
-          <image class="item-arrow" src="/images/nav-right.png"></image>
-      </view>
-      <view class="form-item" wx:if="bindscoreInfo">
-          <view class="item-title">
-              使用积分
-          </view>
-          <view class="item-input">
-              <input type="number" class="{{maxScore > 0 ? 'active':''}}" placeholder="填写积分" disabled="{{scoreInfo.score > 0 ? false : true}}" bindinput="getInputScore" bindblur="getInputScoreNum" />
-              <view class="input-tips" wx:if="{{scoreInfo.score > 0}}">
-                您当前可用 {{scoreInfo.score}} 积分，本订单最多可以使用{{maxScore}}积分，每积分抵扣 {{scoreInfo.rule}} 元
-              </view>
-              <view class="input-tips" wx:else>
-                  无可用积分
-              </view>
-          </view>
-      </view>
-      <view class="form-item">
-          <view class="item-textarea">
-              <textarea type="text" placeholder="买家留言" bindinput="bindorderComment"></textarea>
-          </view>
-      </view>
-  </view>
-
-  <!-- Total -->
-  <view class="confirm-summury">
-      <view class="summury-total">
-          订单总额 <text class="total-price">+ {{orderPrice.total_price}}</text>
-      </view>
-      <view class="summury-detail">
-          商品总额 <text class="total-price">+ {{orderPrice.product_price}}</text>
-      </view>
-      <view class="summury-detail">
-          运费金额 <text class="total-price">+ ￥({{orderPrice.shipping_price}})</text>
-      </view>
-      <view class="summury-detail" wx:for="{{orderPrice.promos}}" wx:key="{{item.id}}">
-        <block wx:if="{{item.promo == 'score'}}">积分</block><block wx:elif="{{item.promo == 'cashgift'}}">红包</block><block wx:elif="{{item.promo == 'preferential'}}">优惠金额</block><block wx:elif="{{item.promo == 'goods_reduction'}}">商品减免</block><block wx:elif="{{item.promo == 'order_reduction'}}">订单减免</block><block wx:elif="{{item.promo == 'coupon_reduction'}}">优惠券减免</block><block wx:else>其他优惠 </block><text class="total-price">- ￥{{item.price}}</text>
-      </view>
-  </view>
-
-  <!-- Submit -->
+  <!-- 提交订单 -->
   <view class="confirm-submit">
-      <view class="submit-total">
-          <view class="total-price">总额￥{{orderPrice.total_price}}</view>
-          <view class="total-discount">优惠￥{{orderPrice.discount_price}}</view>
+    <view class="confirm-submit-inner">
+      <view class="cs-total">
+        <view class="price"><text class="t">共 {{totalGoods || 0}} 件商品</text>,合计:￥<text class="p">{{orderPriceInfo.total_price || 0}}</text></view>
+        <view class="discount">已优惠:￥{{orderPriceInfo.discount_price|| 0}}</view>
       </view>
-      <view class="submit-button dark active" bindtap="checkoutOrder">
-          提交订单并支付
-      </view>
+      <view class="cs-btn"><button type="default" class="{{checkoutParams.shipping ? 'darlang-btn' : 'is-disabled'}}" bind:tap="submitCheckoutOrder">提交订单</button></view>
+    </view>
   </view>
 </view>
 

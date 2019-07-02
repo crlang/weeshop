@@ -1,0 +1,51 @@
+/* index.wxss */
+.activity-list {
+  padding: 50rpx 30rpx;
+}
+
+.al-item {
+  margin-bottom: 20rpx;
+  background: #fff;
+  border-radius: 10rpx;
+  overflow: hidden;
+  text-align: center;
+}
+
+.al-item.-h {
+  opacity: 0.88;
+}
+
+.al-item .thumb {
+  width: 100%;
+  height: 350rpx;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  margin-bottom: 20rpx;
+}
+
+.al-item .thumb image {
+  width: 100%;
+  height: 100%;
+}
+
+.al-item .title {
+  font-size: 32rpx;
+  color: #111;
+  line-height: 1.45;
+  margin: 20rpx 0;
+  padding: 0 20rpx;
+}
+
+.al-item .date {
+  font-size: 22rpx;
+  color: #999;
+  padding: 0 20rpx;
+}
+
+.al-item .desc {
+  font-size: 24rpx;
+  color: #9c27ff;
+  padding: 0 20rpx 20rpx;
+}

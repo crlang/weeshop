@@ -1,0 +1,96 @@
+/** loginModal.wxss **/
+.login-modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1003;
+}
+
+.login-modal-bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1004;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.login-modal-content {
+  position: absolute;
+  top: -webkit-calc(50% - 320rpx);
+  top: calc(50% - 320rpx);
+  left: -webkit-calc(50% - 280rpx);
+  left: calc(50% - 280rpx);
+  width: 560rpx;
+  max-height: 640rpx;
+  background: #fff;
+  -webkit-border-radius: 20rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  padding: 30rpx;
+  z-index: 1005;
+}
+
+.login-popup-head {
+  text-align: center;
+  padding: 10rpx 0;
+}
+
+.login-popup-logo {
+  display: inline-block;
+  width: 150rpx;
+  height: 150rpx;  /* border-radius: 50%; */
+}
+
+.login-popup-name {
+  display: block;
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.7;
+}
+
+.login-popup-body {
+  padding: 10rpx 0;
+}
+
+.login-popup-msg {
+  color: #333;
+  font-size: 14px;
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.login-popup-foot {
+  padding: 20rpx 0 0;
+  text-align: center;
+  position: relative;
+}
+
+.login-popup-btn {
+  display: inline-block;
+  width: 88%;
+  height: 80rpx;
+  line-height: 80rpx;
+  -webkit-border-radius: 80rpx;
+  border-radius: 80rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  margin: 4rpx auto;
+  background-color: #9c27ff;
+  background-image: linear-gradient(to right, #29cdf4 0%, #9c27ff 100%);
+}
+
+.login-popup-btn.account-btn {
+  border: 1px solid #ccc;
+  color: #999;
+  background: #fff;
+}

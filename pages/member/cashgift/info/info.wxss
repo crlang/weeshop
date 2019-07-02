@@ -1,0 +1,109 @@
+/* bonus.wxss */
+.cashgift-filter {
+  background: #fff;
+}
+
+.cashgift-list {
+  padding: 30rpx;
+}
+
+.cl-item {
+  overflow: hidden;
+  margin-bottom: 20rpx;
+  color: #fff;
+  background-color: #9c27ff;
+  background-image: linear-gradient(135deg, #FE7F75 0%, #9c27ff 100%);
+  border-radius: 10rpx;
+}
+
+.cl-item.disable {
+  background-color: #c4c4c4;
+  background-image: linear-gradient(to right, #d4d4d4 0%, #c4c4c4 100%);
+}
+
+.cl-info {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1px dashed #fff;
+}
+
+.cl-info .price {
+  font-size: 36rpx;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cl-info .price text {
+  font-size: 64rpx;
+}
+
+.cl-info .context {
+  padding-left: 30rpx;
+  position: relative;
+}
+
+.cl-info .context .name {
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+}
+
+.cl-info .context .status {
+  font-size: 22rpx;
+}
+
+.cl-desc {
+  position: relative;
+  font-size: 22rpx;
+  font-weight: 300;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx;
+}
+
+.cl-desc::after, .cl-desc::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -15rpx;
+  right: -15rpx;
+  width: 30rpx;
+  height: 30rpx;
+  background: #fff;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.cl-desc::before {
+  right: auto;
+  left: -15rpx;
+}
+
+.cl-desc .expires {
+  padding-right: 10rpx;
+}
+
+.cl-desc .expires view {
+  margin-bottom: 10rpx;
+}
+
+.cl-desc .use-btn {
+  flex-shrink: 0;
+}
+
+.cl-desc .use-btn button {
+  font-size: 26rpx;
+  padding: 6rpx 12rpx;
+  white-space: nowrap;
+  border: 1px solid #fff;
+}

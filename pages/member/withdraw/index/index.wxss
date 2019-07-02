@@ -1,0 +1,103 @@
+/* index.wxss */
+.withdraw-wrap {
+  padding: 30rpx;
+}
+
+.rq {
+  color: #f00;
+  margin-left: -12rpx;
+}
+
+.ww-box {
+  padding: 30rpx;
+  background: #fff;
+  border-radius: 10rpx;
+  overflow: hidden;
+}
+
+.wwb-input {
+  border-bottom: 1px solid #eee;
+  padding: 20rpx 0;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-content: center;
+}
+
+.wwb-number .label, .wwb-input .label {
+  flex-shrink: 0;
+  font-size: 24rpx;
+  color: #666;
+  padding-right: 20rpx;
+  min-width: 120rpx;
+}
+
+.wwb-input textarea, .wwb-input input {
+  display: block;
+  width: 100%;
+  color: #333;
+  font-size: 24rpx;
+  text-align: right;
+}
+
+.wwb-input textarea {
+}
+
+.wwb-input-tip {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.wwb-input-tip .label {
+  display: inline-block;
+}
+
+.wwb-input-tip .wwb-all {
+  color: #9c27ff;
+  float: right;
+}
+
+.wwb-number {
+  padding: 20rpx 0;
+}
+
+.wwb-number .cont {
+  line-height: 1.7;
+  font-size: 56rpx;
+  color: #111;
+  font-weight: bold;
+  padding: 6rpx 0;
+}
+
+.wwb-number .cont text {
+  display: inline-block;
+  vertical-align: middle;
+  width: 64rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  font-size: 64rpx;
+}
+
+.wwb-number .cont input {
+  display: inline-block;
+  vertical-align: middle;
+  width: calc(100% - 64rpx);
+  height: 96rpx;
+  line-height: 96rpx;
+}
+
+.ww-btn {
+  margin: 50rpx auto;
+}
+
+.ww-btn button {
+  font-size: 30rpx;
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  color: #fff;
+  border-radius: 10rpx;
+}

@@ -1,159 +1,177 @@
 /**
  * WeeShop 声明
  * ===========================================================
- * 版权 大朗 所有，并保留所有权利
- * 网站地址: http://www.darlang.com
- * 标题: ECShop 小程序「weeshop 」- 基于 ECShop 3.6 版本开发的非官方微信小程序
- * 短链接: https://www.darlang.com/?p=709
- * 说明：源码已开源并遵循 MIT 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
+ * 网站： https://www.darlang.com
+ * 标题： ECShop 小程序「weeshop 」- 基于 ECShop 为后台系统开发的非官方微信商城小程序
+ * 链接： https://www.darlang.com/?p=709
+ * 说明： 源码已开源并遵循 Apache 2.0 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
  * ==========================================================
- * @Author: Darlang
+ * Copyright 2019 darlang
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ===========================================================
  */
-// index.js
-import util from '../../utils/util.js';
 
-//获取应用实例
-var app = getApp();
+// index.js
+import {PNT,setNavBarTitle,showToast,pushPagePath,pointsMall,getUrlParamValue,shopNoticeCatId} from "../../utils/utils";
+import {GetSiteInfo,GetBannerList,GetArticleList,GetHomeGoodsList} from '../../utils/apis';
+import {CheckCartTotal} from "../../utils/publics";
+
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    siteInfo: [],
-    banners: [],
-    bannersX: [],
-    notices: [],
+    siteInfo: '',
+    bannerLst: '',
+    mainMenu: [
+      {
+        type: 'list',
+        title: '购物',
+        img: '/images/icon_index-1.png'
+      },
+      {
+        type: 'score',
+        title: '积分',
+        img: '/images/icon_index-2.png'
+      },
+      {
+        type: 'cashgift',
+        title: '卡券',
+        img: '/images/icon_index-3.png'
+      },
+      {
+        type: 'activities',
+        title: '优惠',
+        img: '/images/icon_index-4.png'
+      },
+      {
+        type: 'level',
+        title: '会员',
+        img: '/images/icon_index-5.png'
+      }
+    ],
+    noticeLst: [],
     goodProducts: [],
     hotProducts: [],
     recentlyProducts: [],
-    userInfo: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
-    wx.showLoading({
-      title: '加载中...'
-    });
-    this.getUserInfo();
+    setNavBarTitle(PNT.default);
+    this.loginModal = this.selectComponent("#login-modal");
+
     this.getShopSiteInfo();
     this.getBanner();
     this.getNotices();
     this.getPorducts();
-    wx.hideLoading();
+
   },
 
-  // 个人信息
-  getUserInfo() {
-    var self = this;
-    var userInfo = wx.getStorageSync('user');
-    // 判断是否登陆
-    if (userInfo.is_completed) {
-      // 获取用户信息
-      if (userInfo.avatar === null) {
-        userInfo.avatar = "/images/default-avatar.png";
-      }
-      var photo = userInfo.avatar,
-        name = userInfo.username,
-        level = userInfo.rank,
-        user = {};
-      user.avatarUrl = photo;
-      user.nickName = name;
-      user.level = level;
-      self.setData({
-        userInfo: user
-      });
-    }
-  },
-
-  // 站点信息
-  // ecapi.site.get
+  /**
+   * 获取站点信息
+   * @author darlang
+   */
   getShopSiteInfo() {
-    let self = this;
-    util.request(util.apiUrl + 'ecapi.site.get', 'POST').then(res => {
-      // ...
-    }).catch(err =>{
-      if(err.data.site_info === undefined) {
-        util.showToast('数据加载出错！','error',2500);
-      }else{
-        self.setData({
-          siteInfo: err.data.site_info
-        });
-      }
-
-      wx.setNavigationBarTitle({
-        title: self.data.siteInfo.name || util.pageTitle.home
+    GetSiteInfo().catch(res =>{
+      this.setData({
+        siteInfo: res.data.site_info
       });
+      setNavBarTitle(res.data.site_info.name || PNT.default);
     });
   },
 
-  // 移动端 Banner
-  // ecapi.banner.list
+  /**
+   * 获取移动端 Banner 广告
+   * @description 智能识别是否为优惠地址或商品地址，点击跳转相应小程序页面
+   * @author darlang
+   */
   getBanner() {
-    util.request(util.apiUrl + 'ecapi.banner.list', 'POST').then(res => {
-      if (res.banners.length === 0) {
-        util.request(util.shopUrl + '/data/flash_data.xml', 'GET').then(xml => {
-          // ...
-        }).catch(xml => {
-          const exp = /item_url="([^"]+)"\slink="([^"]+)"\stext="([^"]*)"/ig;
-          let result,j=[] ;
-          while( (result = exp.exec(xml.data)) !== null){
-            j.push(result);
+    GetBannerList().then(res => {
+      if (res.length !== 0) {
+        const linkArr = ['activity','product'];
+        for (let i = 0; i < res.length; i++) {
+
+          let activity = getUrlParamValue('activity',res[i].link);
+          let product = getUrlParamValue('product',res[i].link);
+          if (activity) {
+            res[i].type = 'activity';
+            res[i].tid = getUrlParamValue('activity',res[i].link);
+          }else if(product) {
+            res[i].type = 'product';
+            res[i].tid = getUrlParamValue('activity',res[i].link);
           }
-          for (let i in j) {
-            if (j.hasOwnProperty(i)) {
-              j[i][1] = util.shopUrl + '/' + j[i][1];
-            }
-          }
-          this.setData({
-            bannersX: j
-          });
-        });
-      }else{
+        }
         this.setData({
-          banners: res.banners
+          bannerLst: res
         });
       }
     });
   },
 
-  // 站点公告列表
-  // ecapi.notice.list
+  /**
+   * 页面跳转
+   * @author darlang
+   */
+  pushPath(e) {
+    const items = e.currentTarget.dataset;
+    if (items.type === 'score' && !pointsMall) {
+      showToast('积分商城未开启');
+      return false;
+    }
+    const pathData = [
+      {type: 'list',path: '/pages/goods/list/list'},
+      // {type: 'score',path: '/pages/points/index/index'},
+      {type: 'cashgift',path: '/pages/member/cashgift/info/info'},
+      {type: 'activities',path: '/pages/message/activity/index'},
+      {type: 'level',path: '/pages/member/level/level'},
+      {type: 'notices',path: '/pages/message/notices/index'},
+      {type: 'goods',path: '/pages/goods/detail/detail?id='+items.id},
+      {type: 'activity',path: '/pages/message/activity/detail?id='+items.tid},
+      {type: 'product',path: '/pages/goods/detail/detail?id='+items.tid},
+    ];
+    pushPagePath(e,pathData);
+  },
+
+  /**
+   * 站内快讯
+   * @author darlang
+   */
   getNotices() {
-    util.request(util.apiUrl + 'ecapi.notice.list', 'POST', {
-      page: 1,
-      per_page: 10
-    }).then(res => {
+    if (!shopNoticeCatId) {
+      return false;
+    }
+    GetArticleList(1,6,shopNoticeCatId).then(res => {
       this.setData({
-        notices: res.notices
+        noticeLst: res.articles
       });
     });
   },
 
-  // 公告内容
-  // notice.id
-  bindOnNotice(event) {
-    util.request(util.apiUrl +"notice."+ event.currentTarget.dataset.id).then(res => {
-      // ...
-    }).catch( err => {
-      let content = err.data.match(/<p class="lead">([\s\S]*?)<\/p>/)[1];
-      wx.showModal({
-        title: "公告详情",
-        content: content,
-        showCancel: false
-      });
-    });
-  },
 
-  // 首页展示产品
-  // ecapi.home.product.list
+  /**
+   * 首页展示产品
+   * @author darlang
+   */
   getPorducts() {
-    util.request(util.apiUrl + 'ecapi.home.product.list', 'POST').then(res => {
+    GetHomeGoodsList().then(res => {
       this.setData({
-        goodProducts: res.good_products,
-        hotProducts: res.hot_products,
-        recentlyProducts: res.recently_products
+        goodProducts: res.good_products || '',
+        hotProducts: res.hot_products || '',
+        recentlyProducts: res.recently_products || ''
       });
     });
   },
@@ -170,7 +188,7 @@ Page({
    */
   onShow: function () {
     // 页面显示
-    util.updateCartNum();
+    CheckCartTotal();
   },
 
   /**
@@ -201,19 +219,19 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+    try {
+      var shareName = this.data.siteInfo.name;
+      var imgUrl = this.data.bannerLst[0].photo.large;
+    } catch(e) {
+      // console.log(e)
+    }
     return {
-      title: this.data.siteInfo.name,
+      title: shareName || PNT.default,
+      imageUrl: imgUrl || '/images/default_image.png',
       path: '/pages/index/index',
-      success(e) {
-        // 需要在页面onLoad()事件中实现接口
-        wx.showShareMenu({
-          // 要求小程序返回分享目标信息
-          withShareTicket: true
-        });
-      },
-      fail(e) {
-      },
-      complete() { }
+      success() {},
+      fail() {},
+      complete() {}
     };
   }
 });

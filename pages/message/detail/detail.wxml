@@ -1,0 +1,10 @@
+<!-- detail.wxml -->
+<import src="../../../libs/wxParse/wxParse.wxml" />
+
+<view class="container">
+  <view class="news-detail-wrap">
+    <view class="nd-titel">{{articleInfo.title || '无主题'}}</view>
+    <!-- <view class="nd-info">{{articleInfo}}</view> -->
+    <view class="nd-content"><template is="wxParse" data="{{wxParseData: articleContent.nodes}}" /></view>
+  </view>
+</view>

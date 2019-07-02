@@ -1,0 +1,47 @@
+/* info.wxss */
+.withdraw-info {
+  margin: 20rpx 30rpx;
+  padding: 0 30rpx;
+  border-radius: 10rpx;
+  background: #fff;
+}
+
+.wi-item {
+  padding: 20rpx 0;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+}
+
+.wi-item.wi-price {
+  padding: 30rpx 0 60rpx;
+}
+
+.wi-label {
+  flex-shrink: 0;
+  font-size: 28rpx;
+  color: #888;
+  white-space: nowrap;
+}
+
+.wi-item.wi-price .wi-label {
+  color: #555;
+}
+
+.wi-msg {
+  font-size: 28rpx;
+  color: #333;
+  padding-left: 30rpx;
+}
+
+.wi-remark .wi-msg {
+  white-space: pre-wrap;
+}
+
+.wi-item.wi-price .wi-msg {
+  font-size: 56rpx;
+  color: #ff5000;
+}

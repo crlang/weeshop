@@ -1,4 +1,116 @@
 /* userinfo.wxss */
-page, .container{
-  height: 100%;
+@import "../setting/setting.wxss";
+
+.menu-group .menu-item .contxt image {
+  width: 64rpx;
+  height: 64rpx;
+}
+
+.profile-popup {
+  position: fixed;
+  left: 30rpx;
+  right: 30rpx;
+  bottom: 15rpx;
+  z-index: 999;
+  background: #fff;
+  border-radius: 10rpx;
+  overflow: hidden;
+  padding: 0 30rpx;
+}
+
+.profile-head {
+  padding: 30rpx 0;
+  font-size: 32rpx;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+.profile-body {
+  padding: 50rpx 30rpx;
+}
+
+.profile-body input {
+  display: block;
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #555;
+  border-bottom: 1rpx solid rgba(156, 39, 255, 0.35);
+}
+
+.sync-avatar-box {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sync-old-avatar {
+}
+
+.sync-avatar {
+  white-space: nowrap;
+  color: #9c27ff;
+}
+
+.sync-old-avatar, .sync-new-avatar {
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 50%;
+  padding: 15rpx;
+  border: 1px solid #eee;
+}
+
+.sync-old-avatar image, .sync-new-avatar image, .sync-new-avatar .avatar-img {
+  display: block;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-input-item {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-items: center;
+}
+
+.profile-input-item .label {
+  white-space: nowrap;
+  padding-right: 20rpx;
+}
+
+.profile-input-item input {
+}
+
+.pofile-foot {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  overflow: hidden;
+  border-top: 1px solid #eee;
+  padding: 20rpx 0;
+}
+
+.pofile-foot button {
+  width: 50%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: none;
+  text-align: center;
+  color: #9c27ff;
+}
+
+.pofile-foot button.cancel {
+  color: #999;
 }

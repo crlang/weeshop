@@ -1,0 +1,190 @@
+/** detail.wxss */
+.activity-wrap {
+}
+
+.aw-banner {
+  position: relative;
+  width: 750rpx;
+  height: 375rpx;
+  overflow: hidden;
+  margin-bottom: 30rpx;
+}
+
+.aw-banner image {
+  width: 100%;
+  height: 100%;
+}
+
+.aw-banner .title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  line-height: 1.5;
+  font-size: 32rpx;
+  padding: 20rpx 30rpx;
+  max-height: 120rpx;
+  overflow: hidden;
+  text-align: right;
+}
+
+.aw-rules {
+  margin-bottom: 30rpx;
+  background: #fff;
+}
+
+.rules-detail {
+  padding: 30rpx;
+}
+
+.rules-detail .rd-name {
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.rules-detail .rd-desc {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+}
+
+.rules-detail .label {
+  flex-shrink: 0;
+  white-space: nowrap;
+  color: #555;
+}
+
+.rules-detail .cont {
+  color: #888;
+}
+
+.rules-detail .cont.focus {
+  color: #9c27ff;
+  font-weight: bold;
+}
+
+.rules-detail .rd-more {
+  text-align: center;
+  padding: 10rpx 0;
+}
+
+.rules-detail .rd-more image {
+  display: inline-block;
+  width: 48rpx;
+  height: 48rpx;
+  transform: rotate(90deg);
+  transition: all 0.25s linear 0s;
+  filter: brightness(20%);
+}
+
+.rules-detail .rd-more.checked image {
+  transform: rotate(-90deg);
+}
+
+.aw-goods .title, .aw-rules .title {
+  font-size: 32rpx;
+  color: #333;
+  line-height: 1.7;
+  padding: 20rpx 30rpx;
+  text-align: center;
+}
+
+.aw-goods .title text, .aw-rules .title text {
+  position: relative;
+}
+
+.aw-goods .title text::before, .aw-goods .title text::after, .aw-rules .title text::before, .aw-rules .title text::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -140rpx;
+  width: 120rpx;
+  height: 1px;
+  background: #eee;
+}
+
+.aw-goods .title text::before, .aw-rules .title text::before {
+  right: auto;
+  left: -140rpx;
+}
+
+.aw-goods {
+}
+
+.goods-list {
+  overflow: hidden;
+  padding: 30rpx;
+}
+
+.goods-item {
+  float: left;
+  width: calc(50% - 11rpx);
+  margin: 0 20rpx 20rpx 0;
+  position: relative;
+  background: #fff;
+  border-radius: 6rpx;
+  overflow: hidden;
+  text-align: center;
+}
+
+.goods-item:nth-child(2n+2) {
+  margin-right: 0;
+}
+
+.goods-item .thumb {
+  width: 100%;
+  padding-bottom: 100%;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.goods-item .thumb image {
+  width: 100%;
+}
+
+.goods-item .name {
+  font-size: 24rpx;
+  color: #111;
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 20rpx;
+}
+
+.goods-item .desc {
+  font-size: 24rpx;
+  color: #555;
+  padding: 0 20rpx;
+}
+
+.goods-item .price {
+  font-size: 32rpx;
+  color: #ff5000;
+  padding: 10rpx 20rpx;
+}
+
+.goods-item .buy {
+  padding: 20rpx 30rpx;
+  text-align: center;
+}
+
+.goods-item .buy text {
+  display: inline-block;
+  width: 200rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 24rpx;
+  border-radius: 6rpx;
+  color: #fff;
+}

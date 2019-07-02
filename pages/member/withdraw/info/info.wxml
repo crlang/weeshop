@@ -1,0 +1,17 @@
+<!-- info.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <view class="withdraw-info">
+    <view class="wi-item wi-price"><view class="wi-label">提现金额</view><view class="wi-msg">{{withdrawInfo.cash || '0.00'}}</view></view>
+  </view>
+  <view class="withdraw-info">
+    <view class="wi-item"><view class="wi-label">交易状态</view><view class="wi-msg"><block wx:if="{{withdrawInfo.status == 0}}">待处理</block><block wx:elif="{{withdrawInfo.status == 1}}">已完成</block><block wx:elif="{{withdrawInfo.status == 2}}">已取消</block><block wx:else>无</block></view></view>
+    <view class="wi-item"><view class="wi-label">交易类型</view><view class="wi-msg">{{withdrawInfo.type || '提现'}}</view></view>
+    <view class="wi-item"><view class="wi-label">申请时间</view><view class="wi-msg">{{withdrawInfo.create_at || '无'}}</view></view>
+    <view class="wi-item wi-remark"><view class="wi-label">审核备注</view><view class="wi-msg">{{withdrawInfo.admin_memo || '无'}}</view></view>
+    <view class="wi-item wi-remark"><view class="wi-label">用户备注</view><view class="wi-msg">{{withdrawInfo.member_memo || '无'}}</view></view>
+    <view class="wi-item" wx:if="{{withdrawInfo.update_at}}"><view class="wi-label">交易时间</view><view class="wi-msg">{{withdrawInfo.update_at || ''}}</view></view>
+  </view>
+  <view class="da-fixed-btns" wx:if="{{withdrawInfo.status == 0}}"><view class="da-fixed-btns-inner"><button class="darlang-btn da-fixed-btn" type="default" bind:tap="onCancelWithdraw">取消提现</button></view></view>
+</view>

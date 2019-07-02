@@ -1,0 +1,17 @@
+<!-- loginModal.wxml -->
+<view class="login-modal" wx:if="{{notLogin}}">
+  <view class="login-modal-content" catchtouchmove="preventTouchMove">
+    <view class="login-popup-head">
+      <image class="login-popup-logo" src="/images/logo.png" mode="widthFix"></image>
+      <text class="login-popup-name">{{miniProName}}</text>
+    </view>
+    <view class="login-popup-body">
+      <view class="login-popup-msg">此小程序由{{miniProName}}定制，即将会使用您的公开信息「名称、头像等」。</view>
+    </view>
+    <view class="login-popup-foot">
+      <button class="login-popup-btn" hover-class="none" type="primary" hover-class="none" open-type="getUserInfo" bindgetuserinfo="getUserInfo">快捷登录</button>
+      <button class="login-popup-btn account-btn" bind:tap="pushPath" data-type="account" hover-class="none">账号登录</button>
+    </view>
+  </view>
+  <view class="login-modal-bg" catchtouchmove="preventTouchMove" bind:tap="pushPath" data-type="mask" ></view>
+</view>

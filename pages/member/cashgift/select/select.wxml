@@ -1,0 +1,28 @@
+<!-- select.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
+<view class="container">
+  <!-- 列表 -->
+  <view class="cashgift-list" wx:if="{{cashgiftLst.length > 0}}">
+    <view class="cl-item none" bind:tap="pushPath" data-type="cashgift" data-id="-1">
+      <view class="cl-info">不使用优惠</view>
+    </view>
+    <view class="cl-item {{item.status == '0' ? '' : 'disable'}}" wx:for="{{cashgiftLst}}" wx:key="item" bind:tap="pushPath" data-type="cashgift" data-id="{{item.id}}">
+      <view class="cl-info">
+        <view class="price">￥<text>{{item.value || '???'}}</text></view>
+        <view class="context">
+          <view class="name">{{item.name || '???'}}</view>
+          <view class="status">{{item.effective || '???'}} - {{item.expires || '???'}}</view>
+          <view class="is-active" wx:if="{{item.checked}}"><image src="/images/icon_checkbox-checked.png"></image></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_cashgift.png"></image>
+    <view class="msg">暂无任何红包</view>
+  </view>
+
+</view>
+

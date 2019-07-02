@@ -1,0 +1,69 @@
+/* index.wxss */
+@import "../../goods/list/list.wxss";
+
+page, .container {
+  background: #fff;
+}
+
+.goods-list .gl-item {
+  padding: 30rpx;
+}
+
+.gl-item .item-l {
+  width: 100rpx;
+  position: relative;
+}
+
+.gl-item .thumb {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.gl-item .sold-done {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+}
+
+.gl-item .item-r {
+  width: calc(100% - 100rpx);
+  height: 100%;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.gl-item .name {
+  min-height: auto;
+}
+
+.gl-item .price {
+  color: #01cd9a;
+}
+
+.gl-item .cont {
+  flex-grow: 1;
+}
+
+.gl-item .btn {
+  flex-shrink: 0;
+  height: 50rpx;
+}
+
+.gl-item .btn button {
+  width: 200rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+  border: 1px solid #01cd9a;
+  color: #01cd9a;
+  font-size: 24rpx;
+}

@@ -1,39 +1,22 @@
 <!-- history.wxml -->
+<loginModal id="login-modal" bindloginCallback="loginCallback"></loginModal>
+
 <view class="container">
-  <view class="withdraw-history-list" wx:if="{{withdrawsList.length > 0}}">
-    <view class="list-item" wx:for="{{withdrawsList}}" wx:key="{{item.id}}">
-      <view class="item-header">
-        <view class="header-status blue" wx:if="{{item.status == 0}}">待处理</view>
-        <view class="header-status greed" wx:if="{{item.status == 1}}">已完成</view>
-        <view class="header-status gray" wx:if="{{item.status == 2}}">已取消</view>
-        <view class="header-status red" wx:if="{{item.status == 3}}">已取消</view>
-        <view class="header-money">¥{{item.cash}}</view>
+  <!-- 明细列表   0待处理、1已完成、2已取消 -->
+  <view class="history-list" wx:if="{{withdrawLst.length > 0}}">
+    <view class="hl-item" wx:for="{{withdrawLst}}" wx:key="item" hover-class="-h" bind:tap="pushPath" data-type="info" data-id="{{item.id}}">
+      <view class="hl-info">
+        <view class="hl-amount increase">￥<text>{{item.cash || '0.00'}}</text></view>
+        <view class="hl-date">{{item.create_at || '无'}}</view>
       </view>
-      <view class="item-header">
-        <view class="admin-memo">{{item.admin_memo}}</view>
-        <view class="header-money">提现金额</view>
-      </view>
-      <view class="horizontal-line"></view>
-      <view class="item-footer">
-        <view class="footer-time">
-          申请时间：{{item.update_at || item.create_at}}
-        </view>
-        <view class="member-memo">
-          会员备注：{{item.member_memo || ''}}
-        </view>
-        <view class="footer" wx:if="{{item.status == 0}}" bindtap="onCancelWithdraw" data-indexid="{{item.id}}">
-          <view class="footer-button dark">
-            取消提现
-          </view>
-        </view>
-      </view>
+      <view class="hl-status"><block wx:if="{{item.status == 0}}">待处理</block><block wx:elif="{{item.status == 1}}">已完成</block><block wx:elif="{{item.status == 2}}">已取消</block></view>
+      <view class="hl-more"><image src="/images/icon_right.png"></image></view>
     </view>
   </view>
-  <view class="list-empty" wx:if="{{withdrawsList.length <= 0}}">
-    <image class="icon" src="/images/icon_order.png"></image>
-    <view class="msg">暂无任何提现记录</view>
-  </view>
-  <view class="list-done" wx:if="{{paged.more == 0 && withdrawsList.length > 0}}">
-    全部加载完毕
+
+  <view class="list-empty" wx:else>
+    <image class="icon" src="/images/empty_order.png"></image>
+    <view class="msg">暂无任何记录</view>
   </view>
 </view>
+

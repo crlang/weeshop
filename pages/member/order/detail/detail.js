@@ -1,171 +1,275 @@
+/**
+ * WeeShop 声明
+ * ===========================================================
+ * 网站： https://www.darlang.com
+ * 标题： ECShop 小程序「weeshop 」- 基于 ECShop 为后台系统开发的非官方微信商城小程序
+ * 链接： https://www.darlang.com/?p=709
+ * 说明： 源码已开源并遵循 Apache 2.0 协议，你有权利进行任何修改，但请保留出处，请不要删除该注释。
+ * ==========================================================
+ * Copyright 2019 darlang
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ===========================================================
+ */
+
 // detail.js
-import util from '../../../../utils/util.js';
+import {PNT,setNavBarTitle,showToast,pushPagePath,formatTime} from "../../../../utils/utils";
+import {GetShippingStatus,GetOrderInfo,GetCancelOrderReason,ConfirmOrder,CancelOrder} from "../../../../utils/apis";
+import {CheckInvoiceInfo} from '../../../../utils/publics';
+import {PROMOS_TYPE} from '../../../../utils/status';
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    orderID: 0,
-    order: {}
+    id: 0,
+    orderDetail: '',
+    orderStatus: ['等待买家付款','等待卖家发货','等待买家收货','交易成功','交易成功','交易取消'],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    // 页面初始化 options为页面跳转所带来的参数
-    wx.setNavigationBarTitle({
-      title: util.pageTitle.orderM.detail
-    });
+  onLoad: function (opt) {
+    setNavBarTitle(PNT.order.detail);
+    this.loginModal = this.selectComponent("#login-modal");
+    if (!opt.id) {
+      showToast('订单id异常','warning');
+      return false;
+    }
     this.setData({
-      orderID: parseInt(options.id)
+      id: parseInt(opt.id)
     });
-    this.getOrderInfo();
   },
 
-  // 取消订单
-  // ecapi.order.cancel
-  onCancelOrder() {
+  /**
+   * 页面跳转
+   * @author darlang
+   */
+  pushPath(e) {
+    const items = e.currentTarget.dataset;
+    const pathData = [
+      {type: 'goods',path: '/pages/goods/detail/detail?id=' + items.id},
+      {type: 'comment',path: '/pages/member/comment/add/add?orderId=' + items.id},
+      {type: 'payment',path: '/pages/shopping/payment/payment?orderId=' + items.id},
+      // {type: 'shipping',path: '/pages/member/order/shipping/index?id'},
+    ];
+    pushPagePath(e,pathData);
+  },
+
+  /**
+   * 获取取消原因
+   * @author darlang
+   */
+  getCancelReason() {
+    GetCancelOrderReason().then(res => {
+      console.log(res);
+      this.setData({
+        cancelReasonList: res.reasons
+      });
+    });
+  },
+
+  /**
+   * 选择原因
+   * @author darlang
+   */
+  bindCancelReason(e) {
     let self = this;
-    wx.showModal({
-      title: '提示',
-      content: '是否要取消选择中订单？',
-      success: function (res) {
-        if (res.confirm) {
-          util.request(util.apiUrl + 'ecapi.order.cancel', 'POST', {
-            order: self.data.orderID,
-            reason: 1
-          }).then(res => {
-            util.showToast('订单已取消', 'success');
-            setTimeout(function () {
-              self.getOrderInfo();
-            }, 1000);
-          });
-        }
+    let items = e.currentTarget.dataset;
+    let cancelReasonList = this.data.cancelReasonList;
+    let crlArr = cancelReasonList.map(k => k.name);
+    wx.showActionSheet({
+      itemList: crlArr,
+      success(res) {
+        let i = res.tapIndex;
+        self.onCancelOrder(items.id,cancelReasonList[i].id);
+      },
+      fail() {
+        // showToast('未选择原因','warning');
       }
     });
   },
 
-  // 确认订单
-  // ecapi.order.confirm
-  confirmOrder() {
+  /**
+   * 取消订单
+   * @author darlang
+   * @param  {Number}   id 订单 id
+   * @param  {Number}   reason 原因 id
+   */
+  onCancelOrder(id,reason) {
     let self = this;
     wx.showModal({
-      title: '提示',
-      content: '是否确认收货？',
-      success: function (res) {
+      title: '温馨提示',
+      content: '是否要取消当前订单？',
+      success: (res) => {
         if (res.confirm) {
-          util.request(util.apiUrl + 'ecapi.order.confirm', 'POST', {
-            order: self.data.orderID
-          }).then(res => {
-            util.showToast('提交收货成功', 'success',800);
-            setTimeout(function () {
-              self.getOrderInfo();
-            }, 1000);
+          wx.showLoading({title: '正在查询...',mask: true});
+          CancelOrder(id,reason).then(() => {
+            showToast('订单已取消', 'success');
+            self.setData({
+              'orderDetail.status': 5
+            });
           }).catch(err => {
-            util.showToast(err.data.error_desc,'none');
+            if (err.error_code === 404) {
+              showToast('重复取消','warning');
+              self.setData({
+                'orderDetail.status': 5
+              });
+            }
           });
         }
       }
     });
   },
 
-  // 查询物流编号
-  // ecapi.shipping.status.get
+  /**
+   * 确认订单
+   * @author darlang
+   */
+  onConfirmOrder(e) {
+    let self = this;
+    let id = e.currentTarget.dataset.id;
+    wx.showModal({
+      title: '温馨提示',
+      content: '是否确认收货？',
+      success: (res) => {
+        if (res.confirm) {
+          wx.showLoading({title: '查询中...',mask: true});
+          ConfirmOrder(id).then(() => {
+            showToast('收货成功', 'success',800);
+            self.setData({
+              'orderDetail.status': 3
+            });
+          }).catch(err => {
+            if (err.error_code === 404) {
+              showToast('已确认收货','warning');
+              self.setData({
+                'orderDetail.status': 3
+              });
+            }
+          });
+        }
+      }
+    });
+  },
+
+
+  /**
+   * 查询物流编号及跳转查询
+   * @author darlang
+   */
   bindExpress() {
-    util.request(util.apiUrl + 'ecapi.shipping.status.get', 'POST',{
-      order_id: this.data.orderID
-    }).then(res => {
-      let codeSN = res.code;
+    GetShippingStatus(this.data.id).then(res => {
+      let sn = res.code;
       wx.showModal({
         title: '物流提示',
         content: '当前物流：' + res.vendor_name + '\r\n物流编号：' + res.code + '\r\n暂不支持查询物流，点击复制物流编号',
         showCancel: false,
-        confirmText: "复制",
-        success: function (res) {
+        confirmText: "已复制",
+        success(res) {
           if (res.confirm) {
             wx.setClipboardData({
-              data: codeSN,
-              success: function(res) {
-                util.showToast("复制成功","success",800);
+              data: sn,
+              success() {
+                showToast("复制成功","success",800);
               }
             });
           }
         }
       });
-    }).catch(err => {
-      util.notLogin(err);
     });
   },
 
-  // 跳转评论
-  bindComment() {
-    wx.navigateTo({
-      url: '../../comment/add/add?order=' + this.data.orderID
-    });
+  /**
+   * 登录回调
+   * @author darlang
+   */
+  loginCallback(cb) {
+    if (cb.detail.type === 'success') {
+      this.reInitData();
+    }
   },
 
-  // 跳转付款
-  bindPay() {
-    wx.navigateTo({
-      url: '../../../shopping/payment/payment?order=' + this.data.orderID
-    });
-  },
-
-  // 获取订单信息
-  // ecapi.order.get
+  /**
+   * 获取订单信息
+   * @author darlang
+   */
   getOrderInfo() {
-    wx.showLoading({
-      title: '加载中...',
-    });
-    util.request(util.apiUrl + 'ecapi.order.get', 'POST',{
-      order: this.data.orderID
-    }).then((res) => {
-      let canceled_at = null,// 取消时间
-        created_at = null,// 创建时间
-        finish_at = null,// 完成时间
-        paied_at = null,// 支付时间
-        shipping_at = null,// 发货时间
-        updated_at = null;// 更新时间
-      if (res.order.canceled_at !== null) {
-        canceled_at = util.formatTime(res.order.canceled_at);
-      }else if (res.order.created_at !== null) {
-        created_at = util.formatTime(res.order.created_at);
-      }else if (res.order.finish_at !== null) {
-        finish_at = util.formatTime(res.order.finish_at);
-      }else if (res.order.paied_at !== null) {
-        paied_at = util.formatTime(res.order.paied_at);
-      }else if (res.order.shipping_at !== null) {
-        shipping_at = util.formatTime(res.order.shipping_at);
-      }else if (res.order.updated_at !== null) {
-        updated_at = util.formatTime(res.order.updated_at);
+    wx.showLoading({title: '加载中...',mask: true});
+    GetOrderInfo(this.data.id).then((res) => {
+      let o = res.order;
+      if (o.promos && o.promos.length) {
+        for (let i = 0; i < o.promos.length; i++) {
+          o.promos[i].label = PROMOS_TYPE.find(k => k.code === o.promos[i].promo).label || '其他优惠';
+        }
       }
+      if (o.invoice && o.invoice.type) {
+        CheckInvoiceInfo(o.invoice.type,'type').then(xres => {
+          this.setData({
+            'orderInfo.invoice.type': xres
+          });
+        });
+        CheckInvoiceInfo(o.invoice.content,'content').then(xres => {
+          this.setData({
+            'orderInfo.invoice.content': xres
+          });
+        });
+      }
+      o.canceled_at = o.canceled_at ? formatTime(o.canceled_at,'Y年M月D日 h:i:s') : '';// 取消时间
+      o.created_at = o.created_at ? formatTime(o.created_at,'Y年M月D日 h:i:s') : '';// 下单时间
+      o.finish_at = o.finish_at ? formatTime(o.finish_at,'Y年M月D日 h:i:s') : '';// 完成时间
+      o.paied_at = o.paied_at ? formatTime(o.paied_at,'Y年M月D日 h:i:s') : '';// 支付时间
+      o.shipping_at = o.shipping_at ? formatTime(o.shipping_at,'Y年M月D日 h:i:s') : '';// 发货时间
+      o.updated_at = o.updated_at ? formatTime(o.updated_at,'Y年M月D日 h:i:s') : '';// 更新时间
       this.setData({
-        order: res.order,
-        "order.canceled_at": canceled_at,
-        "order.created_at": created_at,
-        "order.finish_at": finish_at,
-        "order.paied_at": paied_at,
-        "order.shipping_at": shipping_at,
-        "order.updated_at": updated_at
+        orderDetail: o
       });
     });
-    wx.hideLoading();
+  },
+
+  /**
+   * 重新获取
+   * @author darlang
+   */
+  reInitData() {
+    this.setData({
+      orderDetail: ''
+    });
+    this.getOrderInfo();
+    this.getCancelReason();
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.setNavigationBarColor({
+      frontColor: "#ffffff",
+      backgroundColor: "#9c27ff",
+      animation: {
+        duration: 300,
+        timingFunc: "linear"
+      }
+    });
+    this.reInitData();
   },
 
   /**
@@ -186,7 +290,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.reInitData();
   },
 
   /**

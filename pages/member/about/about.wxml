@@ -1,0 +1,37 @@
+<!--pages/member/about/about.wxml-->
+<view class="container">
+  <view class="about-wrap">
+    <view class="aw-header">
+      <image class="aw-logo" src="{{siteInfo.logo.large || '/images/logo.png'}}" mode="widthFix"></image>
+      <view class="aw-desc">{{siteInfo.desc || 'WeeShop一个开源的小程序，在合法的范围内，你有权拥有该小程序并能进行二次开发。'}}</view>
+    </view>
+    <view class="aw-group">
+      <view class="menu-group">
+        <view class="menu-item" hover-class="-h">
+          <view class="label">小程序版本</view>
+          <view class="contxt"><text>{{WeeShop_Version}}</text></view>
+        </view>
+      </view>
+      <view class="menu-group">
+        <view class="menu-item" hover-class="-h" bind:tap="copyLink" data-type="qq">
+          <view class="label">QQ交流群</view>
+          <view class="contxt"><text>点击复制</text></view>
+        </view>
+        <view class="menu-item" hover-class="-h" bind:tap="copyLink" data-type="link">
+          <view class="label">软件主页</view>
+          <view class="contxt"><text>点击复制</text></view>
+        </view>
+        <view class="menu-item" hover-class="-h" bind:tap="copyLink" data-type="github">
+          <view class="label">Github开源地址</view>
+          <view class="contxt"><text>点击复制</text></view>
+        </view>
+      </view>
+      <view class="menu-group">
+        <view class="menu-item" hover-class="-h" bind:tap="pushPath" data-type="copyright">
+          <view class="label">版权信息</view>
+          <view class="more"><image src="/images/icon_right.png"></image></view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
