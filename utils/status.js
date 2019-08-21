@@ -237,7 +237,7 @@ export const PAGE_NAVIGATION_TITLE = {
     favorite: "收藏中心",
     help: "用户帮助",
     level: "特权中心",
-    mina: "个人中心",
+    main: "个人中心",
     score: "积分中心",
     invite: "我的推广",
     setting: "设置中心",
