@@ -19,7 +19,7 @@
       </view>
 
       <view class="login-input-item">
-        <input name="password" type="repassword" placeholder="请重复密码" />
+        <input name="repassword" type="password" placeholder="请重复密码" />
       </view>
 
       <view class="login-btn-item">
