@@ -170,6 +170,9 @@ Page({
    * @author darlang
    */
   changeProSele() {
+    if (!this.loginModal.check()) {
+      return false;
+    }
     // let g = this.data.goods;
     // let pro = g.properties;
     // let stock = g.stock;
@@ -442,6 +445,9 @@ Page({
    * @author darlang
    */
   buyGoods(e) {
+    if (!this.loginModal.check()) {
+      return false;
+    }
     let type = e.currentTarget.dataset.type;
     let g = this.data.goods;
     if (g.properties && g.properties.length > 0) {

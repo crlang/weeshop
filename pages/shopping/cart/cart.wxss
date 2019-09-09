@@ -232,6 +232,6 @@
   margin: 30rpx auto;
 }
 
-.list-empty .cart-empty-btn-h {
+.list-empty .cart-empty-btn.-h {
   opacity: 0.88;
 }

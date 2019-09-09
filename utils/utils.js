@@ -21,6 +21,21 @@
  * limitations under the License.
  * ===========================================================
  */
+
+/**
+ * WeeShop 使用说明
+ * ===========================================================
+ * 先看根目录的 README.md 文件说明
+ * 后修改根目录的 weeshop.config.js
+ * ==========================================================
+ * 先看根目录的 README.md 文件说明
+ * 后修改根目录的 weeshop.config.js
+ * ==========================================================
+* 先看根目录的 README.md 文件说明
+* 后修改根目录的 weeshop.config.js
+* ==========================================================
+ */
+
 import {shopUrl, apiUrl, miniProName, shopNoticeCatId,shopHelpCatId, shopScoreScale, shopLevelRank,pointsMall} from "../weeshop.config";
 import {PAGE_NAVIGATION_TITLE} from "./status";
 import {WeeShop_Version} from "./version";
@@ -567,14 +582,6 @@ function request(url, method = "POST", data = {}) {
           if (errorCode.includes(res.data.error_code)) {
             try {
               wx.clearStorageSync();
-              showToast('登录超时，请重新登录');
-              let pages = getCurrentPages();
-              let currentPage = pages[pages.length-1];
-              if (currentPage
-                && currentPage.loginModal
-                && currentPage.loginModal !== null) {
-                currentPage.loginModal.check();
-              }
               reject(res);
             } catch (e) {
               console.log(e);

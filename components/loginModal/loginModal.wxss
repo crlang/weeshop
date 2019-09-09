@@ -35,6 +35,20 @@
   z-index: 1005;
 }
 
+.login-modal-close {
+  position: absolute;
+  top: 15rpx;
+  right: 15rpx;
+  width: 30rpx;
+  height: 30rpx;
+  text-align: center;
+  line-height: 30rpx;
+  z-index: 1;
+  font-size: 32rpx;
+  color: #999;
+  font-weight: bold;
+}
+
 .login-popup-head {
   text-align: center;
   padding: 10rpx 0;

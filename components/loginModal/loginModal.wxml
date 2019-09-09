@@ -1,6 +1,7 @@
 <!-- loginModal.wxml -->
 <view class="login-modal" wx:if="{{notLogin}}">
   <view class="login-modal-content" catchtouchmove="preventTouchMove">
+    <view class="login-modal-close" bind:tap="pushPath" data-type="mask">X</view>
     <view class="login-popup-head">
       <image class="login-popup-logo" src="/images/logo.png" mode="widthFix"></image>
       <text class="login-popup-name">{{miniProName}}</text>

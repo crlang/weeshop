@@ -31,6 +31,6 @@
   <view class="list-empty" wx:else>
     <image class="icon" src="/images/empty_cart.png"></image>
     <text class="msg">您的购物车没有商品</text>
-    <button class="cart-empty-btn darlang-btn" hover-class="cart-empty-btn-h" type="default">去逛逛</button>
+    <button class="cart-empty-btn darlang-btn" hover-class="-h" type="default" bind:tap="pushPath" data-type="list">去逛逛</button>
   </view>
 </view>

@@ -5,6 +5,20 @@ ECShop 小程序「weeshop 」- 基于 ECShop 为后台系统开发的非官方�
 
 > 项目内容基于 ECShop 后台系统的 API 接口，如需二次开发，请参考 appserver 源码。
 
+-
+
+# # 适用于 ECShop 3.6 以上版本
+
+-
+
+# # 适用于 ECShop 3.6 以上版本
+
+-
+
+# # 适用于 ECShop 3.6 以上版本
+
+-
+
 
 # 欢迎 S T A R T
 

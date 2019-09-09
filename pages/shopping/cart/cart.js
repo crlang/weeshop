@@ -56,7 +56,8 @@ Page({
   pushPath(e) {
     const items = e.currentTarget.dataset;
     const pathData = [
-      {type: 'goods',path: '/pages/goods/detail/detail?id='+items.id}
+      {type: 'goods',path: '/pages/goods/detail/detail?id='+items.id},
+      {type: 'list',path: '/pages/goods/list/list'}
     ];
     pushPagePath(e,pathData);
   },
