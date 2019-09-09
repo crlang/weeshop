@@ -21,6 +21,21 @@
  * limitations under the License.
  * ===========================================================
  */
+
+/**
+ * WeeShop 使用说明
+ * ===========================================================
+ * 先看根目录的 README.md 文件说明
+ * 后修改根目录的 weeshop.config.js
+ * ==========================================================
+ * 先看根目录的 README.md 文件说明
+ * 后修改根目录的 weeshop.config.js
+ * ==========================================================
+* 先看根目录的 README.md 文件说明
+* 后修改根目录的 weeshop.config.js
+* ==========================================================
+ */
+
 import {shopUrl, apiUrl, miniProName, shopNoticeCatId,shopHelpCatId, shopScoreScale, shopLevelRank,pointsMall} from "../weeshop.config";
 import {PAGE_NAVIGATION_TITLE} from "./status";
 import {WeeShop_Version} from "./version";

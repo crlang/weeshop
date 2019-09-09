@@ -22,6 +22,21 @@
  * ===========================================================
  */
 
+/**
+ * WeeShop 使用说明
+ * ===========================================================
+ * 先看根目录的 README.md 文件说明
+ * 后修改根目录的 weeshop.config.js
+ * ==========================================================
+ * 先看根目录的 README.md 文件说明
+ * 后修改根目录的 weeshop.config.js
+ * ==========================================================
+* 先看根目录的 README.md 文件说明
+* 后修改根目录的 weeshop.config.js
+* ==========================================================
+ */
+
+
 // index.js
 import {PNT,setNavBarTitle,showToast,pushPagePath,pointsMall,getUrlParamValue,shopNoticeCatId} from "../../utils/utils";
 import {GetSiteInfo,GetBannerList,GetArticleList,GetHomeGoodsList} from '../../utils/apis';
