@@ -203,17 +203,18 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    try {
-      var shareName = this.data.siteInfo.name || '' ;
-      var imgUrl = '/images/default_activity-'+parseInt(Math.random()*2)+'.png';
-    } catch(e) {
+    const u = wx.getStorageSync('userInfo') || '';
+    if (!u) {
+      showToast('登录异常,分享失败');
+      return false;
     }
-
-    console.log(imgUrl);
+    var shareName = this.data.siteInfo.name || '' ;
+    var imgUrl = '/images/default_activity-'+parseInt(Math.random()*2)+'.png';
+    var shareLink = '/pages/index/index?inviteCode='+(u.id || '');
     return {
       title: shareName || PNT.default,
       imageUrl: imgUrl || '/images/default_image.png',
-      path: '/pages/index/index',
+      path: shareLink,
       success() {},
       fail() {},
       complete() {}

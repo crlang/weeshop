@@ -132,6 +132,11 @@ Page({
       showToast('积分商城未开启');
       return false;
     }
+    if (items.type === 'level' || items.type === 'cashgift' || items.type === 'score') {
+      if (!this.loginModal.check()) {
+        return false;
+      }
+    }
     const pathData = [
       {type: 'list',path: '/pages/goods/list/list'},
       // {type: 'score',path: '/pages/points/index/index'},

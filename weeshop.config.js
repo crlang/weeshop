@@ -36,7 +36,7 @@ const miniProName = 'weeShop';
  * @deprecated      必填，商城地址，不是 API 地址
  * @type {String}   例如：https://${shopUrl}.com
  */
-const shopUrl = "https://darlang.com";
+const shopUrl = "https://ecshop.com";
 
 
 /**

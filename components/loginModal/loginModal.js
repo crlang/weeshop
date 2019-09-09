@@ -42,7 +42,7 @@ Component({
   pageLifetimes: {
     show: function() {
       // 页面被展示
-      this.check();
+      // this.check();
     },
     hide: function() {
       // 页面被隐藏
@@ -122,7 +122,6 @@ Component({
               })
               .catch((err) => {
                 wx.hideLoading();
-                console.log(err);
                 self.triggerEvent("loginCallback",{type: 'fail',failInfo: err.data || ''});
                 try {
                   showToast(err.data.error_desc);
