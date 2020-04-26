@@ -55,7 +55,7 @@ Page({
       return false;
     }
 
-    if(params.email) {
+    if(!params.email) {
       showToast('请输入邮箱');
       return false;
     }else{
